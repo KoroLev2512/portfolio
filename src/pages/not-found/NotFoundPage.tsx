@@ -2,6 +2,7 @@ import { useState, useLayoutEffect, useEffect, useCallback, useRef } from 'react
 import { Link } from 'react-router-dom'
 import { flushSync } from 'react-dom'
 import { resetTextReveals } from '../../shared/lib/imageReveal'
+import { Pattern } from '../../shared/ui/Pattern'
 import '../../App.css'
 import '../../theme-transition.css'
 
@@ -119,10 +120,6 @@ function NotFoundError({ lang }: { lang: Lang }) {
       </Link>
     </section>
   )
-}
-
-function Pattern() {
-  return <div className="pattern" aria-hidden />
 }
 
 function ProjectCard({ name = 'Project Name' }: { name?: string }) {

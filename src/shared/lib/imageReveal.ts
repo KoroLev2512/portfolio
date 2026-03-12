@@ -47,10 +47,20 @@ export function initImageReveal() {
 export function resetTextReveals() {
   if (!observer) return
   const elements = document.querySelectorAll<HTMLElement>(TEXT_SELECTOR)
+
   elements.forEach((el) => {
+    el.style.transition = 'none'
     el.classList.remove('revealed')
     el.style.transitionDelay = ''
   })
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  document.body.offsetHeight
+
+  elements.forEach((el) => {
+    el.style.transition = ''
+  })
+
   requestAnimationFrame(() => {
     elements.forEach((el) => observer.observe(el))
   })

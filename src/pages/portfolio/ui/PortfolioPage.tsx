@@ -1,6 +1,7 @@
 import { useState, useLayoutEffect, useEffect, useCallback, useRef } from 'react'
 import { flushSync } from 'react-dom'
 import { resetTextReveals } from '../../../shared/lib/imageReveal'
+import { Pattern } from '../../../shared/ui/Pattern'
 import '../../../App.css'
 import '../../../theme-transition.css'
 
@@ -149,10 +150,6 @@ function Hero({ lang }: { lang: Lang }) {
       <p className="hero-bio text-reveal-body">{t.heroBio}</p>
     </section>
   )
-}
-
-function Pattern() {
-  return <div className="pattern" aria-hidden />
 }
 
 function Tag({ label = 'Tag' }: { label?: string }) {
