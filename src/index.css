@@ -1,31 +1,38 @@
-/* Theme: shared variables + dark/light overrides */
 :root {
-  --bg: #141414;
-  --bg-card: #242424;
-  --bg-tag: rgba(245, 245, 245, 0.05);
-  --bg-button-primary: #f5f5f5;
-  --bg-button-secondary: rgba(245, 245, 245, 0.1);
-  --border: rgba(245, 245, 245, 0.05);
-  --text-primary: rgba(245, 245, 245, 0.9);
-  --text-secondary: rgba(245, 245, 245, 0.5);
-  --text-tertiary: rgba(245, 245, 245, 0.3);
-  --text-inverse: #141414;
+  --bg: #0b0c0e;
+  --bg-card: #17191d;
+  --bg-tag: rgba(243, 246, 250, 0.05);
+  --bg-button-primary: #f3f6fa;
+  --bg-button-primary-hover: rgba(243, 246, 250, 0.8);
+  --bg-button-secondary: rgba(243, 246, 250, 0.1);
+  --bg-button-secondary-hover: rgba(243, 246, 250, 0.2);
+  --border: rgba(243, 246, 250, 0.05);
+  --border-solid: #f3f6fa;
+  --text-primary: rgba(243, 246, 250, 0.9);
+  --text-secondary: rgba(243, 246, 250, 0.5);
+  --text-tertiary: rgba(243, 246, 250, 0.3);
+  --text-inverse: #0b0c0e;
 }
 
 [data-theme="light"] {
-  --bg: #f5f5f5;
-  --bg-card: #ffffff;
-  --bg-tag: rgba(20, 20, 20, 0.05);
-  --bg-button-primary: #141414;
-  --bg-button-secondary: rgba(20, 20, 20, 0.08);
-  --border: rgba(20, 20, 20, 0.08);
-  --text-primary: rgba(20, 20, 20, 0.9);
-  --text-secondary: rgba(20, 20, 20, 0.5);
-  --text-tertiary: rgba(20, 20, 20, 0.3);
-  --text-inverse: #f5f5f5;
+  --bg: #f3f6fa;
+  --bg-card: #fcfdff;
+  --bg-tag: rgba(11, 12, 14, 0.05);
+  --bg-button-primary: #0b0c0e;
+  --bg-button-primary-hover: rgba(11, 12, 14, 0.8);
+  --bg-button-secondary: rgba(11, 12, 14, 0.05);
+  --bg-button-secondary-hover: rgba(11, 12, 14, 0.1);
+  --border: rgba(11, 12, 14, 0.05);
+  --border-solid: #0b0c0e;
+  --text-primary: rgba(11, 12, 14, 0.9);
+  --text-secondary: rgba(11, 12, 14, 0.5);
+  --text-tertiary: rgba(11, 12, 14, 0.3);
+  --text-inverse: #f3f6fa;
 }
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -34,7 +41,6 @@ html {
 }
 
 body {
-  margin: 0;
   min-width: 320px;
   min-height: 100vh;
   font-family: 'Inter', system-ui, sans-serif;
