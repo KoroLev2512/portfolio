@@ -147,13 +147,15 @@ function NotFoundError({ lang }: { lang: Lang }) {
 function ProjectCard({ name = 'Project Name' }: { name?: string }) {
   return (
     <Link href="/#projects" className="project-card project-card-link">
-      <img src={IMG_COVER} alt="" className="project-cover img-reveal" />
+      <div className="project-cover">
+        <img src={IMG_COVER} alt="" className="project-cover-img" />
+      </div>
       <div className="project-details">
         <div>
           <h3 className="project-name">{name}</h3>
           <div className="project-tags">
             {['Tag', 'Tag', 'Tag', 'Tag', 'Tag'].map((skill, i) => (
-              <span key={i} className="project-tag tag-reveal">
+              <span key={i} className="project-tag">
                 {skill}
               </span>
             ))}
@@ -253,10 +255,13 @@ function Footer({
         </button>
       </div>
       <p className="footer-text text-reveal-body">©2026. All rights reserved</p>
-      <a href="#" className="footer-link text-reveal-body">
-        {t.footerDesigned}
-        <ArrowIcon className="external-link-icon" />
-      </a>
+      <p className="footer-text text-reveal-body">
+        <span className="footer-designed-label">{lang === 'ru' ? 'Задизайнил' : 'Designed by'}</span>
+        <a href="#" className="footer-link">
+          {lang === 'ru' ? 'Денис Князев' : 'Denis Knyazev'}
+          <ArrowIcon className="external-link-icon" />
+        </a>
+      </p>
     </footer>
   )
 }

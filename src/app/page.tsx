@@ -13,9 +13,9 @@ const LANG_KEY = 'portfolio-lang'
 type Theme = 'dark' | 'light'
 type Lang = 'ru' | 'en'
 
-const IMG_AVATAR = '/avatar.png'
+const IMG_AVATAR = 'avatar.png'
 const IMG_THEME = 'https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9'
-const IMG_COVER = '/mockup.png'
+const IMG_COVER = 'mockup.png'
 const IMG_SEND = 'https://www.figma.com/api/mcp/asset/eac692e1-edac-4c82-86b6-6a8def63e79c'
 const IMG_EXPERIMENTS_BG = 'https://www.figma.com/api/mcp/asset/1bbcd1e2-f113-49c7-b8e6-dc9d207ce02d'
 const IMG_GRADIENT = 'https://www.figma.com/api/mcp/asset/5a0afb81-d26c-4ceb-aadc-01641ecd9ba4'
@@ -216,19 +216,21 @@ function ProjectCard({
 }) {
   return (
     <article className="project-card">
-      <img src={IMG_COVER} alt="" className="project-cover img-reveal" />
+      <div className="project-cover">
+        <img src={IMG_COVER} alt="" className="project-cover-img" />
+      </div>
       <div className="project-details">
         <div>
-          <h3 className="project-name text-reveal-body">{name}</h3>
+          <h3 className="project-name">{name}</h3>
           <div className="project-tags">
             {skills.map((skill, i) => (
-              <span key={i} className="project-tag tag-reveal">
+              <span key={i} className="project-tag">
                 {skill}
               </span>
             ))}
           </div>
         </div>
-        <p className="project-description text-reveal-body">{description}</p>
+        <p className="project-description">{description}</p>
       </div>
     </article>
   )
@@ -394,10 +396,13 @@ function Footer({
         </button>
       </div>
       <p className="footer-text text-reveal-body">©2026. All rights reserved</p>
-      <a href="#" className="footer-link text-reveal-body">
-        {t.footerDesigned}
-        <ArrowIcon className="external-link-icon" />
-      </a>
+      <p className="footer-text text-reveal-body">
+        <span className="footer-designed-label">{lang === 'ru' ? 'Задизайнил' : 'Designed by'}</span>
+        <a href="#" className="footer-link">
+          {lang === 'ru' ? 'Денис Князев' : 'Denis Knyazev'}
+          <ArrowIcon className="external-link-icon" />
+        </a>
+      </p>
     </footer>
   )
 }

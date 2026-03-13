@@ -1,4 +1,4 @@
-const GROUP_SELECTOR = '.skills-tags, .contacts-buttons, .project-tags, .notfound-btn-wrap'
+const GROUP_SELECTOR = '.skills-tags, .contacts-buttons, .notfound-btn-wrap'
 const TAG_SELECTOR = '.tag-reveal'
 const STAGGER_MS = 75
 
