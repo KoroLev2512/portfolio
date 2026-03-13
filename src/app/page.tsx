@@ -1,5 +1,8 @@
 'use client'
 
+import Image from 'next/image'
+import avatarImg from '@/../public/avatar.png'
+import mockupImg from '@/../public/mockup.png'
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { Pattern } from '@/shared/ui/Pattern'
@@ -12,13 +15,6 @@ const LANG_KEY = 'portfolio-lang'
 
 type Theme = 'dark' | 'light'
 type Lang = 'ru' | 'en'
-
-const IMG_AVATAR = 'avatar.png'
-const IMG_THEME = 'https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9'
-const IMG_COVER = 'mockup.png'
-const IMG_SEND = 'https://www.figma.com/api/mcp/asset/eac692e1-edac-4c82-86b6-6a8def63e79c'
-const IMG_EXPERIMENTS_BG = 'https://www.figma.com/api/mcp/asset/1bbcd1e2-f113-49c7-b8e6-dc9d207ce02d'
-const IMG_GRADIENT = 'https://www.figma.com/api/mcp/asset/5a0afb81-d26c-4ceb-aadc-01641ecd9ba4'
 
 const TEXTS = {
   ru: {
@@ -93,7 +89,12 @@ function Header({
   return (
     <header className="header">
       <div className="header-left">
-        <img src={IMG_AVATAR} alt="" className="header-photo" />
+        <Image
+         src={avatarImg}
+         alt="avatar"
+         className="header-photo"
+         priority
+        />
         <div>
           <span className="header-name">{t.name}</span>
           <span className="header-position"> {t.position}</span>
@@ -109,7 +110,11 @@ function Header({
           aria-label={t.headerCta}
           onClick={handleContactsClick}
         >
-          <img src={IMG_SEND} alt="" className="header-cta-icon-img" />
+          <img
+            src="https://www.figma.com/api/mcp/asset/eac692e1-edac-4c82-86b6-6a8def63e79c"
+            alt=""
+            className="header-cta-icon-img"
+          />
         </button>
         <div className="header-lang">
           <button
@@ -135,7 +140,11 @@ function Header({
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
         >
-          <img src={IMG_THEME} alt="" className="theme-btn-icon" />
+          <img
+            src="https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9"
+            alt=""
+            className="theme-btn-icon"
+          />
         </button>
       </div>
     </header>
@@ -147,11 +156,11 @@ function Hero({ lang }: { lang: Lang }) {
   return (
     <section className="hero section">
       <div className="hero-container">
-        <img src={IMG_AVATAR} alt="" className="hero-photo img-reveal" />
+        <Image src={avatarImg} alt="" className="hero-photo img-reveal" />
         <div className="hero-info">
-          <div>
-          <p className="hero-name text-reveal-title">{t.name}</p>
-            <p className="hero-position text-reveal-body">{t.position}</p>
+          <div className="hero-name-block text-reveal-title">
+            <p className="hero-name">{t.name}</p>
+            <p className="hero-position">{t.position}</p>
           </div>
           <div className="hero-contacts text-reveal-body">
             <ExternalLink label="example@mail.com" href="mailto:example@mail.com" />
@@ -217,7 +226,7 @@ function ProjectCard({
   return (
     <article className="project-card">
       <div className="project-cover">
-        <img src={IMG_COVER} alt="" className="project-cover-img" />
+        <Image src={mockupImg} alt="" className="project-cover-img img-reveal" />
       </div>
       <div className="project-details">
         <div>
@@ -243,11 +252,13 @@ function ExperimentsCard({ lang }: { lang: Lang }) {
       <p className="experiments-title text-reveal-body">{t.experimentsTitle}</p>
       <p className="experiments-desc text-reveal-body">{t.experimentsDesc}</p>
       <div className="experiments-bg">
-        <img src={IMG_EXPERIMENTS_BG} alt="" className="experiments-bg-img" />
+        <img
+          src="https://www.figma.com/api/mcp/asset/1bbcd1e2-f113-49c7-b8e6-dc9d207ce02d"
+          alt="background-mockups"
+          className="experiments-bg-img"
+        />
       </div>
-      <div className="experiments-gradient">
-        <img src={IMG_GRADIENT} alt="" className="experiments-gradient-img" />
-      </div>
+      <div className="experiments-gradient" />
     </article>
   )
 }
@@ -392,7 +403,11 @@ function Footer({
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
         >
-          <img src={IMG_THEME} alt="" className="theme-btn-icon" />
+          <img
+            src="https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9"
+            alt=""
+            className="theme-btn-icon"
+          />
         </button>
       </div>
       <p className="footer-text text-reveal-body">©2026. All rights reserved</p>

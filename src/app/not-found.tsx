@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
@@ -7,18 +8,14 @@ import { Pattern } from '@/shared/ui/Pattern'
 import { resetTextReveals } from '@/shared/lib/imageReveal'
 import { resetTagReveals } from '@/shared/lib/tagReveal'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
+import avatarImg from '@/../public/avatar.png'
+import mockupImg from '@/../public/mockup.png'
 
 const THEME_KEY = 'portfolio-theme'
 const LANG_KEY = 'portfolio-lang'
 
 type Theme = 'dark' | 'light'
 type Lang = 'ru' | 'en'
-
-const IMG_AVATAR = '/avatar.png'
-const IMG_ARROW = 'https://www.figma.com/api/mcp/asset/85595e10-ea13-44c1-b82d-e5d0aa1b1b88'
-const IMG_THEME = 'https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9'
-const IMG_COVER = '/mockup.png'
-const IMG_SEND = 'https://www.figma.com/api/mcp/asset/eac692e1-edac-4c82-86b6-6a8def63e79c'
 
 const TEXTS = {
   ru: {
@@ -73,7 +70,7 @@ function Header({
   return (
     <header className="header">
       <Link href="/" className="header-left" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <img src={IMG_AVATAR} alt="" className="header-photo" />
+        <Image src={avatarImg} alt="" className="header-photo" priority />
         <div>
           <span className="header-name">{t.name}</span>
           <span className="header-position"> {t.position}</span>
@@ -93,7 +90,11 @@ function Header({
           aria-label={t.headerCta}
           onClick={handleContactsClick}
         >
-          <img src={IMG_SEND} alt="" className="header-cta-icon-img" />
+          <img
+            src="https://www.figma.com/api/mcp/asset/eac692e1-edac-4c82-86b6-6a8def63e79c"
+            alt=""
+            className="header-cta-icon-img"
+          />
         </button>
         <div className="header-lang">
           <button
@@ -119,7 +120,11 @@ function Header({
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
         >
-          <img src={IMG_THEME} alt="" className="theme-btn-icon" />
+          <img
+            src="https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9"
+            alt=""
+            className="theme-btn-icon"
+          />
         </button>
       </div>
     </header>
@@ -148,7 +153,7 @@ function ProjectCard({ name = 'Project Name' }: { name?: string }) {
   return (
     <Link href="/#projects" className="project-card project-card-link">
       <div className="project-cover">
-        <img src={IMG_COVER} alt="" className="project-cover-img" />
+        <Image src={mockupImg} alt="" className="project-cover-img img-reveal" />
       </div>
       <div className="project-details">
         <div>
@@ -174,7 +179,7 @@ function Recommendation({ lang }: { lang: Lang }) {
   return (
     <section className="section">
       <div className="notfound-recommendation">
-        <p className="section-title" style={{ marginBottom: 24, textTransform: 'none' }}>
+        <p className="section-title" style={{ marginBottom: 0, textTransform: 'none' }}>
           {t.projectsTitle}
         </p>
         <div className="projects-list">
@@ -182,7 +187,7 @@ function Recommendation({ lang }: { lang: Lang }) {
           <ProjectCard />
         </div>
         <div className="notfound-experiments-block">
-          <p className="section-title" style={{ marginBottom: 24, textTransform: 'none' }}>
+          <p className="section-title" style={{ marginBottom: 0, marginTop: 8, textTransform: 'none' }}>
             {t.experimentsTitle}
           </p>
           <Link href="/#projects" className="notfound-experiments-card">
@@ -251,7 +256,11 @@ function Footer({
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
         >
-          <img src={IMG_THEME} alt="" className="theme-btn-icon" />
+          <img
+            src="https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9"
+            alt=""
+            className="theme-btn-icon"
+          />
         </button>
       </div>
       <p className="footer-text text-reveal-body">©2026. All rights reserved</p>
