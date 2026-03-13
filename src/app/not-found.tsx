@@ -5,6 +5,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { flushSync } from 'react-dom'
 import { Pattern } from '@/shared/ui/Pattern'
 import { resetTextReveals } from '@/shared/lib/imageReveal'
+import { resetTagReveals } from '@/shared/lib/tagReveal'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
 
 const THEME_KEY = 'portfolio-theme'
@@ -13,14 +14,15 @@ const LANG_KEY = 'portfolio-lang'
 type Theme = 'dark' | 'light'
 type Lang = 'ru' | 'en'
 
-const IMG_AVATAR = 'avatar.png'
+const IMG_AVATAR = '/avatar.png'
 const IMG_ARROW = 'https://www.figma.com/api/mcp/asset/85595e10-ea13-44c1-b82d-e5d0aa1b1b88'
 const IMG_THEME = 'https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9'
-const IMG_COVER = 'https://www.figma.com/api/mcp/asset/f56d3c3e-5aba-4974-9937-5871ced3bcab'
+const IMG_COVER = '/mockup.png'
 const IMG_SEND = 'https://www.figma.com/api/mcp/asset/eac692e1-edac-4c82-86b6-6a8def63e79c'
 
 const TEXTS = {
   ru: {
+    name: 'Королёв Юрий',
     position: 'Фронтенд‑разработчик',
     headerCta: 'Связаться',
     footerDesigned: 'Дизайн — Denis Knyazev',
@@ -34,6 +36,7 @@ const TEXTS = {
     contactsTitle: 'Свяжитесь со мной',
   },
   en: {
+    name: 'Korolev Yurii',
     position: 'Frontend developer',
     headerCta: 'Get in touch',
     footerDesigned: 'Designed by Denis Knyazev',
@@ -60,27 +63,38 @@ function Header({
   onChangeLang: (lang: Lang) => void
 }) {
   const t = TEXTS[lang]
+
+  const handleContactsClick = () => {
+    if (typeof document === 'undefined') return
+    const el = document.getElementById('contacts')
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
   return (
     <header className="header">
       <Link href="/" className="header-left" style={{ textDecoration: 'none', color: 'inherit' }}>
         <img src={IMG_AVATAR} alt="" className="header-photo" />
         <div>
-          <span className="header-name">Korolev Yurii</span>
+          <span className="header-name">{t.name}</span>
           <span className="header-position"> {t.position}</span>
         </div>
       </Link>
       <div className="header-right">
-        <Link href="/" className="btn btn-primary btn-primary-s header-cta-text" style={{ textDecoration: 'none' }}>
+        <button
+          className="btn btn-primary btn-primary-s header-cta-text"
+          type="button"
+          onClick={handleContactsClick}
+        >
           {t.headerCta}
-        </Link>
-        <Link
-          href="/"
+        </button>
+        <button
           className="btn btn-primary btn-primary-icon header-cta-icon"
-          style={{ textDecoration: 'none' }}
+          type="button"
           aria-label={t.headerCta}
+          onClick={handleContactsClick}
         >
           <img src={IMG_SEND} alt="" className="header-cta-icon-img" />
-        </Link>
+        </button>
         <div className="header-lang">
           <button
             type="button"
@@ -121,9 +135,11 @@ function NotFoundError({ lang }: { lang: Lang }) {
         <p className="notfound-title text-reveal-title">{t.notfoundTitle}</p>
       </div>
       <p className="notfound-desc text-reveal-body">{t.notfoundDesc}</p>
-      <Link href="/" className="btn btn-primary btn-primary-m notfound-btn text-reveal-body">
-        {t.homeBtn}
-      </Link>
+      <div className="notfound-btn-wrap">
+        <Link href="/" className="btn btn-primary btn-primary-m notfound-btn tag-reveal">
+          {t.homeBtn}
+        </Link>
+      </div>
     </section>
   )
 }
@@ -137,7 +153,7 @@ function ProjectCard({ name = 'Project Name' }: { name?: string }) {
           <h3 className="project-name">{name}</h3>
           <div className="project-tags">
             {['Tag', 'Tag', 'Tag', 'Tag', 'Tag'].map((skill, i) => (
-              <span key={i} className="project-tag">
+              <span key={i} className="project-tag tag-reveal">
                 {skill}
               </span>
             ))}
@@ -180,15 +196,15 @@ function Recommendation({ lang }: { lang: Lang }) {
 function Contacts({ lang }: { lang: Lang }) {
   const t = TEXTS[lang]
   return (
-    <section className="contacts section">
+    <section id="contacts" className="contacts section">
       <p className="contacts-title text-reveal-title">{t.contactsTitle}</p>
-      <div className="contacts-buttons text-reveal-body">
-        <Link href="/" className="btn btn-primary btn-primary-m">
+      <div className="contacts-buttons">
+        <Link href="/" className="btn btn-primary btn-primary-m tag-reveal">
           Button
         </Link>
-        <button className="btn btn-secondary">Button</button>
-        <button className="btn btn-secondary">Button</button>
-        <button className="btn btn-secondary">Button</button>
+        <button className="btn btn-secondary tag-reveal">Button</button>
+        <button className="btn btn-secondary tag-reveal">Button</button>
+        <button className="btn btn-secondary tag-reveal">Button</button>
       </div>
     </section>
   )
@@ -280,6 +296,7 @@ export default function NotFound() {
     localStorage.setItem(LANG_KEY, lang)
     if (langMounted.current) {
       resetTextReveals()
+      resetTagReveals()
     }
     langMounted.current = true
   }, [lang])

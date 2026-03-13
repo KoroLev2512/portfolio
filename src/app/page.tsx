@@ -4,6 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { flushSync } from 'react-dom'
 import { Pattern } from '@/shared/ui/Pattern'
 import { resetTextReveals } from '@/shared/lib/imageReveal'
+import { resetTagReveals } from '@/shared/lib/tagReveal'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
 
 const THEME_KEY = 'portfolio-theme'
@@ -12,16 +13,16 @@ const LANG_KEY = 'portfolio-lang'
 type Theme = 'dark' | 'light'
 type Lang = 'ru' | 'en'
 
-const IMG_AVATAR = 'avatar.png'
-const IMG_ARROW = 'https://www.figma.com/api/mcp/asset/85595e10-ea13-44c1-b82d-e5d0aa1b1b88'
+const IMG_AVATAR = '/avatar.png'
 const IMG_THEME = 'https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9'
-const IMG_COVER = 'https://www.figma.com/api/mcp/asset/f56d3c3e-5aba-4974-9937-5871ced3bcab'
+const IMG_COVER = '/mockup.png'
 const IMG_SEND = 'https://www.figma.com/api/mcp/asset/eac692e1-edac-4c82-86b6-6a8def63e79c'
 const IMG_EXPERIMENTS_BG = 'https://www.figma.com/api/mcp/asset/1bbcd1e2-f113-49c7-b8e6-dc9d207ce02d'
 const IMG_GRADIENT = 'https://www.figma.com/api/mcp/asset/5a0afb81-d26c-4ceb-aadc-01641ecd9ba4'
 
 const TEXTS = {
   ru: {
+    name: 'Королёв Юрий',
     position: 'Фронтенд‑разработчик',
     heroBio:
       'Я фронтенд‑разработчик, который любит аккуратные интерфейсы и понятные продукты. Работал с React, TypeScript и дизайн‑системами. Хочу делать интерфейсы, которыми приятно пользоваться каждый день.',
@@ -37,9 +38,10 @@ const TEXTS = {
     contactsTitle: '[ Контакты ]',
     contactsCta: 'Свяжитесь со мной',
     headerCta: 'Связаться',
-    footerDesigned: 'Дизайн — Denis Knyazev',
+    footerDesigned: 'Задизайнил Денис Князев',
   },
   en: {
+    name: 'Korolev Yurii',
     position: 'Frontend developer',
     heroBio:
       "I'm a passionate frontend developer who cares about clean interfaces and clear products. I work with React, TypeScript and design systems, and I want to build interfaces people enjoy using every day.",
@@ -80,18 +82,33 @@ function Header({
   onChangeLang: (lang: Lang) => void
 }) {
   const t = TEXTS[lang]
+
+  const handleContactsClick = () => {
+    if (typeof document === 'undefined') return
+    const el = document.getElementById('contacts')
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
     <header className="header">
       <div className="header-left">
         <img src={IMG_AVATAR} alt="" className="header-photo" />
         <div>
-          <span className="header-name">Korolev Yurii</span>
+          <span className="header-name">{t.name}</span>
           <span className="header-position"> {t.position}</span>
         </div>
       </div>
       <div className="header-right">
-        <button className="btn btn-primary btn-primary-s header-cta-text">{t.headerCta}</button>
-        <button className="btn btn-primary btn-primary-icon header-cta-icon" aria-label={t.headerCta}>
+        <button className="btn btn-primary btn-primary-s header-cta-text" type="button" onClick={handleContactsClick}>
+          {t.headerCta}
+        </button>
+        <button
+          className="btn btn-primary btn-primary-icon header-cta-icon"
+          type="button"
+          aria-label={t.headerCta}
+          onClick={handleContactsClick}
+        >
           <img src={IMG_SEND} alt="" className="header-cta-icon-img" />
         </button>
         <div className="header-lang">
@@ -133,7 +150,7 @@ function Hero({ lang }: { lang: Lang }) {
         <img src={IMG_AVATAR} alt="" className="hero-photo img-reveal" />
         <div className="hero-info">
           <div>
-            <p className="hero-name text-reveal-title">Korolev Yurii</p>
+          <p className="hero-name text-reveal-title">{t.name}</p>
             <p className="hero-position text-reveal-body">{t.position}</p>
           </div>
           <div className="hero-contacts text-reveal-body">
@@ -148,7 +165,7 @@ function Hero({ lang }: { lang: Lang }) {
 }
 
 function Tag({ label = 'Tag' }: { label?: string }) {
-  return <span className="tag">{label}</span>
+  return <span className="tag tag-reveal">{label}</span>
 }
 
 function Skills({ lang }: { lang: Lang }) {
@@ -159,24 +176,24 @@ function Skills({ lang }: { lang: Lang }) {
     <section className="skills section">
       <p className="section-title text-reveal-title">{t.skillsTitle}</p>
       <div className="skills-container">
-        <div className="skills-group text-reveal-body">
-          <p className="skills-group-title">{t.hardSkills}</p>
+        <div className="skills-group">
+          <p className="skills-group-title text-reveal-body">{t.hardSkills}</p>
           <div className="skills-tags">
             {skills20.map((label, i) => (
               <Tag key={i} label={label} />
             ))}
           </div>
         </div>
-        <div className="skills-group text-reveal-body">
-          <p className="skills-group-title">{t.softSkills}</p>
+        <div className="skills-group">
+          <p className="skills-group-title text-reveal-body">{t.softSkills}</p>
           <div className="skills-tags">
             {skills20.map((label, i) => (
               <Tag key={i} label={label} />
             ))}
           </div>
         </div>
-        <div className="skills-group text-reveal-body">
-          <p className="skills-group-title">{t.languages}</p>
+        <div className="skills-group">
+          <p className="skills-group-title text-reveal-body">{t.languages}</p>
           <div className="skills-tags">
             {skills20.map((label, i) => (
               <Tag key={i} label={label} />
@@ -203,9 +220,9 @@ function ProjectCard({
       <div className="project-details">
         <div>
           <h3 className="project-name text-reveal-body">{name}</h3>
-          <div className="project-tags text-reveal-body">
+          <div className="project-tags">
             {skills.map((skill, i) => (
-              <span key={i} className="project-tag">
+              <span key={i} className="project-tag tag-reveal">
                 {skill}
               </span>
             ))}
@@ -321,14 +338,14 @@ function Education({ lang }: { lang: Lang }) {
 
 function Contacts({ lang }: { lang: Lang }) {
   return (
-    <section className="contacts section">
+    <section id="contacts" className="contacts section">
       <p className="section-title text-reveal-title">{TEXTS[lang].contactsTitle}</p>
       <p className="contacts-title text-reveal-title">{TEXTS[lang].contactsCta}</p>
-      <div className="contacts-buttons text-reveal-body">
-        <button className="btn btn-primary btn-primary-m">Button</button>
-        <button className="btn btn-secondary">Button</button>
-        <button className="btn btn-secondary">Button</button>
-        <button className="btn btn-secondary">Button</button>
+      <div className="contacts-buttons">
+        <button className="btn btn-primary btn-primary-m tag-reveal">Button</button>
+        <button className="btn btn-secondary tag-reveal">Button</button>
+        <button className="btn btn-secondary tag-reveal">Button</button>
+        <button className="btn btn-secondary tag-reveal">Button</button>
       </div>
     </section>
   )
@@ -451,6 +468,7 @@ export default function HomePage() {
     localStorage.setItem(LANG_KEY, lang)
     if (langMounted.current) {
       resetTextReveals()
+      resetTagReveals()
     }
     langMounted.current = true
   }, [lang])
