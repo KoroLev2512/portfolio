@@ -2,19 +2,24 @@ const SELECTOR = '.img-reveal, .text-reveal-title, .text-reveal-body'
 const TEXT_SELECTOR = '.text-reveal-title, .text-reveal-body'
 const STAGGER_MS = 75
 
-let observer: IntersectionObserver
+let observer: IntersectionObserver | undefined
 
 export function initImageReveal() {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return
+  if (observer) return
+
   observer = new IntersectionObserver(
     (entries) => {
       const groups = new Map<Element | null, Element[]>()
 
       for (const entry of entries) {
         if (!entry.isIntersecting) continue
-        const section = entry.target.closest('.section, .notfound-error, .notfound-recommendation, .contacts, header, footer')
+        const section = entry.target.closest(
+          '.section, .notfound-error, .notfound-recommendation, .contacts, header, footer',
+        )
         if (!groups.has(section)) groups.set(section, [])
         groups.get(section)!.push(entry.target)
-        observer.unobserve(entry.target)
+        observer!.unobserve(entry.target)
       }
 
       for (const [, elements] of groups) {
@@ -33,7 +38,7 @@ export function initImageReveal() {
   function observe() {
     document.querySelectorAll<HTMLElement>(SELECTOR).forEach((el) => {
       if (!el.classList.contains('revealed')) {
-        observer.observe(el)
+        observer!.observe(el)
       }
     })
   }
@@ -45,7 +50,7 @@ export function initImageReveal() {
 }
 
 export function resetTextReveals() {
-  if (!observer) return
+  if (!observer || typeof document === 'undefined') return
   const elements = document.querySelectorAll<HTMLElement>(TEXT_SELECTOR)
 
   elements.forEach((el) => {
@@ -54,6 +59,7 @@ export function resetTextReveals() {
     el.style.transitionDelay = ''
   })
 
+  // force reflow
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   document.body.offsetHeight
 
@@ -62,6 +68,7 @@ export function resetTextReveals() {
   })
 
   requestAnimationFrame(() => {
-    elements.forEach((el) => observer.observe(el))
+    elements.forEach((el) => observer!.observe(el))
   })
 }
+

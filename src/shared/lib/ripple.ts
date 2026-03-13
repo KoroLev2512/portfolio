@@ -1,6 +1,8 @@
 const RIPPLE_SELECTORS = '.btn, .project-card, .project-nav-btn, .project-card-link'
 
 export function initRipple() {
+  if (typeof document === 'undefined') return
+
   document.addEventListener('mousedown', (e) => {
     const target = (e.target as HTMLElement).closest<HTMLElement>(RIPPLE_SELECTORS)
     if (!target) return
@@ -20,3 +22,4 @@ export function initRipple() {
     span.addEventListener('animationend', () => span.remove())
   })
 }
+

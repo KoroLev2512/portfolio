@@ -1,11 +1,13 @@
 const LINE_SELECTOR = '.section:not(.lines-revealed), .pattern:not(.pattern-revealed)'
 
 export function initLineReveal() {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return
+
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue
-        const el = entry.target
+        const el = entry.target as HTMLElement
 
         if (el.classList.contains('section')) {
           el.classList.add('lines-revealed')
@@ -22,9 +24,7 @@ export function initLineReveal() {
 
   function observe() {
     requestAnimationFrame(() => {
-      document
-        .querySelectorAll<HTMLElement>(LINE_SELECTOR)
-        .forEach((el) => observer.observe(el))
+      document.querySelectorAll<HTMLElement>(LINE_SELECTOR).forEach((el) => observer.observe(el))
     })
   }
 
@@ -33,3 +33,4 @@ export function initLineReveal() {
   const mo = new MutationObserver(observe)
   mo.observe(document.body, { childList: true, subtree: true })
 }
+
