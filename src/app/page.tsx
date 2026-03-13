@@ -416,27 +416,34 @@ function PageContent({
 }
 
 export default function HomePage() {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'dark'
-    const stored = localStorage.getItem(THEME_KEY) as Theme | null
-    if (stored) return stored
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  })
-  const [lang, setLang] = useState<Lang>(() => {
-    if (typeof window === 'undefined') return 'en'
-    const stored = localStorage.getItem(LANG_KEY) as Lang | null
-    if (stored === 'ru' || stored === 'en') return stored
-    if (typeof navigator !== 'undefined') {
-      return navigator.language.toLowerCase().startsWith('ru') ? 'ru' : 'en'
-    }
-    return 'en'
-  })
+  const [theme, setTheme] = useState<Theme>('dark')
+  const [lang, setLang] = useState<Lang>('en')
 
   useLayoutEffect(() => {
     if (typeof document === 'undefined') return
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem(THEME_KEY, theme)
   }, [theme])
+
+  // после гидратации подхватываем тему и язык из браузера/локального хранилища
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const storedTheme = localStorage.getItem(THEME_KEY) as Theme | null
+    const nextTheme: Theme =
+      storedTheme ??
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    setTheme(nextTheme)
+
+    const storedLang = localStorage.getItem(LANG_KEY) as Lang | null
+    let nextLang: Lang = 'en'
+    if (storedLang === 'ru' || storedLang === 'en') {
+      nextLang = storedLang
+    } else if (typeof navigator !== 'undefined') {
+      nextLang = navigator.language.toLowerCase().startsWith('ru') ? 'ru' : 'en'
+    }
+    setLang(nextLang)
+  }, [])
 
   const langMounted = useRef(false)
   useEffect(() => {
