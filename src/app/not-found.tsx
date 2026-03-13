@@ -13,7 +13,7 @@ const LANG_KEY = 'portfolio-lang'
 type Theme = 'dark' | 'light'
 type Lang = 'ru' | 'en'
 
-const IMG_AVATAR = '/avatar.png'
+const IMG_AVATAR = 'avatar.png'
 const IMG_ARROW = 'https://www.figma.com/api/mcp/asset/85595e10-ea13-44c1-b82d-e5d0aa1b1b88'
 const IMG_THEME = 'https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9'
 const IMG_COVER = 'https://www.figma.com/api/mcp/asset/f56d3c3e-5aba-4974-9937-5871ced3bcab'
