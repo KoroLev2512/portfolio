@@ -14,7 +14,9 @@ const geistMono = Geist_Mono({
 })
 
 const basePath =
-  process.env.NODE_ENV === 'production' && process.env.PREVIEW !== '1'
+  process.env.NODE_ENV === 'production' &&
+  process.env.PREVIEW !== '1' &&
+  process.env.VERCEL !== '1'
     ? '/portfolio'
     : ''
 
