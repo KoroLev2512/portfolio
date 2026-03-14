@@ -9,6 +9,9 @@ import { Pattern } from '@/shared/ui/Pattern'
 import { resetTextReveals } from '@/shared/lib/imageReveal'
 import { resetTagReveals } from '@/shared/lib/tagReveal'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
+import { SendIcon } from '@/shared/ui/SendIcon'
+import { ThemeIcon } from '@/shared/ui/ThemeIcon'
+import { ExperimentsCard } from '@/shared/ui/ExperimentsCard'
 
 const THEME_KEY = 'portfolio-theme'
 const LANG_KEY = 'portfolio-lang'
@@ -110,11 +113,7 @@ function Header({
           aria-label={t.headerCta}
           onClick={handleContactsClick}
         >
-          <img
-            src="https://www.figma.com/api/mcp/asset/eac692e1-edac-4c82-86b6-6a8def63e79c"
-            alt=""
-            className="header-cta-icon-img"
-          />
+          <SendIcon className="header-cta-icon-img" />
         </button>
         <div className="header-lang">
           <button
@@ -140,11 +139,7 @@ function Header({
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
         >
-          <img
-            src="https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9"
-            alt=""
-            className="theme-btn-icon"
-          />
+          <ThemeIcon className="theme-btn-icon" />
         </button>
       </div>
     </header>
@@ -245,32 +240,18 @@ function ProjectCard({
   )
 }
 
-function ExperimentsCard({ lang }: { lang: Lang }) {
-  const t = TEXTS[lang]
-  return (
-    <article className="experiments-card">
-      <p className="experiments-title text-reveal-body">{t.experimentsTitle}</p>
-      <p className="experiments-desc text-reveal-body">{t.experimentsDesc}</p>
-      <div className="experiments-bg">
-        <img
-          src="https://www.figma.com/api/mcp/asset/1bbcd1e2-f113-49c7-b8e6-dc9d207ce02d"
-          alt="background-mockups"
-          className="experiments-bg-img"
-        />
-      </div>
-      <div className="experiments-gradient" />
-    </article>
-  )
-}
-
-function Projects({ lang }: { lang: Lang }) {
+function Projects({ theme, lang }: { theme: Theme; lang: Lang }) {
   return (
     <section id="projects" className="projects section">
       <p className="section-title text-reveal-title">{TEXTS[lang].projectsTitle}</p>
       <div className="projects-list">
         <ProjectCard />
         <ProjectCard />
-        <ExperimentsCard lang={lang} />
+        <ExperimentsCard
+          theme={theme}
+          experimentsTitle={TEXTS[lang].experimentsTitle}
+          experimentsDesc={TEXTS[lang].experimentsDesc}
+        />
       </div>
     </section>
   )
@@ -403,11 +384,7 @@ function Footer({
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
         >
-          <img
-            src="https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9"
-            alt=""
-            className="theme-btn-icon"
-          />
+          <ThemeIcon className="theme-btn-icon" />
         </button>
       </div>
       <p className="footer-text text-reveal-body">©2026. All rights reserved</p>
@@ -440,7 +417,7 @@ function PageContent({
       <Pattern />
       <Skills lang={lang} />
       <Pattern />
-      <Projects lang={lang} />
+      <Projects theme={theme} lang={lang} />
       <Pattern />
       <WorkExperience lang={lang} />
       <Pattern />
@@ -455,11 +432,14 @@ function PageContent({
 export default function HomePage() {
   const [theme, setTheme] = useState<Theme>('dark')
   const [lang, setLang] = useState<Lang>('en')
+  const hasRestoredTheme = useRef(false)
 
   useLayoutEffect(() => {
     if (typeof document === 'undefined') return
     document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem(THEME_KEY, theme)
+    if (hasRestoredTheme.current) {
+      localStorage.setItem(THEME_KEY, theme)
+    }
   }, [theme])
 
   // после гидратации подхватываем тему и язык из браузера/локального хранилища
@@ -468,9 +448,11 @@ export default function HomePage() {
 
     const storedTheme = localStorage.getItem(THEME_KEY) as Theme | null
     const nextTheme: Theme =
-      storedTheme ??
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      storedTheme === 'dark' || storedTheme === 'light'
+        ? storedTheme
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
     setTheme(nextTheme)
+    hasRestoredTheme.current = true
 
     const storedLang = localStorage.getItem(LANG_KEY) as Lang | null
     let nextLang: Lang = 'en'

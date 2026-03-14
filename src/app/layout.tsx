@@ -13,11 +13,13 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
+const basePath = process.env.NODE_ENV === 'production' ? '/portfolio' : ''
+
 export const metadata: Metadata = {
   title: 'Portfolio',
   description: 'Korolev Yurii – frontend developer portfolio',
   icons: {
-    icon: '/favicon.ico',
+    icon: `${basePath}/favicon.ico`,
   },
 }
 

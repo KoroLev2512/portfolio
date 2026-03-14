@@ -780,8 +780,9 @@ body {
   object-fit: contain;
 }
 
-[data-theme='light'] .theme-btn-icon {
-  filter: invert(1);
+[data-theme='light'] .theme-btn-icon path {
+  fill: #0b0c0e;
+  fill-opacity: 0.5;
 }
 
 .ripple {
@@ -849,47 +850,6 @@ body {
   gap: 24px;
 }
 
-.notfound-experiments-block {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.notfound-experiments-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 24px;
-  background-color: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  text-decoration: none;
-  color: inherit;
-  min-height: 272px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.notfound-experiments-card:hover {
-  background-color: var(--bg-card);
-}
-
-.notfound-experiments-title {
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.notfound-experiments-desc {
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 400;
-  color: var(--text-secondary);
-  margin: 0;
-  max-width: 360px;
-}
-
 .experiments-card {
   position: relative;
   display: flex;
@@ -903,10 +863,19 @@ body {
   border-radius: 24px;
   overflow: hidden;
   isolation: isolate;
+  opacity: 0;
+  transform: translateY(24px);
   transition:
+    opacity 600ms ease-out,
+    transform 600ms ease-out,
     background-color 0.2s ease,
     border-color 0.2s ease,
     box-shadow 300ms ease-out;
+}
+
+.experiments-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 [data-theme='dark'] .experiments-card {
@@ -951,12 +920,15 @@ body {
   height: 280px;
   z-index: 1;
   pointer-events: none;
-  background-image: url('/dark.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center bottom;
   transform-origin: center;
   transition: transform 300ms ease-out;
+}
+
+.experiments-gradient-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
 }
 
 .experiments-card:hover {
@@ -1001,14 +973,6 @@ body {
   height: 280px;
   z-index: 1;
   pointer-events: none;
-  background-image: url('/dark.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center bottom;
-}
-
-[data-theme='light'] .experiments-gradient {
-  background-image: url('/light.png');
 }
 
 .header-cta-icon {
@@ -1029,7 +993,8 @@ body {
   gap: 16px;
 }
 
-.project-card-link {
+.project-card-link,
+.experiments-card-link {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
@@ -1183,9 +1148,12 @@ body {
     max-width: 480px;
     height: auto;
     aspect-ratio: 400 / 420;
-    background-size: contain;
-    background-position: center bottom;
     margin: 0 auto;
+  }
+
+  .experiments-gradient-img {
+    object-fit: contain;
+    object-position: center bottom;
   }
 
   .footer {

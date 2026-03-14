@@ -8,6 +8,9 @@ import { Pattern } from '@/shared/ui/Pattern'
 import { resetTextReveals } from '@/shared/lib/imageReveal'
 import { resetTagReveals } from '@/shared/lib/tagReveal'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
+import { SendIcon } from '@/shared/ui/SendIcon'
+import { ThemeIcon } from '@/shared/ui/ThemeIcon'
+import { ExperimentsCard } from '@/shared/ui/ExperimentsCard'
 import avatarImg from '@/../public/avatar.png'
 import mockupImg from '@/../public/mockup.png'
 
@@ -90,11 +93,7 @@ function Header({
           aria-label={t.headerCta}
           onClick={handleContactsClick}
         >
-          <img
-            src="https://www.figma.com/api/mcp/asset/eac692e1-edac-4c82-86b6-6a8def63e79c"
-            alt=""
-            className="header-cta-icon-img"
-          />
+          <SendIcon className="header-cta-icon-img" />
         </button>
         <div className="header-lang">
           <button
@@ -120,11 +119,7 @@ function Header({
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
         >
-          <img
-            src="https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9"
-            alt=""
-            className="theme-btn-icon"
-          />
+          <ThemeIcon className="theme-btn-icon" />
         </button>
       </div>
     </header>
@@ -174,7 +169,7 @@ function ProjectCard({ name = 'Project Name' }: { name?: string }) {
   )
 }
 
-function Recommendation({ lang }: { lang: Lang }) {
+function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
   const t = TEXTS[lang]
   return (
     <section className="section">
@@ -185,15 +180,12 @@ function Recommendation({ lang }: { lang: Lang }) {
         <div className="projects-list">
           <ProjectCard />
           <ProjectCard />
-        </div>
-        <div className="notfound-experiments-block">
-          <p className="section-title" style={{ marginBottom: 0, marginTop: 8, textTransform: 'none' }}>
-            {t.experimentsTitle}
-          </p>
-          <Link href="/#projects" className="notfound-experiments-card">
-            <p className="notfound-experiments-title">Experiments</p>
-            <p className="notfound-experiments-desc">{t.experimentsDesc}</p>
-          </Link>
+          <ExperimentsCard
+            theme={theme}
+            experimentsTitle={t.experimentsTitle}
+            experimentsDesc={t.experimentsDesc}
+            href="/#projects"
+          />
         </div>
       </div>
     </section>
@@ -256,11 +248,7 @@ function Footer({
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
         >
-          <img
-            src="https://www.figma.com/api/mcp/asset/4a3be44b-9468-4950-8c87-9264e527cec9"
-            alt=""
-            className="theme-btn-icon"
-          />
+          <ThemeIcon className="theme-btn-icon" />
         </button>
       </div>
       <p className="footer-text text-reveal-body">©2026. All rights reserved</p>
@@ -369,7 +357,7 @@ export default function NotFound() {
       <Header theme={theme} lang={lang} onToggleTheme={handleToggleClick} onChangeLang={handleChangeLang} />
       <NotFoundError lang={lang} />
       <Pattern />
-      <Recommendation lang={lang} />
+      <Recommendation theme={theme} lang={lang} />
       <Pattern />
       <Contacts lang={lang} />
       <Footer theme={theme} lang={lang} onToggleTheme={handleToggleClick} onChangeLang={handleChangeLang} />
