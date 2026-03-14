@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "preview": "PREVIEW=1 next build && npx serve out",
     "lint": "eslint",
     "export": "next build",
     "deploy": "next build && npx gh-pages -d out"

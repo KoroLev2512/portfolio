@@ -2,6 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import darkImg from '@/../public/dark.png'
+import lightImg from '@/../public/light.png'
 import mockupsImg from '@/../public/mockups.png'
 
 type Theme = 'dark' | 'light'
@@ -29,10 +31,11 @@ export function ExperimentsCard({
         />
       </div>
       <div className="experiments-gradient">
-        <img
-          src={theme === 'dark' ? '/dark.png' : '/light.png'}
+        <Image
+          src={theme === 'dark' ? darkImg : lightImg}
           alt=""
           className="experiments-gradient-img"
+          fill
         />
       </div>
     </>

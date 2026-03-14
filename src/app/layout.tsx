@@ -13,7 +13,10 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-const basePath = process.env.NODE_ENV === 'production' ? '/portfolio' : ''
+const basePath =
+  process.env.NODE_ENV === 'production' && process.env.PREVIEW !== '1'
+    ? '/portfolio'
+    : ''
 
 export const metadata: Metadata = {
   title: 'Portfolio',

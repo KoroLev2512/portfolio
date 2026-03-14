@@ -922,6 +922,7 @@ body {
   pointer-events: none;
   transform-origin: center;
   transition: transform 300ms ease-out;
+  overflow: hidden;
 }
 
 .experiments-gradient-img {
