@@ -1,0 +1,10 @@
+.project-detail-list {
+  font-size: 14px;
+  line-height: 14px;
+  color: var(--text-primary);
+  padding-left: 20px;
+}
+
+.project-detail-list li {
+  margin-bottom: 8px;
+}
