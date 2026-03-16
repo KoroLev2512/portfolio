@@ -1,0 +1,51 @@
+.notfound-error {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.notfound-message {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notfound-code {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.notfound-title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.notfound-desc {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.notfound-btn {
+  align-self: flex-start;
+  text-decoration: none;
+}
+
+.notfound-recommendation {
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-title {
+  margin-bottom: 0;
+  text-transform: none;
+}

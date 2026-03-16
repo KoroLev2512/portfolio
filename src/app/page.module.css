@@ -1,0 +1,148 @@
+.hero:global(.section) {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.hero-container {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.hero-photo {
+  width: 160px;
+  height: 160px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.hero-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  min-height: 160px;
+}
+
+.hero-name {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  margin: 0 0 4px 0;
+}
+
+.hero-position {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.hero-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-bio {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.skills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.skills-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skills-group-title {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.entry {
+  display: flex;
+  gap: 16px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.entry-left {
+  width: 256px;
+  flex-shrink: 0;
+  color: var(--text-primary);
+}
+
+.entry-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 16px;
+}
+
+.entry-title {
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.entry-subtitle {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .hero-info {
+    min-height: auto;
+    gap: 40px;
+  }
+
+  .hero-contacts {
+    gap: 8px;
+  }
+
+  .entry {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .entry-left {
+    width: 100%;
+  }
+}

@@ -1,0 +1,18 @@
+.contacts-title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--text-primary);
+  margin: 0 0 32px 0;
+}
+
+.contacts-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  row-gap: 1.25rem;
+}
+
+.contacts-buttons :global(.btn):not(:last-child) {
+  margin-right: 16px;
+}

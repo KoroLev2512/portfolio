@@ -2,15 +2,18 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { ClientBoot } from './ClientBoot'
+import { AppProvider } from '@/shared/lib/AppContext'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+  preload: false,
 })
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+  preload: false,
 })
 
 const basePath =
@@ -36,9 +39,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ClientBoot>{children}</ClientBoot>
+        <AppProvider>
+          <ClientBoot>{children}</ClientBoot>
+        </AppProvider>
       </body>
     </html>
   )
 }
-

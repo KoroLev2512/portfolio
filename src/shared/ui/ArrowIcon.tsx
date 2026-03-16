@@ -15,11 +15,11 @@ export function ArrowIcon({ angle, color, fillOpacity = 0.5, style, ...props }: 
       viewBox="0 0 16 16"
       fill="none"
       aria-hidden
+      className={`icon-rotate ${props.className ?? ''}`}
       style={{
-        transform: angle != null ? `rotate(${angle}deg)` : undefined,
-        transformOrigin: 'center',
         ...style,
-      }}
+        '--icon-angle': angle != null ? `${angle}deg` : '0deg',
+      } as React.CSSProperties}
       {...props}
     >
       <path

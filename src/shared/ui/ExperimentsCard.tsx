@@ -5,6 +5,7 @@ import Link from 'next/link'
 import darkImg from '@/../public/dark.png'
 import lightImg from '@/../public/light.png'
 import mockupsImg from '@/../public/mockups.png'
+import styles from './ExperimentsCard.module.css'
 
 type Theme = 'dark' | 'light'
 
@@ -21,20 +22,20 @@ export function ExperimentsCard({
 }) {
   const content = (
     <>
-      <p className="experiments-title">{experimentsTitle}</p>
-      <p className="experiments-desc">{experimentsDesc}</p>
-      <div className="experiments-bg">
+      <p className={styles['experiments-title']}>{experimentsTitle}</p>
+      <p className={styles['experiments-desc']}>{experimentsDesc}</p>
+      <div className={styles['experiments-bg']}>
         <Image
           src={mockupsImg}
           alt="background-mockups"
-          className="experiments-bg-img"
+          className={styles['experiments-bg-img']}
         />
       </div>
-      <div className="experiments-gradient">
+      <div className={styles['experiments-gradient']}>
         <Image
           src={theme === 'dark' ? darkImg : lightImg}
           alt=""
-          className="experiments-gradient-img"
+          className={styles['experiments-gradient-img']}
           fill
         />
       </div>
@@ -43,11 +44,11 @@ export function ExperimentsCard({
 
   if (href) {
     return (
-      <Link href={href} className="experiments-card experiments-card-link">
+      <Link href={href} className={`${styles['experiments-card']} experiments-card ${styles['experiments-card-link']} experiments-card-link`}>
         {content}
       </Link>
     )
   }
 
-  return <article className="experiments-card">{content}</article>
+  return <article className={`${styles['experiments-card']} experiments-card`}>{content}</article>
 }
