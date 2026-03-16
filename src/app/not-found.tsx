@@ -32,7 +32,7 @@ function NotFoundError({ lang }: { lang: Lang }) {
 
 function ProjectCard({ name = 'Project Name' }: { name?: string }) {
   return (
-    <Link href="/#projects" className="project-card project-card-link">
+    <Link href="/project" className="project-card project-card-link">
       <div className="project-cover">
         <Image src={mockupImg} alt="" className="project-cover-img img-reveal" />
       </div>
@@ -57,21 +57,31 @@ function ProjectCard({ name = 'Project Name' }: { name?: string }) {
 
 function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
   const t = getTranslations(lang, 'notfound') as Record<string, string>
+  const homeT = getTranslations(lang, 'home') as Record<string, string>
   return (
     <section className="section">
       <div className={styles['notfound-recommendation']}>
-        <p className={`section-title ${styles['recommendation-title']}`}>
-          {t.projectsTitle}
-        </p>
-        <div className="projects-list">
-          <ProjectCard />
-          <ProjectCard />
-          <ExperimentsCard
-            theme={theme}
-            experimentsTitle={t.experimentsTitle}
-            experimentsDesc={t.experimentsDesc}
-            href="/#projects"
-          />
+        <div className={styles['recommendation-groups']}>
+          <div>
+            <p className={`section-title ${styles['recommendation-title']} text-reveal-title`}>
+              {t.projectsTitle}
+            </p>
+            <div className="projects-list">
+              <ProjectCard />
+              <ProjectCard />
+            </div>
+          </div>
+          <div className={styles['recommendation-experiments']}>
+            <p className={`section-title ${styles['recommendation-title']} text-reveal-title`}>
+              {t.experimentsTitle}
+            </p>
+            <ExperimentsCard
+              theme={theme}
+              experimentsTitle={homeT.experimentsTitle}
+              experimentsDesc={homeT.experimentsDesc}
+              href="/#projects"
+            />
+          </div>
         </div>
       </div>
     </section>

@@ -28,8 +28,6 @@
 }
 
 .notfound-desc {
-  font-size: 14px;
-  line-height: 18px;
   font-weight: 400;
   color: var(--text-secondary);
   margin: 0;
@@ -38,6 +36,7 @@
 .notfound-btn {
   align-self: flex-start;
   text-decoration: none;
+  margin-top: 8px;
 }
 
 .notfound-recommendation {
@@ -46,6 +45,20 @@
 }
 
 .recommendation-title {
-  margin-bottom: 0;
+  margin-bottom: 24px;
   text-transform: none;
+}
+
+.recommendation-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.recommendation-experiments {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
 }

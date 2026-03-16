@@ -8,7 +8,7 @@ export type ChevronIconProps = SVGProps<SVGSVGElement> & {
 
 export function ChevronIcon({
   angle,
-  color = 'white',
+  color = 'currentColor',
   fillOpacity = 0.9,
   style,
   ...props

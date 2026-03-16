@@ -9,10 +9,6 @@
 .contacts-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 0;
+  gap: 16px;
   row-gap: 1.25rem;
-}
-
-.contacts-buttons :global(.btn):not(:last-child) {
-  margin-right: 16px;
 }

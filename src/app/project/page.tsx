@@ -2,10 +2,12 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 import { ContactsBlock } from '@/shared/ui/ContactsBlock'
 import { Pattern } from '@/shared/ui/Pattern'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
 import { ChevronIcon } from '@/shared/ui/ChevronIcon'
+import { CancelIcon } from '@/shared/ui/CancelIcon'
 import projectImg from '@/../public/project.png'
 import { getTranslations, projectData, getProjectDescription } from '@/shared/i18n'
 import { Header } from '@/widgets/header'
@@ -18,6 +20,7 @@ export default function ProjectPage() {
 
   const t = getTranslations(lang, 'project') as Record<string, string>
   const description = getProjectDescription(lang)
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false)
 
   return (
     <main className="portfolio">
@@ -78,15 +81,53 @@ export default function ProjectPage() {
       </section>
 
       <section className={`${styles['project-detail-photo']} section`}>
-        <div className={styles['project-detail-mockups-second']}>
-          <Image src={projectImg} alt="" className={`${styles['project-detail-hero-img']} ${styles['project-detail-hero-img-secondary']} img-reveal`} />
-        </div>
+        <button
+          type="button"
+          className={styles['project-detail-photo-button']}
+          onClick={() => {
+            if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) return
+            setIsImageModalOpen(true)
+          }}
+          aria-label={t.imageCaption}
+        >
+          <div className={styles['project-detail-mockups-second']}>
+            <Image
+              src={projectImg}
+              alt=""
+              className={`${styles['project-detail-hero-img']} ${styles['project-detail-hero-img-secondary']} img-reveal`}
+            />
+          </div>
+        </button>
         <p className={`${styles['project-detail-caption']} text-reveal-body`}>{t.imageCaption}</p>
       </section>
 
+      {isImageModalOpen && (
+        <div
+          className={styles['project-detail-modal-overlay']}
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setIsImageModalOpen(false)}
+        >
+          <div className={styles['project-detail-modal']} onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className={styles['project-detail-modal-close']}
+              onClick={() => setIsImageModalOpen(false)}
+              aria-label="Close image"
+            >
+              <CancelIcon />
+            </button>
+            <div className={styles['project-detail-modal-image-wrap']}>
+              <Image src={projectImg} alt="" className={styles['project-detail-modal-image']} />
+            </div>
+            <p className={styles['project-detail-modal-caption']}>{t.imageCaption}</p>
+          </div>
+        </div>
+      )}
+
       <section className={`project-detail-content ${styles['project-detail-content-narrow']} section`}>
-        <div className={`${styles['project-detail-subtitle-block']} text-reveal-body`}>
-          <h2 className={`${styles['project-detail-subtitle']} text-reveal-title`}>{t.subtitle}</h2>
+        <div className={styles['project-detail-subtitle-block']}>
+          <h2 className={styles['project-detail-subtitle']}>{t.subtitle}</h2>
           <p className={styles['project-detail-body']}>{t.blockBody}</p>
         </div>
         <p className={`${styles['project-detail-body']} text-reveal-body`}>{t.blockBody}</p>
