@@ -94,14 +94,14 @@ export default function ProjectPage() {
 
       <section className={`${styles['project-detail-nav-section']} section`}>
         <nav className={`${styles['project-detail-nav']} text-reveal-body`} aria-label="Project navigation">
-          <Link href="/#projects" className={`${styles['project-detail-nav-card']} ${styles['project-detail-nav-prev']}`}>
+          <Link href="/#projects" className={`project-nav-btn ${styles['project-detail-nav-card']} ${styles['project-detail-nav-prev']}`}>
             <ChevronIcon angle={180} className={styles['project-detail-nav-arrow']} />
             <div className={styles['project-detail-nav-card-text']}>
               <span className={styles['project-detail-nav-label']}>{t.prevProject}</span>
               <span className={styles['project-detail-nav-name']}>{projectData.title}</span>
             </div>
           </Link>
-          <Link href="/#projects" className={`${styles['project-detail-nav-card']} ${styles['project-detail-nav-next']}`}>
+          <Link href="/#projects" className={`project-nav-btn ${styles['project-detail-nav-card']} ${styles['project-detail-nav-next']}`}>
             <div className={styles['project-detail-nav-card-text']}>
               <span className={styles['project-detail-nav-label']}>{t.nextProject}</span>
               <span className={styles['project-detail-nav-name']}>{projectData.title}</span>
