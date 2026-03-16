@@ -137,18 +137,18 @@ body {
   text-decoration: none;
   position: relative;
   overflow: hidden;
-  transform: scale(1);
+  scale: 1;
   transform-origin: center;
-  transition: transform 300ms ease-out, background-color 300ms ease-out;
+  transition: scale 300ms ease-out, background-color 300ms ease-out;
 }
 
 .btn:hover {
-  transform: scale(1.03);
+  scale: 1.03;
 }
 
 .btn:active {
-  transform: scale(0.97);
-  transition: transform 150ms ease-out, background-color 150ms ease-out;
+  scale: 0.97;
+  transition: scale 150ms ease-out, background-color 150ms ease-out;
 }
 
 .btn-primary {
@@ -265,11 +265,11 @@ body {
   opacity: 0.7;
   transition:
     opacity 0.2s ease-out,
-    transform 0.2s ease-out;
+    rotate 0.2s ease-out;
 }
 
 .external-link:hover .external-link-icon {
-  transform: rotate(45deg);
+  rotate: 45deg;
   opacity: 1;
 }
 
@@ -357,7 +357,7 @@ body {
   align-items: center;
   justify-content: center;
   color: var(--text-primary);
-  transition: color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+  transition: color 0.2s ease, scale 0.15s ease, opacity 0.2s ease;
 }
 
 .theme-btn:hover {
@@ -365,7 +365,7 @@ body {
 }
 
 .theme-btn:active {
-  transform: scale(0.95);
+  scale: 0.95;
 }
 
 .theme-btn-icon {
@@ -415,17 +415,17 @@ body {
   overflow: hidden;
   position: relative;
   opacity: 0;
-  transform: translateY(24px);
+  translate: 0 24px;
   transition:
     opacity 600ms ease-out,
-    transform 600ms ease-out,
+    translate 600ms ease-out,
     background-color 300ms ease-out,
     box-shadow 300ms ease-out;
 }
 
 .project-card.revealed {
   opacity: 1;
-  transform: translateY(0);
+  translate: 0 0;
 }
 
 .project-card:hover {
@@ -441,9 +441,9 @@ body {
 }
 
 .project-card:active {
-  transform: translateY(0);
+  translate: 0 0;
   transition:
-    transform 150ms ease-out,
+    translate 150ms ease-out,
     background-color 150ms ease-out,
     box-shadow 150ms ease-out;
 }
@@ -461,13 +461,13 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1);
+  scale: 1;
   transform-origin: center;
-  transition: transform 300ms ease-out;
+  transition: scale 300ms ease-out;
 }
 
 .project-card:hover .project-cover-img {
-  transform: scale(1.05);
+  scale: 1.05;
 }
 
 .project-details {
@@ -548,49 +548,50 @@ body {
 
 .img-reveal {
   opacity: 0;
-  transform: scale(0.95);
+  scale: 0.95;
   filter: blur(8px);
-  transition: opacity 600ms ease-out, transform 600ms ease-out, filter 600ms ease-out;
+  transition: opacity 600ms ease-out, scale 600ms ease-out, filter 600ms ease-out;
 }
 
 .img-reveal.revealed {
   opacity: 1;
-  transform: none;
+  scale: 1;
   filter: none;
 }
 
 .text-reveal-title {
   opacity: 0;
-  transform: translateY(24px);
+  translate: 0 24px;
   filter: blur(8px);
-  transition: opacity 600ms ease-out, transform 600ms ease-out, filter 600ms ease-out;
+  transition: opacity 600ms ease-out, translate 600ms ease-out, scale 600ms ease-out, filter 600ms ease-out;
 }
 
 .text-reveal-body {
   opacity: 0;
-  transform: translateY(16px);
+  translate: 0 16px;
   filter: blur(8px);
-  transition: opacity 600ms ease-out, transform 600ms ease-out, filter 600ms ease-out;
+  transition: opacity 600ms ease-out, translate 600ms ease-out, scale 600ms ease-out, filter 600ms ease-out;
 }
 
 .text-reveal-title.revealed,
 .text-reveal-body.revealed {
   opacity: 1;
-  transform: none;
+  translate: 0 0;
   filter: none;
 }
 
 .tag-reveal {
   opacity: 0;
-  transform: translateY(16px);
+  translate: 0 16px;
   transition:
     opacity 300ms ease-out,
-    transform 300ms ease-out;
+    translate 300ms ease-out,
+    scale 300ms ease-out;
 }
 
 .tag-reveal.revealed {
   opacity: 1;
-  transform: translateY(0);
+  translate: 0 0;
 }
 
 /* ─── View transitions ────────────────────────────────────── */
@@ -626,7 +627,7 @@ body {
   }
 
   .btn:hover {
-    transform: scale(1);
+    scale: 1;
   }
 
   .project-card {
@@ -664,5 +665,5 @@ body {
 
 .icon-rotate {
   transform-origin: center;
-  transform: rotate(var(--icon-angle, 0deg));
+  rotate: var(--icon-angle, 0deg);
 }

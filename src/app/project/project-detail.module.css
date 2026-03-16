@@ -99,7 +99,7 @@
 }
 
 .project-detail-link:hover :global(.external-link-icon) {
-  transform: rotate(45deg);
+  rotate: 45deg;
   opacity: 1;
 }
 
@@ -295,7 +295,7 @@
 
 .project-detail-nav-next .project-detail-nav-arrow {
   margin-left: auto;
-  transform: rotate(180deg);
+  rotate: 180deg;
   transform-origin: center;
 }
 

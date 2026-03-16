@@ -126,7 +126,7 @@ export default function ProjectPage() {
       )}
 
       <section className={`project-detail-content ${styles['project-detail-content-narrow']} section`}>
-        <div className={styles['project-detail-subtitle-block']}>
+        <div className={`${styles['project-detail-subtitle-block']} text-reveal-body`}>
           <h2 className={styles['project-detail-subtitle']}>{t.subtitle}</h2>
           <p className={styles['project-detail-body']}>{t.blockBody}</p>
         </div>

@@ -34,7 +34,7 @@ export function Footer({
             className={lang === 'ru' ? 'header-lang-active' : undefined}
             onClick={() => onChangeLang('ru')}
           >
-            Ru
+            Ру
           </button>
           <span> / </span>
           <button

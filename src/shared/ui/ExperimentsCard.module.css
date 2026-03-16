@@ -12,10 +12,10 @@
   overflow: hidden;
   isolation: isolate;
   opacity: 0;
-  transform: translateY(24px);
+  translate: 0 24px;
   transition:
     opacity 600ms ease-out,
-    transform 600ms ease-out,
+    translate 600ms ease-out,
     background-color 0.2s ease,
     border-color 0.2s ease,
     box-shadow 300ms ease-out;
@@ -23,7 +23,7 @@
 
 .experiments-card:global(.revealed) {
   opacity: 1;
-  transform: translateY(0);
+  translate: 0 0;
 }
 
 :global([data-theme='dark']) .experiments-card {
@@ -65,21 +65,21 @@
   height: 100%;
   object-fit: cover;
   object-position: center -44px;
-  transform: scale(1);
-  transition: transform 300ms ease-out;
+  scale: 1;
+  transition: scale 300ms ease-out;
 }
 
 .experiments-gradient {
   position: absolute;
   bottom: -68px;
   left: 50%;
-  transform: translateX(-50%);
+  translate: -50% 0;
   width: 260px;
   height: 280px;
   z-index: 1;
   pointer-events: none;
   transform-origin: center;
-  transition: transform 300ms ease-out;
+  transition: translate 300ms ease-out;
   overflow: hidden;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .experiments-card:hover .experiments-bg-img {
-  transform: scale(1.03);
+  scale: 1.03;
 }
 
 .experiments-card-link {
