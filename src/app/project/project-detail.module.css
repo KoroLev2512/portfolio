@@ -193,11 +193,26 @@
   border-radius: 8px;
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 300ms ease-out,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .project-detail-nav-card:hover {
+  transform: scale(1.03);
   border-color: color-mix(in srgb, var(--border) 50%, var(--text-secondary));
+}
+
+.project-detail-nav-card:active {
+  transform: scale(0.97);
+  transition: transform 150ms ease-out, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+@media (hover: none) {
+  .project-detail-nav-card:hover {
+    transform: scale(1);
+  }
 }
 
 .project-detail-nav-prev {
