@@ -34,20 +34,20 @@ export function ProjectDetailContent({
         </p>
       </section>
       <section className={`${styles['project-detail-content-block']} section`}>
-        <ProjectDetailBlockTitle className="text-reveal-title">
+        <ProjectDetailBlockTitle className={`text-reveal-title ${styles['project-detail-padding']}`}>
           {t.blockTitle}
         </ProjectDetailBlockTitle>
-        <ProjectDetailBody className="text-reveal-body">
+        <ProjectDetailBody className={`text-reveal-body ${styles['project-detail-padding']}`}>
           {t.blockBody}
         </ProjectDetailBody>
-        <ProjectDetailList items={listItems} className="text-reveal-body" />
+        <ProjectDetailList items={listItems} className={`text-reveal-body ${styles['project-detail-padding-list']}`} />
         <ProjectDetailPhoto projectImg={projectImg} caption={t.imageCaption} />
         <ProjectDetailSubtitleBlock
             subtitle={t.subtitle}
             description={t.blockBody}
             className="text-reveal-body"
         />
-        <ProjectDetailBody className="text-reveal-body">
+        <ProjectDetailBody className={`text-reveal-body ${styles['project-detail-padding']}`}>
           {t.blockBody}
         </ProjectDetailBody>
       </section>

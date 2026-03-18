@@ -1,5 +1,17 @@
 .project-detail-hero {
   margin-bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.project-detail-hero-img {
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
 :global(section.section).project-detail-section-title-block {
@@ -13,6 +25,14 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.project-detail-padding {
+  padding: 0 20px;
+}
+
+.project-detail-padding-list {
+  padding: 0 40px;
 }
 
 .project-detail-content-narrow-inner {
@@ -157,11 +177,11 @@
 }
 
 .project-detail-nav-prev {
-  /* icon left, text right */
+  margin-right: 0;
 }
 
 .project-detail-nav-next {
-  /* текст слева, стрелка справа — порядок в разметке */
+  flex-direction: row;
 }
 
 .project-detail-nav-next .project-detail-nav-card-text {
@@ -204,8 +224,20 @@
     padding: 20px 16px;
   }
 
+  :global(section.section).project-detail-content-block {
+    padding: 0 16px 40px;
+  }
+
   .project-detail-meta {
     gap: 24px;
+  }
+
+  .project-detail-padding {
+    padding: 0;
+  }
+  
+  .project-detail-padding-list {
+    padding: 0 16px;
   }
 
   .project-detail-meta-row {

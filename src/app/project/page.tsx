@@ -31,7 +31,6 @@ export default function ProjectPage() {
 
       <section className="project-detail section">
         <h1 className={`${styles['project-detail-title']} text-reveal-title`}>{projectData.title}</h1>
-
         <div className={`${styles['project-detail-meta']} text-reveal-body`}>
           <div className={styles['project-detail-meta-row']}>
             <span className={styles['project-detail-meta-label']}>{t.metaCompany}</span>
@@ -61,23 +60,24 @@ export default function ProjectPage() {
             </div>
           </div>
         </div>
-
         <p className={`${styles['project-detail-description']} text-reveal-body`}>{description}</p>
       </section>
-
       <Pattern />
-
       <ProjectDetailContent t={t} projectData={projectData} projectImg={projectImg} />
-
       <ProjectNav
         prevProjectLabel={t.prevProject}
         nextProjectLabel={t.nextProject}
         projectTitle={projectData.title}
       />
-
       <Pattern />
       <ContactsBlock title={t.contactsCta} useReveal />
-      <Footer theme={theme} lang={lang} onToggleTheme={onToggleTheme} onChangeLang={onChangeLang} useReveal />
+      <Footer
+        theme={theme}
+        lang={lang}
+        onToggleTheme={onToggleTheme}
+        onChangeLang={onChangeLang}
+        useReveal
+      />
     </main>
   )
 }

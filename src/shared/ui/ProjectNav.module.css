@@ -1,5 +1,5 @@
 .project-detail-nav-section {
-  padding: 40px 20px;
+  padding: 40px;
 }
 
 .project-detail-nav {
@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 20px;
+  padding: 12px 20px;
   background-color: transparent;
   border: 1px solid var(--border);
   border-radius: 8px;
