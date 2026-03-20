@@ -6,7 +6,7 @@ export type Lang = 'ru' | 'en'
 
 export const locales = { ru, en } as const
 
-export type Namespace = 'home' | 'project' | 'notfound'
+export type Namespace = 'home' | 'project' | 'notfound' | 'experiments'
 
 /** Возвращает переводы для страницы: common + указанный namespace. */
 export function getTranslations(lang: Lang, namespace: Namespace): Record<string, string> {

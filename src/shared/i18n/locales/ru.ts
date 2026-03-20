@@ -38,6 +38,12 @@ export const project = {
   nextProject: 'Следующий проект',
 } as const
 
+export const experiments = {
+  pageTitle: 'Эксперименты',
+  pageSubtitle:
+    'Тут собраны идеи, концепты и небольшие интересные эксперименты',
+} as const
+
 export const notfound = {
   footerDesigned: 'Дизайн — Denis Knyazev',
   notfoundCode: '404',

@@ -79,7 +79,7 @@ function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
               theme={theme}
               experimentsTitle={homeT.experimentsTitle}
               experimentsDesc={homeT.experimentsDesc}
-              href="/#projects"
+              href="/experiments"
             />
           </div>
         </div>

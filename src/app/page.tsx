@@ -128,6 +128,7 @@ function Projects({ theme, lang }: { theme: Theme; lang: Lang }) {
           theme={theme}
           experimentsTitle={(getTranslations(lang, 'home') as Record<string, string>).experimentsTitle}
           experimentsDesc={(getTranslations(lang, 'home') as Record<string, string>).experimentsDesc}
+          href="/experiments"
         />
       </div>
     </section>
