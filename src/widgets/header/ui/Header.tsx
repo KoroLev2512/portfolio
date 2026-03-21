@@ -102,7 +102,7 @@ export function Header({
             aria-label={isRuUi ? 'Переключить на русский язык' : 'Switch to Russian'}
             title={isRuUi ? 'Русский' : 'Russian'}
           >
-            Ru
+            Ру
           </button>
           <span> / </span>
           <button
