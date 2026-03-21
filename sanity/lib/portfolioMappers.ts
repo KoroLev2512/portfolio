@@ -12,6 +12,23 @@ function pickLocale<T = string>(field: LocalizedValue<T> | T | undefined, lang: 
   return loc[lang] ?? loc.en ?? loc.ru
 }
 
+/**
+ * В схеме skillGroup.items — объект { ru: string[], en: string[] }.
+ * Старый GROQ `coalesce(items, [])` подменял отсутствие на []-массив и ломал pickLocale.
+ */
+function pickSkillGroupItems(items: unknown, lang: Lang): string[] {
+  if (items == null) return []
+  if (Array.isArray(items)) {
+    return items.filter((x): x is string => typeof x === 'string' && x.trim().length > 0)
+  }
+  if (typeof items === 'object') {
+    const list = pickLocale(items as LocalizedValue<string[]>, lang)
+    if (!Array.isArray(list)) return []
+    return list.filter((x) => typeof x === 'string' && x.trim().length > 0)
+  }
+  return []
+}
+
 /** Подпись для ссылки, если в CMS не заполнена локаль */
 function labelFromHref(href: string): string {
   const h = href.trim()
@@ -62,6 +79,14 @@ function getSkillGroupTitle(
   }
 }
 
+/** Есть ли непустой текст хотя бы в одной локали (или в строке) */
+function localizedHasContent(field: LocalizedValue<string> | string | undefined | null): boolean {
+  if (field == null) return false
+  if (typeof field === 'string') return field.trim().length > 0
+  const loc = field as LocalizedValue<string>
+  return [loc.ru, loc.en].some((s) => typeof s === 'string' && s.trim().length > 0)
+}
+
 function getEducationLevelLabel(
   educationType: LocalizedValue<string> | string | undefined,
   customEducationType: LocalizedValue<string> | string | undefined,
@@ -109,8 +134,9 @@ export type PortfolioMapped = {
   skillGroups: { title: string; tags: string[] }[]
   projects: PortfolioProjectCard[]
   middleSectionsOrder: string[]
-  workEntries: { company: string; position: string; period?: string }[]
+  workEntries: { _key?: string; company: string; position: string; period?: string }[]
   educationEntries: {
+    _key?: string
     organization: string
     specialization: string
     level: string
@@ -150,14 +176,16 @@ type SanityHomepage = {
     items?: LocalizedValue<string[]>
   }[]
   workExperienceItems?: {
+    _key?: string
     company?: LocalizedValue<string> | string
     position?: LocalizedValue<string> | string
     period?: LocalizedValue<string> | string
   }[]
   educationItems?: {
+    _key?: string
     institution?: LocalizedValue<string> | string
     program?: LocalizedValue<string> | string
-    educationType?: LocalizedValue<string> | string
+    educationType?: string
     customEducationType?: LocalizedValue<string> | string
     period?: LocalizedValue<string> | string
   }[]
@@ -198,49 +226,60 @@ export function mapSanityToPortfolio(
 ): PortfolioMapped | null {
   if (homepage == null && siteSettings == null) return null
 
-  const heroContacts =
-    homepage?.heroContacts
-      ?.filter((item): item is SanityContact & { href: string } =>
-        typeof item?.href === 'string' && item.href.trim().length > 0,
+  const heroContacts = (homepage?.heroContacts ?? [])
+    .filter((item): item is SanityContact & { href: string } =>
+      typeof item?.href === 'string' && item.href.trim().length > 0,
+    )
+    .map((item) => {
+      const href = item.href.trim()
+      return {
+        label: contactDisplayLabel(item.label, lang, href),
+        href,
+      }
+    })
+
+  const skillGroups = (homepage?.skillGroups ?? [])
+    .map((group) => {
+      const items = pickSkillGroupItems(group.items, lang)
+      const title =
+        group.showTitle === false
+          ? ''
+          : getSkillGroupTitle(group.kind, pickLocale(group.title, lang), lang)
+      return { title, tags: items }
+    })
+    .filter((g) => g.tags.length > 0)
+
+  const workEntries = (homepage?.workExperienceItems ?? [])
+      .filter(
+        (item) =>
+          localizedHasContent(item?.company) ||
+          localizedHasContent(item?.position) ||
+          localizedHasContent(item?.period),
       )
-      .map((item) => {
-        const href = item.href.trim()
-        return {
-          label: contactDisplayLabel(item.label, lang, href),
-          href,
-        }
-      }) ?? []
-
-  const skillGroups =
-    homepage?.skillGroups
-      ?.map((group) => {
-        const items = pickLocale(group.items, lang) ?? []
-        const title =
-          group.showTitle === false
-            ? ''
-            : getSkillGroupTitle(group.kind, pickLocale(group.title, lang), lang)
-        return { title, tags: items }
-      })
-      .filter((g) => g.tags.length > 0) ?? []
-
-  const workEntries =
-    homepage?.workExperienceItems
-      ?.filter((item) => item.company && item.position)
       .map((item) => ({
-        company: pickLocale(item.company, lang) ?? '',
-        position: pickLocale(item.position, lang) ?? '',
-        period: pickLocale(item.period, lang),
-      })) ?? []
+        _key: item._key,
+        company: (pickLocale(item.company, lang) ?? '').trim(),
+        position: (pickLocale(item.position, lang) ?? '').trim(),
+        period: pickLocale(item.period, lang)?.trim(),
+      }))
+      .filter((e) => e.company || e.position)
 
-  const educationEntries =
-    homepage?.educationItems
-      ?.filter((item) => item.institution && item.program)
+  const educationEntries = (homepage?.educationItems ?? [])
+      .filter(
+        (item) =>
+          localizedHasContent(item?.institution) ||
+          localizedHasContent(item?.program) ||
+          localizedHasContent(item?.period) ||
+          Boolean(item?.educationType),
+      )
       .map((item) => ({
-        organization: pickLocale(item.institution, lang) ?? '',
-        specialization: pickLocale(item.program, lang) ?? '',
+        _key: item._key,
+        organization: (pickLocale(item.institution, lang) ?? '').trim(),
+        specialization: (pickLocale(item.program, lang) ?? '').trim(),
         level: getEducationLevelLabel(item.educationType, item.customEducationType, lang),
-        period: pickLocale(item.period, lang),
-      })) ?? []
+        period: pickLocale(item.period, lang)?.trim(),
+      }))
+      .filter((e) => e.organization || e.specialization || e.level)
 
   const personPhotoUrl = siteSettings?.personPhoto
     ? sanityImageUrl(siteSettings.personPhoto, 1200)

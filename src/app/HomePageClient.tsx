@@ -239,9 +239,14 @@ export function HomePageClient({ sanityDocs }: { sanityDocs: SanityHomeDocs | nu
         <div className={styles['entry-list']}>
           {mapped?.workEntries && mapped.workEntries.length > 0 ? (
             mapped.workEntries.map((e, i) => (
-              <JobEntry key={i} company={e.company} position={e.position} period={e.period} />
+              <JobEntry
+                key={e._key ?? `work-${i}`}
+                company={e.company}
+                position={e.position}
+                period={e.period}
+              />
             ))
-          ) : (
+          ) : sanityDocs?.homepage == null ? (
             <>
               <JobEntry />
               <JobEntry />
@@ -249,7 +254,7 @@ export function HomePageClient({ sanityDocs }: { sanityDocs: SanityHomeDocs | nu
               <JobEntry />
               <JobEntry />
             </>
-          )}
+          ) : null}
         </div>
       </section>
     ),
@@ -260,14 +265,14 @@ export function HomePageClient({ sanityDocs }: { sanityDocs: SanityHomeDocs | nu
           {mapped?.educationEntries && mapped.educationEntries.length > 0 ? (
             mapped.educationEntries.map((e, i) => (
               <EducationEntry
-                key={i}
+                key={e._key ?? `edu-${i}`}
                 organization={e.organization}
                 specialization={e.specialization}
                 level={e.level}
                 period={e.period}
               />
             ))
-          ) : (
+          ) : sanityDocs?.homepage == null ? (
             <>
               <EducationEntry />
               <EducationEntry />
@@ -275,7 +280,7 @@ export function HomePageClient({ sanityDocs }: { sanityDocs: SanityHomeDocs | nu
               <EducationEntry />
               <EducationEntry />
             </>
-          )}
+          ) : null}
         </div>
       </section>
     ),
