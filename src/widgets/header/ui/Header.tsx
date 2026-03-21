@@ -17,6 +17,11 @@ export type HeaderProps = {
   onChangeLang: (lang: Lang) => void
   /** Если задан, левая часть (логотип/имя) — ссылка на этот href (например "/" на страницах проекта и 404) */
   logoHref?: string
+  /** Переопределение из Sanity (siteSettings) */
+  personName?: string
+  personRole?: string
+  /** URL фото; если с CDN — с unoptimized */
+  personPhotoSrc?: string | null
 }
 
 export function Header({
@@ -25,9 +30,15 @@ export function Header({
   onToggleTheme,
   onChangeLang,
   logoHref,
+  personName,
+  personRole,
+  personPhotoSrc,
 }: HeaderProps) {
   const t = getTranslations(lang, 'home') as Record<string, string>
   const isRuUi = lang === 'ru'
+  const displayName = personName?.trim() || t.name
+  const displayRole = personRole?.trim() || t.position
+  const photoSrc = personPhotoSrc?.trim() ? personPhotoSrc : avatarImg
 
   const handleContactsClick = () => {
     if (typeof document === 'undefined') return
@@ -39,14 +50,17 @@ export function Header({
   const leftContent = (
     <>
       <Image
-        src={avatarImg}
-        alt="avatar"
+        src={photoSrc}
+        alt=""
+        width={40}
+        height={40}
         className={styles['header-photo']}
         priority
+        unoptimized={typeof photoSrc === 'string' && photoSrc.startsWith('http')}
       />
       <div>
-        <span className={styles['header-name']}>{t.name}</span>
-        <span className={styles['header-position']}> {t.position}</span>
+        <span className={styles['header-name']}>{displayName}</span>
+        <span className={styles['header-position']}> {displayRole}</span>
       </div>
     </>
   )

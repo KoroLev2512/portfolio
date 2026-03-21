@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 .next
 out
+.sanity
+*.tsbuildinfo
 dist
 dist-ssr
 *.local
