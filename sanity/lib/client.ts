@@ -1,12 +1,20 @@
 import { createClient } from 'next-sanity'
 
-import { apiVersion, dataset, projectId, sanityReadToken } from '../env'
-
-const sharedConfig = {
-  projectId,
-  dataset,
+import {
   apiVersion,
-} as const
+  dataset,
+  isSanityConfigured,
+  projectId,
+  sanityReadToken,
+} from '../env'
+
+/** Заглушка только чтобы `createClient` существовал при сборке без env; `fetch` не вызываем без `isSanityConfigured` */
+const STUB_PROJECT = 'missing-sanity-env'
+const STUB_DATASET = 'production'
+
+const sharedConfig = isSanityConfigured
+  ? ({ projectId, dataset, apiVersion } as const)
+  : ({ projectId: STUB_PROJECT, dataset: STUB_DATASET, apiVersion } as const)
 
 /**
  * Публичный API — только **опубликованные** документы, **без токена**.
@@ -25,9 +33,13 @@ export const sanityPublicClient = createClient({
  * Токен: https://www.sanity.io/manage → проект из `NEXT_PUBLIC_SANITY_PROJECT_ID` → API → Read token.
  */
 export const sanityAuthenticatedClient =
-  typeof sanityReadToken === 'string' && sanityReadToken.trim() !== ''
+  isSanityConfigured &&
+  typeof sanityReadToken === 'string' &&
+  sanityReadToken.trim() !== ''
     ? createClient({
-        ...sharedConfig,
+        projectId: sharedConfig.projectId,
+        dataset: sharedConfig.dataset,
+        apiVersion: sharedConfig.apiVersion,
         useCdn: false,
         token: sanityReadToken.trim(),
       })

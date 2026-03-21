@@ -50,6 +50,10 @@ npm run sanity:deploy
 
 См. `.env.example` — формат с `NEXT_PUBLIC_*`, `SANITY_*`, `SANITY_STUDIO_*` и токенами только для сервера.
 
+### Сборка на Vercel без переменных
+
+Если в проекте Vercel не заданы **`NEXT_PUBLIC_SANITY_PROJECT_ID`** и **`NEXT_PUBLIC_SANITY_DATASET`**, раньше падал `next build` (строгий `env.ts`). Сейчас сборка проходит, главная отдаётся без данных из CMS. Чтобы подтянуть контент в проде — добавь те же переменные, что в `.env.local`, в **Vercel → Settings → Environment Variables** (для Production / Preview).
+
 ### 401 `Session does not match project host` (SIO-401-AWH)
 
 Обычно в `.env.local` задан **`SANITY_API_READ_TOKEN` от другого проекта** Sanity, чем `NEXT_PUBLIC_SANITY_PROJECT_ID`. Для **опубликованного** контента на сайте токен не нужен: **удали строку или оставь пустой** — запросы идут через публичный API. Если токен нужен (превью, Live), создай **Read**-токен в [manage](https://www.sanity.io/manage) именно для этого проекта.
