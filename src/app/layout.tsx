@@ -23,7 +23,6 @@ const basePath =
     ? '/portfolio'
     : ''
 
-/** Канонический origin без завершающего слэша (для og:url / абсолютных og:image). Задай в проде: NEXT_PUBLIC_SITE_URL */
 function getMetadataBase(): URL | undefined {
   const raw =
     process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
@@ -41,20 +40,19 @@ const ogImageEn = `${basePath}/metadata_en.png`
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: 'Portfolio',
-  description: 'Korolev Yurii – frontend developer portfolio',
+  title: 'Korolev Yurii',
+  description: 'Frontend developer portfolio',
   icons: {
     icon: `${basePath}/favicon.ico`,
   },
   openGraph: {
     type: 'website',
-    locale: 'ru_RU',
-    alternateLocale: ['en_US'],
+    locale: 'en_US',
+    alternateLocale: ['ru_RU'],
     siteName: 'Portfolio',
-    /** Первая картинка чаще всего уходит в превью; дальше — запасная локаль */
     images: [
-      { url: ogImageRu, alt: 'Portfolio — Russian' },
       { url: ogImageEn, alt: 'Portfolio — English' },
+      { url: ogImageRu, alt: 'Portfolio — Russian' },
     ],
   },
   twitter: {
