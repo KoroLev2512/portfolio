@@ -50,6 +50,18 @@ npm run sanity:deploy
 
 См. `.env.example` — формат с `NEXT_PUBLIC_*`, `SANITY_*`, `SANITY_STUDIO_*` и токенами только для сервера.
 
+### Превью ссылки (og:image) не показывается
+
+Частые причины:
+
+1. **`NEXT_PUBLIC_SITE_URL` не задан при сборке** — Next подставляет `http://localhost:3000`, боты не находят картинку. Для **https://dev-by-yurii.ru/** задай `NEXT_PUBLIC_SITE_URL=https://dev-by-yurii.ru` и пересобери сайт.
+2. **Неверный путь к картинке** — если сайт лежит в **корне домена**, а сборка шла с `basePath=/portfolio`, в meta уйдёт `…/portfolio/metadata_en.png`, а файл по факту на `…/metadata_en.png`. Задай **`NEXT_PUBLIC_BASE_PATH=`** (пусто) при сборке для корня; для GitHub Pages в подпапке — **`NEXT_PUBLIC_BASE_PATH=/portfolio`**.
+3. **Кеш Telegram / VK** — после исправления открой ссылку через [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) или аналог, чтобы сбросить кеш.
+
+### Кеширование запросов главной
+
+`getPortfolioHomeDocuments` обёрнут в **`react` `cache()`** (дедуп в рамках дерева) и **`unstable_cache`** из Next (Data Cache, тег `sanity:portfolio-home`). Интервал **revalidate** по умолчанию **300 с**; переопредели **`SANITY_FETCH_REVALIDATE_SECONDS`** в env. В выводе `next build` у маршрута `/` будет строка **Revalidate** при использовании кеша.
+
 ### Сборка на Vercel без переменных
 
 Если в проекте Vercel не заданы **`NEXT_PUBLIC_SANITY_PROJECT_ID`** и **`NEXT_PUBLIC_SANITY_DATASET`**, раньше падал `next build` (строгий `env.ts`). Сейчас сборка проходит, главная отдаётся без данных из CMS. Чтобы подтянуть контент в проде — добавь те же переменные, что в `.env.local`, в **Vercel → Settings → Environment Variables** (для Production / Preview).

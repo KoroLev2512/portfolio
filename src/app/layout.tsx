@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { ClientBoot } from './ClientBoot'
 import { AppProvider } from '@/shared/lib/AppContext'
+import { getDeployBasePath } from '@/shared/lib/deployBasePath'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -16,12 +17,7 @@ const geistMono = Geist_Mono({
   preload: false,
 })
 
-const basePath =
-  process.env.NODE_ENV === 'production' &&
-  process.env.PREVIEW !== '1' &&
-  process.env.VERCEL !== '1'
-    ? '/portfolio'
-    : ''
+const basePath = getDeployBasePath()
 
 function getMetadataBase(): URL | undefined {
   const raw =

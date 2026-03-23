@@ -57,6 +57,12 @@
   gap: 32px;
 }
 
+.header-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .header-cta-icon {
   display: none;
   width: 32px;

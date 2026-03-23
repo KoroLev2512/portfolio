@@ -54,13 +54,13 @@ export function Header({
         alt=""
         width={40}
         height={40}
-        className={styles['header-photo']}
+        className={`${styles['header-photo']} img-reveal`}
         priority
         unoptimized={typeof photoSrc === 'string' && photoSrc.startsWith('http')}
       />
       <div>
-        <span className={styles['header-name']}>{displayName}</span>
-        <span className={styles['header-position']}> {displayRole}</span>
+        <span className={`${styles['header-name']} text-reveal-title`}>{displayName}</span>
+        <span className={`${styles['header-position']} text-reveal-body`}> {displayRole}</span>
       </div>
     </>
   )
@@ -79,21 +79,23 @@ export function Header({
         {leftContent}
       </LeftWrapper>
       <div className={styles['header-right']}>
-        <button
-          className={`btn btn-primary btn-primary-s ${styles['header-cta-text']}`}
-          type="button"
-          onClick={handleContactsClick}
-        >
-          {t.headerCta}
-        </button>
-        <button
-          className={`btn btn-primary ${styles['header-cta-icon']}`}
-          type="button"
-          aria-label={t.headerCta}
-          onClick={handleContactsClick}
-        >
-          <SendIcon className={styles['header-cta-icon-img']} />
-        </button>
+        <div className={`${styles['header-cta-group']} header-cta-group`}>
+          <button
+            className={`btn btn-primary btn-primary-s ${styles['header-cta-text']} tag-reveal`}
+            type="button"
+            onClick={handleContactsClick}
+          >
+            {t.headerCta}
+          </button>
+          <button
+            className={`btn btn-primary ${styles['header-cta-icon']} tag-reveal`}
+            type="button"
+            aria-label={t.headerCta}
+            onClick={handleContactsClick}
+          >
+            <SendIcon className={styles['header-cta-icon-img']} />
+          </button>
+        </div>
         <div className="header-lang">
           <button
             type="button"
