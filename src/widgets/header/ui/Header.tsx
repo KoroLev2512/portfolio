@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations, type Lang } from '@/shared/i18n'
+import { usePortfolioMapped } from '@/shared/lib/PortfolioSanityContext'
+import { resolveContactsSectionTitle } from '@/shared/lib/portfolioContacts'
 import { SendIcon } from '@/shared/ui/SendIcon'
 import { ThemeIcon } from '@/shared/ui/ThemeIcon'
 import avatarImg from '@/../public/avatar.png'
@@ -35,10 +37,20 @@ export function Header({
   personPhotoSrc,
 }: HeaderProps) {
   const t = getTranslations(lang, 'home') as Record<string, string>
+  const mapped = usePortfolioMapped()
   const isRuUi = lang === 'ru'
-  const displayName = personName?.trim() || t.name
-  const displayRole = personRole?.trim() || t.position
-  const photoSrc = personPhotoSrc?.trim() ? personPhotoSrc : avatarImg
+  const displayName =
+    personName?.trim() || mapped?.personName?.trim() || t.name
+  const displayRole =
+    personRole?.trim() || mapped?.personRole?.trim() || t.position
+  const photoFromCms = mapped?.personPhotoUrl?.trim()
+  const photoSrc =
+    personPhotoSrc?.trim()
+      ? personPhotoSrc
+      : photoFromCms
+        ? photoFromCms
+        : avatarImg
+  const ctaLabel = resolveContactsSectionTitle(mapped, t.contactsCta)
 
   const handleContactsClick = () => {
     if (typeof document === 'undefined') return
@@ -85,12 +97,12 @@ export function Header({
             type="button"
             onClick={handleContactsClick}
           >
-            {t.headerCta}
+            {ctaLabel}
           </button>
           <button
             className={`btn btn-primary ${styles['header-cta-icon']} tag-reveal`}
             type="button"
-            aria-label={t.headerCta}
+            aria-label={ctaLabel}
             onClick={handleContactsClick}
           >
             <SendIcon className={styles['header-cta-icon-img']} />

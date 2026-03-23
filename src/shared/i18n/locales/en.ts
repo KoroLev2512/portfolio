@@ -15,6 +15,8 @@ export const home = {
   hardSkills: 'Hard Skills',
   softSkills: 'Soft Skills',
   languages: 'Languages',
+  toolsStack: 'Tools / Stack',
+  skillGroupFallback: 'Skills',
   projectsTitle: '[ Projects ]',
   experimentsTitle: 'Experiments',
   experimentsDesc: 'Here you will find screenshots, concepts, and small interface experiments',

@@ -72,10 +72,10 @@ function getSkillGroupTitle(
     case 'languages':
       return t.languages
     case 'tools-stack':
-      return lang === 'ru' ? 'Инструменты / стек' : 'Tools / Stack'
+      return t.toolsStack
     case 'custom':
     default:
-      return customTitle || (lang === 'ru' ? 'Навыки' : 'Skills')
+      return customTitle?.trim() || t.skillGroupFallback
   }
 }
 

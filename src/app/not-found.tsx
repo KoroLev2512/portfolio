@@ -10,6 +10,7 @@ import { getTranslations, type Lang } from '@/shared/i18n'
 import { Header, type Theme } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
+import { useContactsBlockProps } from '@/shared/lib/PortfolioSanityContext'
 import styles from './not-found.module.css'
 
 function NotFoundError({ lang }: { lang: Lang }) {
@@ -90,6 +91,7 @@ function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
 
 export default function NotFound() {
   const { theme, lang, onToggleTheme, onChangeLang } = useAppContext()
+  const contactsBlock = useContactsBlockProps()
 
   return (
     <main className="portfolio">
@@ -99,8 +101,10 @@ export default function NotFound() {
       <Recommendation theme={theme} lang={lang} />
       <Pattern />
       <ContactsBlock
-        title={(getTranslations(lang, 'notfound') as Record<string, string>).contactsTitle}
-        firstButtonHref="/"
+        sectionTitle={contactsBlock.sectionTitle}
+        title={contactsBlock.title}
+        buttons={contactsBlock.buttons}
+        firstButtonHref={contactsBlock.buttons ? undefined : '/'}
         useReveal
       />
       <Footer theme={theme} lang={lang} onToggleTheme={onToggleTheme} onChangeLang={onChangeLang} useReveal />

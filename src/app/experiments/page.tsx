@@ -9,6 +9,7 @@ import { getTranslations, type Lang } from '@/shared/i18n'
 import { Header } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
+import { useContactsBlockProps } from '@/shared/lib/PortfolioSanityContext'
 import styles from './page.module.css'
 
 const GALLERY: { wide: boolean; gradient: keyof typeof styles; image: 'single' | 'triple' }[] = [
@@ -67,6 +68,7 @@ function ExperimentsTitleBlock({ lang }: { lang: Lang }) {
 export default function ExperimentsPage() {
   const { theme, lang, onToggleTheme, onChangeLang } = useAppContext()
   const t = getTranslations(lang, 'experiments') as Record<string, string>
+  const contactsBlock = useContactsBlockProps()
 
   return (
     <main className="portfolio">
@@ -81,7 +83,12 @@ export default function ExperimentsPage() {
         </div>
       </section>
       <Pattern />
-      <ContactsBlock sectionTitle={t.contactsTitle} title={t.contactsCta} useReveal />
+      <ContactsBlock
+        sectionTitle={contactsBlock.sectionTitle}
+        title={contactsBlock.title}
+        buttons={contactsBlock.buttons}
+        useReveal
+      />
       <Footer theme={theme} lang={lang} onToggleTheme={onToggleTheme} onChangeLang={onChangeLang} useReveal />
     </main>
   )

@@ -9,12 +9,14 @@ import { getTranslations, projectData, getProjectDescription } from '@/shared/i1
 import { Header } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
+import { useContactsBlockProps } from '@/shared/lib/PortfolioSanityContext'
 import { ProjectDetailContent } from './ProjectDetailContent'
 import { ProjectNav } from '@/shared/ui/ProjectNav'
 import styles from './project-detail.module.css'
 
 export default function ProjectPage() {
   const { theme, lang, onToggleTheme, onChangeLang } = useAppContext()
+  const contactsBlock = useContactsBlockProps()
 
   const t = getTranslations(lang, 'project') as Record<string, string>
   const description = getProjectDescription(lang)
@@ -70,7 +72,12 @@ export default function ProjectPage() {
         projectTitle={projectData.title}
       />
       <Pattern />
-      <ContactsBlock title={t.contactsCta} useReveal />
+      <ContactsBlock
+        sectionTitle={contactsBlock.sectionTitle}
+        title={contactsBlock.title}
+        buttons={contactsBlock.buttons}
+        useReveal
+      />
       <Footer
         theme={theme}
         lang={lang}

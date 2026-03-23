@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { ClientBoot } from './ClientBoot'
 import { AppProvider } from '@/shared/lib/AppContext'
+import { PortfolioSanityProvider } from '@/shared/lib/PortfolioSanityContext'
+import { getPortfolioHomeDocuments } from '@/sanity/lib/getPortfolioHome'
 import { getDeployBasePath } from '@/shared/lib/deployBasePath'
 
 const geistSans = Geist({
@@ -57,16 +59,19 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const sanityDocs = await getPortfolioHomeDocuments()
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AppProvider>
-          <ClientBoot>{children}</ClientBoot>
+          <PortfolioSanityProvider sanityDocs={sanityDocs}>
+            <ClientBoot>{children}</ClientBoot>
+          </PortfolioSanityProvider>
         </AppProvider>
       </body>
     </html>

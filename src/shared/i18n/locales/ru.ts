@@ -12,9 +12,12 @@ export const home = {
   heroBio:
     'Я фронтенд‑разработчик, который любит аккуратные интерфейсы и понятные продукты. Работал с React, TypeScript и дизайн‑системами. Хочу делать интерфейсы, которыми приятно пользоваться каждый день.',
   skillsTitle: '[ Навыки ]',
-  hardSkills: 'Hard skills',
-  softSkills: 'Soft skills',
-  languages: 'Languages',
+  hardSkills: 'Технические навыки',
+  softSkills: 'Гибкие навыки',
+  languages: 'Языки',
+  toolsStack: 'Инструменты / стек',
+  /** Заголовок группы «Custom» в Sanity, если не задан своё название */
+  skillGroupFallback: 'Навыки',
   projectsTitle: '[ Проекты ]',
   experimentsTitle: 'Experiments',
   experimentsDesc: 'Здесь вы найдёте скриншоты, концепты и небольшие интерфейсные эксперименты',

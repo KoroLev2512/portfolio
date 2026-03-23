@@ -13,14 +13,12 @@ import { getTranslations, type Lang } from '@/shared/i18n'
 import { Header, type Theme } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
-import { mapSanityToPortfolio } from '@/sanity/lib/portfolioMappers'
+import { usePortfolioMapped, usePortfolioSanityDocs } from '@/shared/lib/PortfolioSanityContext'
+import {
+  resolveContactsSectionTitle,
+  resolveHeroContactLinks,
+} from '@/shared/lib/portfolioContacts'
 import styles from './page.module.css'
-
-/** Если в Sanity нет контактов или запрос не вернул документы — не оставляем hero пустым */
-const FALLBACK_HERO_CONTACTS = [
-  { label: 'icestorm2512@gmail.com', href: 'mailto:icestorm2512@gmail.com' },
-  { label: 't.me/korolev_2512', href: 'https://t.me/korolev_2512' },
-]
 
 const SECTION_KEYS = ['skills', 'projects', 'workExperience', 'education'] as const
 type SectionKey = (typeof SECTION_KEYS)[number]
@@ -124,23 +122,11 @@ function EducationEntry({
   )
 }
 
-export type SanityHomeDocs = {
-  homepage: unknown
-  siteSettings: unknown
-}
-
-export function HomePageClient({ sanityDocs }: { sanityDocs: SanityHomeDocs | null }) {
+export function HomePageClient() {
   const { theme, lang, onToggleTheme, onChangeLang } = useAppContext()
+  const sanityDocs = usePortfolioSanityDocs()
+  const mapped = usePortfolioMapped()
   const t = getTranslations(lang, 'home') as Record<string, string>
-
-  const mapped = useMemo(() => {
-    if (!sanityDocs?.homepage && !sanityDocs?.siteSettings) return null
-    return mapSanityToPortfolio(
-      sanityDocs.homepage as Parameters<typeof mapSanityToPortfolio>[0],
-      sanityDocs.siteSettings as Parameters<typeof mapSanityToPortfolio>[1],
-      lang,
-    )
-  }, [sanityDocs, lang])
 
   const heroPhoto =
     mapped?.personPhotoUrl && mapped.personPhotoUrl.length > 0 ? mapped.personPhotoUrl : null
@@ -156,13 +142,7 @@ export function HomePageClient({ sanityDocs }: { sanityDocs: SanityHomeDocs | nu
    * Hero: 1) homepage.heroContacts 2) кнопки из site settings 3) запасные ссылки (как в схеме Sanity),
    * если CMS пустой или страница без Sanity.
    */
-  const heroContacts = useMemo(() => {
-    if (mapped?.heroContacts && mapped.heroContacts.length > 0) return mapped.heroContacts
-    if (mapped?.contactsButtons && mapped.contactsButtons.length > 0) {
-      return mapped.contactsButtons.map(({ label, href }) => ({ label, href }))
-    }
-    return FALLBACK_HERO_CONTACTS
-  }, [mapped?.heroContacts, mapped?.contactsButtons])
+  const heroContacts = useMemo(() => resolveHeroContactLinks(mapped), [mapped])
 
   const defaultSkillGroups = [
     { title: t.hardSkills, tags: Array.from({ length: 20 }, () => 'Skill') },
@@ -179,7 +159,7 @@ export function HomePageClient({ sanityDocs }: { sanityDocs: SanityHomeDocs | nu
     middleOrder.push(...SECTION_KEYS)
   }
 
-  const contactsTitle = mapped?.contactsTitle?.trim() ? mapped.contactsTitle : t.contactsCta
+  const contactsTitle = resolveContactsSectionTitle(mapped, t.contactsCta)
   const contactsButtons =
     mapped?.contactsButtons && mapped.contactsButtons.length > 0 ? mapped.contactsButtons : undefined
 
