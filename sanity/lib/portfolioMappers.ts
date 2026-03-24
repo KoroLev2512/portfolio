@@ -1,6 +1,7 @@
 import type { Image } from 'sanity'
 
 import { getTranslations, type Lang } from '@/shared/i18n'
+import { hrefProjectBySlug, projectUrlSegmentFromSanitySlug } from '@/shared/lib/projectPath'
 import { sanityImageUrl } from './imagePublic'
 
 type LocalizedValue<T = string> = { ru?: T; en?: T }
@@ -121,6 +122,7 @@ export type PortfolioProjectCard = {
   skills: string[]
   coverUrl: string | null
   href: string
+  slug?: string
 }
 
 export type PortfolioMapped = {
@@ -211,12 +213,15 @@ function mapProjects(projects: SanityHomepageProject[] | undefined, lang: Lang):
       ? sanityImageUrl(project.coverImage, 512, { format: 'webp', quality: 82 })
       : null
     const tags = pickLocale(project.tags, lang) ?? []
+    const rawSlug = typeof project.slug === 'string' ? project.slug.trim() : ''
+    const segment = rawSlug ? projectUrlSegmentFromSanitySlug(rawSlug) : ''
     return {
       name: pickLocale(project.title, lang) || 'Project',
       description: pickLocale(project.shortDescription, lang) || '',
       skills: tags.length ? tags : ['Tag'],
       coverUrl,
-      href: '/project',
+      slug: segment || undefined,
+      href: rawSlug ? hrefProjectBySlug(rawSlug) : '/',
     }
   })
 }

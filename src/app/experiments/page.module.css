@@ -32,13 +32,35 @@
   grid-column: span 2;
 }
 
-/* project-card overrides: image-only tiles */
-.galleryTile:global(.project-card) {
-  flex-direction: column;
-  align-items: stretch;
-  padding: 12px;
-  gap: 0;
+.galleryTile {
+  display: block;
   min-height: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  translate: 0 24px;
+  transition:
+    opacity 600ms ease-out,
+    translate 600ms ease-out,
+    box-shadow 300ms ease-out;
+}
+
+.galleryTile:global(.revealed) {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.galleryTile:hover {
+  box-shadow:
+    0 12px 32px -6px rgba(6, 7, 8, 0.8),
+    0 32px 72px -14px rgba(10, 11, 13, 0.6);
+}
+
+[data-theme='light'] .galleryTile:hover {
+  box-shadow:
+    0 8px 24px -6px rgba(51, 65, 85, 0.14),
+    0 24px 64px -12px rgba(71, 85, 105, 0.1);
 }
 
 .galleryTileInner {
@@ -46,9 +68,9 @@
   isolation: isolate;
   width: 100%;
   aspect-ratio: 2 / 3;
-  border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--border);
+  border-radius: 24px;
 }
 
 .gallery > *:nth-child(3n) .galleryTileInner {
@@ -57,9 +79,8 @@
 
 .galleryImg {
   display: block;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
-  padding: 8%;
   transition:
     scale 300ms ease-out,
     opacity 600ms ease-out,
@@ -70,36 +91,12 @@
   scale: 1.05;
 }
 
-.grad0 {
-  background: linear-gradient(145deg, #4f8df5 0%, #8b5cf6 55%, #c084fc 100%);
-}
-
-.grad1 {
-  background: linear-gradient(155deg, #f97316 0%, #fb923c 45%, #fcd34d 100%);
-}
-
-.grad2 {
-  background: linear-gradient(135deg, #6366f1 0%, #14b8a6 65%, #22d3ee 100%);
-}
-
-.grad3 {
-  background: linear-gradient(160deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
-}
-
-.grad4 {
-  background: linear-gradient(140deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
-}
-
-.grad5 {
-  background: linear-gradient(145deg, #f59e0b 0%, #ef4444 48%, #db2777 100%);
-}
-
 @media (max-width: 768px) {
   .titleSection {
     padding: 40px 16px;
   }
 
-  .galleryTile:global(.project-card) {
+  .galleryTile {
     min-height: 0;
   }
 }

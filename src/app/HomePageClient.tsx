@@ -42,7 +42,7 @@ function ProjectCard({
   description = 'A description of the project in several lines, reflecting the general idea.',
   coverUrl,
   coverAlt,
-  href = '/project',
+  href = '/',
 }: {
   name?: string
   skills?: string[]

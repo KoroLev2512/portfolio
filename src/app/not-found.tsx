@@ -33,7 +33,7 @@ function NotFoundError({ lang }: { lang: Lang }) {
 
 function ProjectCard({ name = 'Project Name', coverAlt }: { name?: string; coverAlt: string }) {
   return (
-    <Link href="/project" className="project-card project-card-link">
+    <Link href="/" className="project-card project-card-link">
       <div className="project-cover">
         <Image
           src={mockupImg}

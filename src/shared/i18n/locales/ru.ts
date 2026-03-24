@@ -44,6 +44,7 @@ export const project = {
   subtitle: 'Subtitle',
   prevProject: 'Предыдущий проект',
   nextProject: 'Следующий проект',
+  navBackToProjects: 'Все проекты',
   altPageHeroNamed: 'Иллюстрация в шапке страницы проекта «{name}»',
   closeImageModal: 'Закрыть увеличенное изображение',
 } as const

@@ -12,37 +12,29 @@ import { useAppContext } from '@/shared/lib/AppContext'
 import { useContactsBlockProps } from '@/shared/lib/PortfolioSanityContext'
 import styles from './page.module.css'
 
-const GALLERY: { wide: boolean; gradient: keyof typeof styles; image: 'single' | 'triple' }[] = [
-  { wide: false, gradient: 'grad0', image: 'triple' },
-  { wide: false, gradient: 'grad1', image: 'single' },
-  { wide: true, gradient: 'grad2', image: 'single' },
-  { wide: false, gradient: 'grad3', image: 'single' },
-  { wide: false, gradient: 'grad4', image: 'triple' },
-  { wide: true, gradient: 'grad5', image: 'triple' },
+const GALLERY: { wide: boolean; image: 'single' | 'triple' }[] = [
+  { wide: false, image: 'triple' },
+  { wide: false, image: 'single' },
+  { wide: true, image: 'single' },
+  { wide: false, image: 'single' },
+  { wide: false, image: 'triple' },
+  { wide: true, image: 'triple' },
 ]
 
 function GalleryTile({
   wide,
-  gradient,
   variant,
   alt,
 }: {
   wide: boolean
-  gradient: keyof typeof styles
   variant: 'single' | 'triple'
   alt: string
 }) {
   const src = variant === 'triple' ? mockupsImg : mockupImg
-  const gradClass = styles[gradient]
 
   return (
     <div
-      className={`
-        project-card
-        ${styles.galleryTile}
-        ${wide ? styles.galleryWide : ''}
-        ${gradClass}
-      `}
+      className={`experiments-gallery-tile ${styles.galleryTile} ${wide ? styles.galleryWide : ''}`}
     >
       <div className={styles.galleryTileInner}>
         <Image
@@ -50,7 +42,7 @@ function GalleryTile({
           alt={alt}
           fill
           sizes={wide ? '(max-width: 720px) 100vw, 720px' : '(max-width: 720px) 50vw, 360px'}
-          className={`${styles.galleryImg} img-reveal`}
+          className={styles.galleryImg}
         />
       </div>
     </div>
@@ -83,7 +75,6 @@ export default function ExperimentsPage() {
             <GalleryTile
               key={i}
               wide={item.wide}
-              gradient={item.gradient}
               variant={item.image}
               alt={item.image === 'triple' ? t.altGalleryMockupsRow : t.altGalleryMockup}
             />

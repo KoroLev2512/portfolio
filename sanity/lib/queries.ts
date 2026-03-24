@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
 
 export const projectBySlugQuery = groq`
-  *[_type == "project" && slug.current == $slug][0]{
+  *[_type == "project" && slug.current in $slugs][0]{
     _id,
     title,
     "slug": slug.current,
@@ -20,18 +20,20 @@ export const projectBySlugQuery = groq`
     "sections": coalesce(sections, [])[]{
       title,
       "blocks": coalesce(blocks, [])[]{
-        ...,
-        _type == "imageBlock" => {
-          ...,
-          image
-        }
+        _type,
+        _key,
+        _type == "blockTitle" => { "text": text },
+        _type == "textBlock" => { "text": text },
+        _type == "listBlock" => { "items": items },
+        _type == "imageBlock" => { image, alt, caption },
+        _type == "quoteBlock" => { "quoteHeading": title, text }
       }
     }
   }
 `;
 
 export const projectMetadataBySlugQuery = groq`
-  *[_type == "project" && slug.current == $slug][0]{
+  *[_type == "project" && slug.current in $slugs][0]{
     title,
     shortDescription
   }
@@ -54,6 +56,18 @@ export const projectsQuery = groq`
       coverImage
     }, [])
   }.items
+`;
+
+/** Slugs в порядке главной — для static params и совпадения с карточками на сайте */
+export const homepageProjectSlugsQuery = groq`
+  *[_type == "homepage"] | order(_updatedAt desc)[0]{
+    "slugs": coalesce(homepageProjects[]->slug.current, [])
+  }.slugs
+`;
+
+/** Все опубликованные проекты со slug — нужно для `output: export` (каждый открываемый URL должен быть в generateStaticParams) */
+export const allProjectSlugsQuery = groq`
+  array::unique(coalesce(*[_type == "project" && defined(slug.current)].slug.current, []))
 `;
 
 /**

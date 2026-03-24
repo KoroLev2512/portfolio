@@ -1,4 +1,5 @@
-const RIPPLE_SELECTORS = '.btn, .project-card, .project-nav-btn, .project-card-link'
+const RIPPLE_SELECTORS =
+  '.btn, .project-card, .project-nav-btn, .project-card-link, .experiments-gallery-tile'
 
 export function initRipple() {
   if (typeof document === 'undefined') return

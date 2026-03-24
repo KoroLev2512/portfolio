@@ -1,4 +1,5 @@
-const SELECTOR = '.img-reveal, .text-reveal-title, .text-reveal-body, .project-card, .experiments-card'
+const SELECTOR =
+  '.img-reveal, .text-reveal-title, .text-reveal-body, .project-card, .experiments-card, .experiments-gallery-tile'
 const TEXT_SELECTOR = '.text-reveal-title, .text-reveal-body'
 const STAGGER_MS = 75
 

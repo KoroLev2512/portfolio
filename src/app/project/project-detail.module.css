@@ -1,8 +1,26 @@
+/* Перебивает globals: у .section.section-lines-top-down снизу 0 — нужны 20px со всех сторон */
+:global(section.section.section-lines-top-down).project-detail-intro {
+  padding: 20px;
+}
+
+.project-detail-intro .project-detail-hero {
+  margin-bottom: 32px;
+}
+
+.project-detail-head-inner {
+  padding: 20px;
+}
+
 .project-detail-hero {
   margin-bottom: 0;
   width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .project-detail-hero-img {
@@ -12,19 +30,22 @@
   display: block;
   margin: 0 auto;
   object-fit: contain;
+  border-radius: 12px;
 }
 
-:global(section.section).project-detail-section-title-block {
-  padding-bottom: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-:global(section.section).project-detail-content-block {
-  padding: 0 20px;
+:global(section.section).project-detail-section-unified {
+  padding: 20px 20px 40px 20px;
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.project-detail-section-title-inner {
+  padding: 20px 20px 8px 20px;
+}
+
+.project-detail-section-title-inner .project-detail-section-title {
+  margin-bottom: 0;
 }
 
 .project-detail-padding {
@@ -224,8 +245,9 @@
     padding: 20px 16px;
   }
 
-  :global(section.section).project-detail-content-block {
-    padding: 0 16px 40px;
+  :global(section.section).project-detail-section-unified {
+    padding: 16px;
+    padding-bottom: 40px;
   }
 
   .project-detail-meta {
