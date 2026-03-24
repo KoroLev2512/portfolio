@@ -6,6 +6,11 @@ import { AppProvider } from '@/shared/lib/AppContext'
 import { PortfolioSanityProvider } from '@/shared/lib/PortfolioSanityContext'
 import { getPortfolioHomeDocuments } from '@/sanity/lib/getPortfolioHome'
 import { getDeployBasePath } from '@/shared/lib/deployBasePath'
+import {
+  absoluteUrlForPublicFile,
+  getMetadataBaseUrl,
+  getPublicSiteOrigin,
+} from '@/shared/lib/publicSiteUrl'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -21,33 +26,24 @@ const geistMono = Geist_Mono({
 
 const basePath = getDeployBasePath()
 
-function getMetadataBase(): URL | undefined {
-  const raw =
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '')
-  if (!raw) return undefined
-  try {
-    return new URL(raw.endsWith('/') ? raw.slice(0, -1) : raw)
-  } catch {
-    return undefined
-  }
-}
-
-const ogImageRu = `${basePath}/metadata_ru.png`
-const ogImageEn = `${basePath}/metadata_en.png`
+const ogImageEnAbs = absoluteUrlForPublicFile('metadata_en.png')
+const ogImageRuAbs = absoluteUrlForPublicFile('metadata_ru.png')
+const ogImageEn = ogImageEnAbs ?? `${basePath}/metadata_en.png`
+const ogImageRu = ogImageRuAbs ?? `${basePath}/metadata_ru.png`
 
 export const metadata: Metadata = {
-  metadataBase: getMetadataBase(),
+  metadataBase: getMetadataBaseUrl(),
   title: 'Korolev Yurii',
   description: 'Frontend developer',
   icons: {
-    icon: `${basePath}/favicon.ico`,
+    icon: absoluteUrlForPublicFile('favicon.ico') ?? `${basePath}/favicon.ico`,
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     alternateLocale: ['ru_RU'],
     siteName: 'Portfolio',
+    url: getPublicSiteOrigin(),
     images: [
       { url: ogImageEn, alt: 'Portfolio — English' },
       { url: ogImageRu, alt: 'Portfolio — Russian' },
