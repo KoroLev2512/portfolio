@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import darkImg from '@/../public/dark.png'
-import lightImg from '@/../public/light.png'
-import mockupsImg from '@/../public/mockups.png'
+import darkImg from '@/../public/dark.webp'
+import lightImg from '@/../public/light.webp'
+import mockupsImg from '@/../public/mockups.webp'
 import styles from './ExperimentsCard.module.css'
 
 type Theme = 'dark' | 'light'
@@ -14,11 +14,15 @@ export function ExperimentsCard({
   experimentsTitle,
   experimentsDesc,
   href,
+  altMockupsBg,
+  altGradient,
 }: {
   theme: Theme
   experimentsTitle: string
   experimentsDesc: string
   href?: string
+  altMockupsBg: string
+  altGradient: string
 }) {
   const content = (
     <>
@@ -27,16 +31,18 @@ export function ExperimentsCard({
       <div className={styles['experiments-bg']}>
         <Image
           src={mockupsImg}
-          alt="background-mockups"
+          alt={altMockupsBg}
           className={styles['experiments-bg-img']}
+          sizes="(max-width: 768px) 92vw, 640px"
         />
       </div>
       <div className={styles['experiments-gradient']}>
         <Image
           src={theme === 'dark' ? darkImg : lightImg}
-          alt=""
+          alt={altGradient}
           className={styles['experiments-gradient-img']}
           fill
+          sizes="(max-width: 768px) 90vw, 260px"
         />
       </div>
     </>

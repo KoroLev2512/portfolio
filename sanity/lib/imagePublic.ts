@@ -12,12 +12,23 @@ function getBuilder() {
   return createImageUrlBuilder({ projectId, dataset })
 }
 
+export type SanityImageFormat = 'webp' | 'jpg' | 'png' | 'pjpg'
+
 /** URL картинки или `null`, если нет env или ассета */
-export function sanityImageUrl(source: Image | undefined, width: number, quality = 85): string | null {
+export function sanityImageUrl(
+  source: Image | undefined,
+  width: number,
+  options?: { quality?: number; format?: SanityImageFormat },
+): string | null {
   const builder = getBuilder()
   if (!builder || !source) return null
+  const quality = options?.quality ?? 85
   try {
-    return builder.image(source).width(width).quality(quality).url()
+    let img = builder.image(source).width(width).quality(quality)
+    if (options?.format) {
+      img = img.format(options.format)
+    }
+    return img.url()
   } catch {
     return null
   }

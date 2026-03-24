@@ -5,7 +5,7 @@ import { ContactsBlock } from '@/shared/ui/ContactsBlock'
 import { Pattern } from '@/shared/ui/Pattern'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
 import projectImg from '@/../public/project.png'
-import { getTranslations, projectData, getProjectDescription } from '@/shared/i18n'
+import { fillNameInAlt, getTranslations, projectData, getProjectDescription } from '@/shared/i18n'
 import { Header } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
@@ -20,6 +20,7 @@ export default function ProjectPage() {
 
   const t = getTranslations(lang, 'project') as Record<string, string>
   const description = getProjectDescription(lang)
+  const heroAlt = fillNameInAlt(t.altPageHeroNamed, projectData.title)
 
   return (
     <main className="portfolio">
@@ -27,7 +28,7 @@ export default function ProjectPage() {
 
       <section className="section section-lines-top-down">
         <div className={styles['project-detail-hero']}>
-          <Image src={projectImg} alt="" className={`${styles['project-detail-hero-img']} img-reveal`} />
+          <Image src={projectImg} alt={heroAlt} className={`${styles['project-detail-hero-img']} img-reveal`} />
         </div>
       </section>
 

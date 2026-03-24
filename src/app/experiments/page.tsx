@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import mockupImg from '@/../public/mockup.png'
-import mockupsImg from '@/../public/mockups.png'
+import mockupImg from '@/../public/mockup.webp'
+import mockupsImg from '@/../public/mockups.webp'
 import { ContactsBlock } from '@/shared/ui/ContactsBlock'
 import { Pattern } from '@/shared/ui/Pattern'
 import { getTranslations, type Lang } from '@/shared/i18n'
@@ -25,10 +25,12 @@ function GalleryTile({
   wide,
   gradient,
   variant,
+  alt,
 }: {
   wide: boolean
   gradient: keyof typeof styles
   variant: 'single' | 'triple'
+  alt: string
 }) {
   const src = variant === 'triple' ? mockupsImg : mockupImg
   const gradClass = styles[gradient]
@@ -45,7 +47,7 @@ function GalleryTile({
       <div className={styles.galleryTileInner}>
         <Image
           src={src}
-          alt=""
+          alt={alt}
           fill
           sizes={wide ? '(max-width: 720px) 100vw, 720px' : '(max-width: 720px) 50vw, 360px'}
           className={`${styles.galleryImg} img-reveal`}
@@ -78,7 +80,13 @@ export default function ExperimentsPage() {
       <section className="section">
         <div className={styles.gallery} aria-label={t.pageTitle}>
           {GALLERY.map((item, i) => (
-            <GalleryTile key={i} wide={item.wide} gradient={item.gradient} variant={item.image} />
+            <GalleryTile
+              key={i}
+              wide={item.wide}
+              gradient={item.gradient}
+              variant={item.image}
+              alt={item.image === 'triple' ? t.altGalleryMockupsRow : t.altGalleryMockup}
+            />
           ))}
         </div>
       </section>

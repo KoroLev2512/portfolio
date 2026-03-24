@@ -4,12 +4,12 @@ import { Fragment, useMemo } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 import avatarImg from '@/../public/avatar.png'
-import mockupImg from '@/../public/mockup.png'
+import mockupImg from '@/../public/mockup.webp'
 import { ContactsBlock } from '@/shared/ui/ContactsBlock'
 import { Pattern } from '@/shared/ui/Pattern'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
 import { ExperimentsCard } from '@/shared/ui/ExperimentsCard'
-import { getTranslations, type Lang } from '@/shared/i18n'
+import { fillNameInAlt, getTranslations, type Lang } from '@/shared/i18n'
 import { Header, type Theme } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
@@ -41,12 +41,14 @@ function ProjectCard({
   skills = ['Tag', 'Tag', 'Tag', 'Tag', 'Tag', 'Tag'],
   description = 'A description of the project in several lines, reflecting the general idea.',
   coverUrl,
+  coverAlt,
   href = '/project',
 }: {
   name?: string
   skills?: string[]
   description?: string
   coverUrl?: string | null
+  coverAlt: string
   href?: string
 }) {
   const coverSrc: StaticImageData | string = coverUrl ?? mockupImg
@@ -55,9 +57,10 @@ function ProjectCard({
       <div className="project-cover">
         <Image
           src={coverSrc}
-          alt=""
+          alt={coverAlt}
           width={240}
           height={240}
+          sizes="(max-width: 720px) 45vw, 240px"
           className="project-cover-img img-reveal"
           unoptimized={typeof coverSrc === 'string'}
         />
@@ -163,6 +166,9 @@ export function HomePageClient() {
   const contactsButtons =
     mapped?.contactsButtons && mapped.contactsButtons.length > 0 ? mapped.contactsButtons : undefined
 
+  const heroPortraitName = mapped?.personName?.trim() || t.name
+  const heroPhotoAlt = fillNameInAlt(t.altPortraitNamed, heroPortraitName)
+
   const sectionMap: Record<SectionKey, React.ReactNode> = {
     skills: (
       <section className="skills section">
@@ -195,13 +201,14 @@ export function HomePageClient() {
                 description={p.description}
                 skills={p.skills}
                 coverUrl={p.coverUrl}
+                coverAlt={fillNameInAlt(t.altProjectCoverNamed, p.name)}
                 href={p.href}
               />
             ))
           ) : (
             <>
-              <ProjectCard />
-              <ProjectCard />
+              <ProjectCard coverAlt={t.altProjectCoverSample} />
+              <ProjectCard coverAlt={t.altProjectCoverSample} />
             </>
           )}
           <ExperimentsCard
@@ -209,6 +216,8 @@ export function HomePageClient() {
             experimentsTitle={t.experimentsTitle}
             experimentsDesc={t.experimentsDesc}
             href="/experiments"
+            altMockupsBg={t.altExperimentsMockupsBg}
+            altGradient={t.altExperimentsGradient}
           />
         </div>
       </section>
@@ -282,7 +291,7 @@ export function HomePageClient() {
         <div className={styles['hero-container']}>
           <Image
             src={heroPhotoSrc}
-            alt=""
+            alt={heroPhotoAlt}
             width={160}
             height={160}
             className={`${styles['hero-photo']} img-reveal`}

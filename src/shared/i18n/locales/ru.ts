@@ -1,6 +1,7 @@
 export const common = {
   name: 'Королёв Юрий',
   position: 'Фронтенд‑разработчик',
+  altPortraitNamed: 'Портрет: {name}',
   headerCta: 'Связаться',
   footerDesigned: 'Задизайнил Денис Князев',
   contactsTitle: '[ Контакты ]',
@@ -23,6 +24,10 @@ export const home = {
   experimentsDesc: 'Здесь вы найдёте скриншоты, концепты и небольшие интерфейсные эксперименты',
   workTitle: '[ Опыт работы ]',
   educationTitle: '[ Образование ]',
+  altProjectCoverNamed: 'Обложка проекта «{name}»',
+  altProjectCoverSample: 'Пример обложки проекта',
+  altExperimentsMockupsBg: 'Декоративные макеты интерфейса на карточке Experiments',
+  altExperimentsGradient: 'Декоративный градиент на карточке Experiments',
 } as const
 
 export const project = {
@@ -35,16 +40,20 @@ export const project = {
   blockTitle: 'Block Title',
   blockBody:
     "I'm a passionate designer with five years of experience creating user-centered designs that are both beautiful and functional.",
-  imageCaption: 'Image caption',
+  imageCaption: 'Крупный вид макетов интерфейса по этому проекту',
   subtitle: 'Subtitle',
   prevProject: 'Предыдущий проект',
   nextProject: 'Следующий проект',
+  altPageHeroNamed: 'Иллюстрация в шапке страницы проекта «{name}»',
+  closeImageModal: 'Закрыть увеличенное изображение',
 } as const
 
 export const experiments = {
   pageTitle: 'Эксперименты',
   pageSubtitle:
     'Тут собраны идеи, концепты и небольшие интересные эксперименты',
+  altGalleryMockup: 'Элемент галереи: один макет интерфейса',
+  altGalleryMockupsRow: 'Элемент галереи: несколько макетов интерфейса',
 } as const
 
 export const notfound = {
@@ -57,4 +66,5 @@ export const notfound = {
   experimentsTitle: 'Или загляните сюда',
   experimentsDesc: 'Здесь вы найдёте скриншоты, концепты и небольшие интерфейсные эксперименты',
   contactsTitle: 'Свяжитесь со мной',
+  altPlaceholderProjectCover: 'Заглушка обложки проекта',
 } as const

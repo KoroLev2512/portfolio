@@ -41,7 +41,11 @@ export function ProjectDetailContent({
           {t.blockBody}
         </ProjectDetailBody>
         <ProjectDetailList items={listItems} className={`text-reveal-body ${styles['project-detail-padding-list']}`} />
-        <ProjectDetailPhoto projectImg={projectImg} caption={t.imageCaption} />
+        <ProjectDetailPhoto
+          projectImg={projectImg}
+          caption={t.imageCaption}
+          closeModalAriaLabel={t.closeImageModal}
+        />
         <ProjectDetailSubtitleBlock
             subtitle={t.subtitle}
             description={t.blockBody}

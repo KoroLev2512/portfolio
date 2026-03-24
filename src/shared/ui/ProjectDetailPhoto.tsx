@@ -8,9 +8,10 @@ import styles from './ProjectDetailPhoto.module.css'
 interface ProjectDetailPhotoProps {
   projectImg: StaticImageData
   caption: string
+  closeModalAriaLabel: string
 }
 
-export function ProjectDetailPhoto({ projectImg, caption }: ProjectDetailPhotoProps) {
+export function ProjectDetailPhoto({ projectImg, caption, closeModalAriaLabel }: ProjectDetailPhotoProps) {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false)
 
   return (
@@ -28,7 +29,7 @@ export function ProjectDetailPhoto({ projectImg, caption }: ProjectDetailPhotoPr
           <div className={styles['project-detail-mockups-second']}>
             <Image
               src={projectImg}
-              alt=""
+              alt={caption}
               className={`${styles['project-detail-hero-img']} img-reveal`}
             />
           </div>
@@ -48,12 +49,12 @@ export function ProjectDetailPhoto({ projectImg, caption }: ProjectDetailPhotoPr
               type="button"
               className={styles['project-detail-modal-close']}
               onClick={() => setIsImageModalOpen(false)}
-              aria-label="Close image"
+              aria-label={closeModalAriaLabel}
             >
               <CancelIcon />
             </button>
             <div className={styles['project-detail-modal-image-wrap']}>
-              <Image src={projectImg} alt="" className={styles['project-detail-modal-image']} />
+              <Image src={projectImg} alt={caption} className={styles['project-detail-modal-image']} />
             </div>
             <p className={styles['project-detail-modal-caption']}>{caption}</p>
           </div>

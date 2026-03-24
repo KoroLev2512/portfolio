@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { getTranslations, type Lang } from '@/shared/i18n'
+import { fillNameInAlt, getTranslations, type Lang } from '@/shared/i18n'
 import { usePortfolioMapped } from '@/shared/lib/PortfolioSanityContext'
 import { resolveContactsSectionTitle } from '@/shared/lib/portfolioContacts'
 import { SendIcon } from '@/shared/ui/SendIcon'
@@ -51,6 +51,7 @@ export function Header({
         ? photoFromCms
         : avatarImg
   const ctaLabel = resolveContactsSectionTitle(mapped, t.contactsCta)
+  const photoAlt = fillNameInAlt(t.altPortraitNamed, displayName)
 
   const handleContactsClick = () => {
     if (typeof document === 'undefined') return
@@ -63,7 +64,7 @@ export function Header({
     <>
       <Image
         src={photoSrc}
-        alt=""
+        alt={photoAlt}
         width={40}
         height={40}
         className={`${styles['header-photo']} img-reveal`}

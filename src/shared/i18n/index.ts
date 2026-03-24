@@ -15,5 +15,10 @@ export function getTranslations(lang: Lang, namespace: Namespace): Record<string
   return { ...common, ...ns } as Record<string, string>
 }
 
+/** Подставляет `{name}` в шаблоны alt-текста. */
+export function fillNameInAlt(template: string, name: string): string {
+  return template.replace(/\{name\}/g, name)
+}
+
 /** Данные проекта (контент) и описание по языку */
 export { projectData, getProjectDescription }

@@ -207,7 +207,9 @@ type SanitySiteSettings = {
 
 function mapProjects(projects: SanityHomepageProject[] | undefined, lang: Lang): PortfolioProjectCard[] {
   return (projects ?? []).map((project) => {
-    const coverUrl = project.coverImage ? sanityImageUrl(project.coverImage, 1200) : null
+    const coverUrl = project.coverImage
+      ? sanityImageUrl(project.coverImage, 512, { format: 'webp', quality: 82 })
+      : null
     const tags = pickLocale(project.tags, lang) ?? []
     return {
       name: pickLocale(project.title, lang) || 'Project',
@@ -281,8 +283,9 @@ export function mapSanityToPortfolio(
       }))
       .filter((e) => e.organization || e.specialization || e.level)
 
+  /** Hero/шапка ~160px (×2 retina); WebP с Sanity CDN */
   const personPhotoUrl = siteSettings?.personPhoto
-    ? sanityImageUrl(siteSettings.personPhoto, 1200)
+    ? sanityImageUrl(siteSettings.personPhoto, 384, { format: 'webp', quality: 82 })
     : null
 
   const contactsButtons =

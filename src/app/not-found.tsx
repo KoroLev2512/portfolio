@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ContactsBlock } from '@/shared/ui/ContactsBlock'
 import { Pattern } from '@/shared/ui/Pattern'
 import { ExperimentsCard } from '@/shared/ui/ExperimentsCard'
-import mockupImg from '@/../public/mockup.png'
+import mockupImg from '@/../public/mockup.webp'
 import { getTranslations, type Lang } from '@/shared/i18n'
 import { Header, type Theme } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
@@ -31,11 +31,18 @@ function NotFoundError({ lang }: { lang: Lang }) {
   )
 }
 
-function ProjectCard({ name = 'Project Name' }: { name?: string }) {
+function ProjectCard({ name = 'Project Name', coverAlt }: { name?: string; coverAlt: string }) {
   return (
     <Link href="/project" className="project-card project-card-link">
       <div className="project-cover">
-        <Image src={mockupImg} alt="" className="project-cover-img img-reveal" />
+        <Image
+          src={mockupImg}
+          alt={coverAlt}
+          width={240}
+          height={240}
+          sizes="(max-width: 720px) 45vw, 240px"
+          className="project-cover-img img-reveal"
+        />
       </div>
       <div className="project-details">
         <div>
@@ -68,8 +75,8 @@ function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
               {t.projectsTitle}
             </p>
             <div className="projects-list">
-              <ProjectCard />
-              <ProjectCard />
+              <ProjectCard coverAlt={t.altPlaceholderProjectCover} />
+              <ProjectCard coverAlt={t.altPlaceholderProjectCover} />
             </div>
           </div>
           <div className={styles['recommendation-experiments']}>
@@ -81,6 +88,8 @@ function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
               experimentsTitle={homeT.experimentsTitle}
               experimentsDesc={homeT.experimentsDesc}
               href="/experiments"
+              altMockupsBg={homeT.altExperimentsMockupsBg}
+              altGradient={homeT.altExperimentsGradient}
             />
           </div>
         </div>
