@@ -39,7 +39,7 @@ const ogImageEn = `${basePath}/metadata_en.png`
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
   title: 'Korolev Yurii',
-  description: 'Frontend developer portfolio',
+  description: 'Frontend developer',
   icons: {
     icon: `${basePath}/favicon.ico`,
   },
