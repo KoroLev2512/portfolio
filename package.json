@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
-    "preview": "PREVIEW=1 next build && npx serve out",
+    "preview": "PREVIEW=1 next build --webpack && npx serve out",
     "lint": "eslint",
-    "export": "next build",
-    "deploy": "next build && npx gh-pages -d out",
+    "export": "next build --webpack",
+    "deploy": "next build --webpack && npx gh-pages -d out",
     "sanity:deploy": "node scripts/run-sanity.mjs deploy",
     "sanity:dev": "node scripts/run-sanity.mjs dev",
     "images:optimize": "node scripts/optimize-public-images.mjs"
