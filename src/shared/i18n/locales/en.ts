@@ -1,7 +1,6 @@
 export const common = {
   name: 'Korolev Yurii',
   position: 'Frontend developer',
-  /** {name} — имя с сайта / CMS */
   altPortraitNamed: 'Portrait of {name}',
   headerCta: 'Get in touch',
   footerDesigned: 'Designed by Denis Knyazev',

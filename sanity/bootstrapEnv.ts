@@ -1,7 +1,3 @@
-/**
- * Подгружает `.env` и `.env.local` до старта Vite в `sanity dev` / `sanity deploy`.
- * В бандл студии попадают только `SANITY_STUDIO_*`, поэтому дублируем сюда `NEXT_PUBLIC_*`.
- */
 import { config as loadEnv } from 'dotenv'
 import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'

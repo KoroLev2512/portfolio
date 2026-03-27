@@ -12,7 +12,6 @@ export type FooterProps = {
   lang: Lang
   onToggleTheme: (e: React.MouseEvent<HTMLElement>) => void
   onChangeLang: (lang: Lang) => void
-  /** Добавить класс text-reveal-body к блоку текста футера (главная, 404) */
   useReveal?: boolean
 }
 

@@ -1,7 +1,3 @@
-/**
- * This configuration file lets you run `$ sanity [command]` in this folder
- * Go to https://www.sanity.io/docs/cli to learn more.
- **/
 import './sanity/bootstrapEnv'
 import { defineCliConfig } from 'sanity/cli'
 import { mergeConfig } from 'vite'
@@ -10,7 +6,6 @@ function stripEnv(v: string | undefined): string {
   return (v ?? '').replace(/^["']|["']$/g, '').trim()
 }
 
-/** Те же приоритеты, что в `sanity/env.ts` — для CLI и для Vite `define` студии */
 function resolveStudioProjectId(): string {
   return (
     stripEnv(process.env.SANITY_STUDIO_PROJECT_ID) ||
@@ -41,11 +36,6 @@ function resolveStudioApiVersion(): string {
 const projectId = resolveStudioProjectId()
 const dataset = resolveStudioDataset()
 
-/**
- * Без этого Vite вшивает только те `SANITY_STUDIO_*`, что уже есть в `process.env`.
- * Если в `.env.local` только `NEXT_PUBLIC_*`, подстановка в бандл студии могла остаться пустой.
- * Здесь явно переопределяем `define` после bootstrap/run-sanity.
- */
 export default defineCliConfig({
   api: { projectId, dataset },
   vite: async (config) => {

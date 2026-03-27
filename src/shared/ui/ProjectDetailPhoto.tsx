@@ -2,6 +2,7 @@
 
 import Image, { type StaticImageData } from 'next/image'
 import { useMemo, useState } from 'react'
+import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import { CancelIcon } from './CancelIcon'
 import styles from './ProjectDetailPhoto.module.css'
 
@@ -11,7 +12,6 @@ interface ProjectDetailPhotoProps {
   closeModalAriaLabel: string
 }
 
-/** Размеры из имени ассета Sanity (`…-3440x1439.png?…`) */
 function parseSanityAssetDimensions(src: string): { w: number; h: number } | null {
   const m = src.match(/-(\d+)x(\d+)\.[^./?]+(?:\?|$)/i)
   if (!m) return null
@@ -47,20 +47,21 @@ export function ProjectDetailPhoto({ projectImg, caption, closeModalAriaLabel }:
           type="button"
           className={styles['project-detail-photo-button']}
           onClick={() => {
-            if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) return
+            if (typeof window !== 'undefined' && window.matchMedia('(max-width: 48rem)').matches) return
             setIsImageModalOpen(true)
           }}
           aria-label={caption}
         >
           <div className={styles['project-detail-mockups-second']}>
-            <Image
+            <ImageWithLoader
               src={projectImg}
               alt={caption}
               width={width}
               height={height}
-              sizes="(max-width: 768px) 100vw, 720px"
-              className={`${styles['project-detail-hero-img']} img-reveal`}
+              sizes="(max-width: 48rem) 100vw, 45rem"
+              className={styles['project-detail-hero-img']}
               unoptimized={unoptimized}
+              wrapperClassName={styles['project-detail-photo-loader']}
             />
           </div>
         </button>
@@ -89,7 +90,7 @@ export function ProjectDetailPhoto({ projectImg, caption, closeModalAriaLabel }:
                 alt={caption}
                 width={width}
                 height={height}
-                sizes="(max-width: 1000px) 100vw, 960px"
+                sizes="(max-width: 62.5rem) 100vw, 60rem"
                 className={styles['project-detail-modal-image']}
                 unoptimized={unoptimized}
               />

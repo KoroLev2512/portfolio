@@ -32,7 +32,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>('en')
   const hasRestoredTheme = useRef(false)
 
-  // Sync data-theme attribute
   useLayoutEffect(() => {
     if (typeof document === 'undefined') return
     document.documentElement.setAttribute('data-theme', theme)
@@ -41,37 +40,35 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [theme])
 
-  // Restore theme and lang from localStorage on first mount
   useEffect(() => {
     if (typeof window === 'undefined') return
+    queueMicrotask(() => {
+      const storedTheme = localStorage.getItem(THEME_KEY) as Theme | null
+      const nextTheme: Theme =
+        storedTheme === 'dark' || storedTheme === 'light'
+          ? storedTheme
+          : window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
+      setTheme(nextTheme)
+      hasRestoredTheme.current = true
 
-    const storedTheme = localStorage.getItem(THEME_KEY) as Theme | null
-    const nextTheme: Theme =
-      storedTheme === 'dark' || storedTheme === 'light'
-        ? storedTheme
-        : window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light'
-    setTheme(nextTheme)
-    hasRestoredTheme.current = true
-
-    const storedLang = localStorage.getItem(LANG_KEY) as Lang | null
-    let nextLang: Lang = 'en'
-    if (storedLang === 'ru' || storedLang === 'en') {
-      nextLang = storedLang
-    } else if (typeof navigator !== 'undefined') {
-      nextLang = navigator.language.toLowerCase().startsWith('ru') ? 'ru' : 'en'
-    }
-    setLang(nextLang)
+      const storedLang = localStorage.getItem(LANG_KEY) as Lang | null
+      let nextLang: Lang = 'en'
+      if (storedLang === 'ru' || storedLang === 'en') {
+        nextLang = storedLang
+      } else if (typeof navigator !== 'undefined') {
+        nextLang = navigator.language.toLowerCase().startsWith('ru') ? 'ru' : 'en'
+      }
+      setLang(nextLang)
+    })
   }, [])
 
-  // Persist lang changes and re-trigger reveal animations
   const langMounted = useRef(false)
   useEffect(() => {
     if (typeof window === 'undefined') return
     localStorage.setItem(LANG_KEY, lang)
-    
-    // Only reset if lang was already mounted (to avoid resetting on initial restore)
+
     if (langMounted.current) {
       resetTextReveals()
       resetTagReveals()
@@ -102,7 +99,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         Math.max(y, window.innerHeight - y),
       )
 
-      const transition = (document as any).startViewTransition(() => {
+      const transition = document.startViewTransition(() => {
         flushSync(() => setTheme(nextTheme))
       })
 

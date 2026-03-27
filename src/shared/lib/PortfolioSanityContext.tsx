@@ -41,7 +41,6 @@ export function usePortfolioMapped(): PortfolioMapped | null {
   }, [docs, lang])
 }
 
-/** Заголовок и кнопки блока «Контакты», как на главной (Sanity siteSettings + i18n). */
 export function useContactsBlockProps() {
   const { lang } = useAppContext()
   const mapped = usePortfolioMapped()

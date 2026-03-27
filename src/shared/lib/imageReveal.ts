@@ -38,6 +38,7 @@ export function initImageReveal() {
 
   function observe() {
     document.querySelectorAll<HTMLElement>(SELECTOR).forEach((el) => {
+      if (el.hasAttribute('data-reveal-when-loaded')) return
       if (!el.classList.contains('revealed')) {
         observer!.observe(el)
       }
@@ -60,7 +61,6 @@ export function resetTextReveals() {
     el.style.transitionDelay = ''
   })
 
-  // force reflow
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   document.body.offsetHeight
 

@@ -13,10 +13,6 @@ function pickLocale<T = string>(field: LocalizedValue<T> | T | undefined, lang: 
   return loc[lang] ?? loc.en ?? loc.ru
 }
 
-/**
- * В схеме skillGroup.items — объект { ru: string[], en: string[] }.
- * Старый GROQ `coalesce(items, [])` подменял отсутствие на []-массив и ломал pickLocale.
- */
 function pickSkillGroupItems(items: unknown, lang: Lang): string[] {
   if (items == null) return []
   if (Array.isArray(items)) {
@@ -30,7 +26,6 @@ function pickSkillGroupItems(items: unknown, lang: Lang): string[] {
   return []
 }
 
-/** Подпись для ссылки, если в CMS не заполнена локаль */
 function labelFromHref(href: string): string {
   const h = href.trim()
   if (!h) return ''
@@ -80,7 +75,6 @@ function getSkillGroupTitle(
   }
 }
 
-/** Есть ли непустой текст хотя бы в одной локали (или в строке) */
 function localizedHasContent(field: LocalizedValue<string> | string | undefined | null): boolean {
   if (field == null) return false
   if (typeof field === 'string') return field.trim().length > 0
@@ -288,7 +282,6 @@ export function mapSanityToPortfolio(
       }))
       .filter((e) => e.organization || e.specialization || e.level)
 
-  /** Hero/шапка ~160px (×2 retina); WebP с Sanity CDN */
   const personPhotoUrl = siteSettings?.personPhoto
     ? sanityImageUrl(siteSettings.personPhoto, 384, { format: 'webp', quality: 82 })
     : null

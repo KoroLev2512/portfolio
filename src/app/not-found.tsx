@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import Link from 'next/link'
 import { ContactsBlock } from '@/shared/ui/ContactsBlock'
 import { Pattern } from '@/shared/ui/Pattern'
@@ -35,13 +35,13 @@ function ProjectCard({ name = 'Project Name', coverAlt }: { name?: string; cover
   return (
     <Link href="/" className="project-card project-card-link">
       <div className="project-cover">
-        <Image
+        <ImageWithLoader
+          fill
+          wrapperClassName="project-cover-loader"
           src={mockupImg}
           alt={coverAlt}
-          width={240}
-          height={240}
-          sizes="(max-width: 720px) 45vw, 240px"
-          className="project-cover-img img-reveal"
+          sizes="(max-width: 45rem) 45vw, 15rem"
+          className="project-cover-img"
         />
       </div>
       <div className="project-details">

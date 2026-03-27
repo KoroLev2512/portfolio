@@ -1,0 +1,54 @@
+.root {
+  position: relative;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.rootFill {
+  width: 100%;
+  height: 100%;
+}
+
+.root :global(img) {
+  position: relative;
+  z-index: 2;
+}
+
+.rootFill :global(img) {
+  position: absolute;
+}
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    100deg,
+    var(--bg-tag) 0%,
+    color-mix(in srgb, var(--text-primary) 8%, var(--bg-tag)) 45%,
+    var(--bg-tag) 90%
+  );
+  background-size: 200% 100%;
+  animation: image-loader-shimmer 1.15s ease-in-out infinite;
+}
+
+[data-theme='light'] .shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--bg-tag) 0%,
+    color-mix(in srgb, var(--text-primary) 6%, var(--bg-tag)) 45%,
+    var(--bg-tag) 90%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes image-loader-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}

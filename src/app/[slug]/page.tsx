@@ -6,7 +6,6 @@ import { getProjectBySlug, getStaticExportProjectSlugs } from '@/sanity/lib/getP
 import { mapSanityProjectDetail } from '@/sanity/lib/projectDetailMapper'
 import { projectUrlSegmentFromSanitySlug } from '@/shared/lib/projectPath'
 
-/** Не совпадать с фиксированными сегментами (например experiments — см. app/experiments). */
 const RESERVED_ROOT_SLUGS = new Set(['experiments'])
 
 const STATIC_EXPORT_SLUG_PLACEHOLDER = '__static_export_no_projects__'
@@ -20,7 +19,7 @@ function normalizeRouteSlugParam(raw: string): string {
   try {
     decoded = decodeURIComponent(raw)
   } catch {
-    /* оставляем raw */
+    decoded = raw
   }
   return projectUrlSegmentFromSanitySlug(decoded)
 }

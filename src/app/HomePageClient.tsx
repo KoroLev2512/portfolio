@@ -1,7 +1,8 @@
 'use client'
 
 import { Fragment, useMemo } from 'react'
-import Image, { type StaticImageData } from 'next/image'
+import { type StaticImageData } from 'next/image'
+import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import Link from 'next/link'
 import avatarImg from '@/../public/avatar.png'
 import mockupImg from '@/../public/mockup.webp'
@@ -9,8 +10,8 @@ import { ContactsBlock } from '@/shared/ui/ContactsBlock'
 import { Pattern } from '@/shared/ui/Pattern'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
 import { ExperimentsCard } from '@/shared/ui/ExperimentsCard'
-import { fillNameInAlt, getTranslations, type Lang } from '@/shared/i18n'
-import { Header, type Theme } from '@/widgets/header'
+import { fillNameInAlt, getTranslations } from '@/shared/i18n'
+import { Header } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
 import { usePortfolioMapped, usePortfolioSanityDocs } from '@/shared/lib/PortfolioSanityContext'
@@ -55,13 +56,13 @@ function ProjectCard({
   return (
     <Link href={href} className="project-card project-card-link">
       <div className="project-cover">
-        <Image
+        <ImageWithLoader
+          fill
+          wrapperClassName="project-cover-loader"
           src={coverSrc}
           alt={coverAlt}
-          width={240}
-          height={240}
-          sizes="(max-width: 720px) 45vw, 240px"
-          className="project-cover-img img-reveal"
+          sizes="(max-width: 45rem) 45vw, 15rem"
+          className="project-cover-img"
           unoptimized={typeof coverSrc === 'string'}
         />
       </div>
@@ -141,10 +142,6 @@ export function HomePageClient() {
       : t.heroBio
     : t.heroBio
 
-  /**
-   * Hero: 1) homepage.heroContacts 2) кнопки из site settings 3) запасные ссылки (как в схеме Sanity),
-   * если CMS пустой или страница без Sanity.
-   */
   const heroContacts = useMemo(() => resolveHeroContactLinks(mapped), [mapped])
 
   const defaultSkillGroups = [
@@ -289,12 +286,13 @@ export function HomePageClient() {
 
       <section className={`${styles.hero} section`}>
         <div className={styles['hero-container']}>
-          <Image
+          <ImageWithLoader
             src={heroPhotoSrc}
             alt={heroPhotoAlt}
             width={160}
             height={160}
-            className={`${styles['hero-photo']} img-reveal`}
+            className={styles['hero-photo']}
+            wrapperClassName={styles['hero-photo-wrap']}
             priority
             unoptimized={typeof heroPhotoSrc === 'string' && heroPhotoSrc.startsWith('http')}
           />

@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import mockupImg from '@/../public/mockup.webp'
 import mockupsImg from '@/../public/mockups.webp'
 import { ContactsBlock } from '@/shared/ui/ContactsBlock'
@@ -37,11 +37,12 @@ function GalleryTile({
       className={`experiments-gallery-tile ${styles.galleryTile} ${wide ? styles.galleryWide : ''}`}
     >
       <div className={styles.galleryTileInner}>
-        <Image
+        <ImageWithLoader
+          fill
+          wrapperClassName={styles.galleryImageLoader}
           src={src}
           alt={alt}
-          fill
-          sizes={wide ? '(max-width: 720px) 100vw, 720px' : '(max-width: 720px) 50vw, 360px'}
+          sizes={wide ? '(max-width: 45rem) 100vw, 45rem' : '(max-width: 45rem) 50vw, 22.5rem'}
           className={styles.galleryImg}
         />
       </div>

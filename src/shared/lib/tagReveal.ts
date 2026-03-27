@@ -60,7 +60,6 @@ export function resetTagReveals() {
     el.style.transitionDelay = ''
   })
 
-  // force reflow
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   document.body.offsetHeight
 

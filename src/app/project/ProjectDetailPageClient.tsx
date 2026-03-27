@@ -1,6 +1,7 @@
 'use client'
 
-import Image, { type StaticImageData } from 'next/image'
+import { type StaticImageData } from 'next/image'
+import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import { useMemo } from 'react'
 import mockupImg from '@/../public/mockup.webp'
 import {
@@ -34,23 +35,20 @@ export function ProjectDetailPageClient({ sanityDoc, slug }: ProjectDetailPageCl
 
   const mapped = useMemo(() => mapSanityProjectDetail(sanityDoc, lang), [sanityDoc, lang])
 
-  const projectCount = portfolio?.projects?.length ?? 0
-  const showProjectNav = projectCount >= 2
-
   const nav = useMemo(() => {
     const projects = portfolio?.projects ?? []
     const idx = projects.findIndex((p) => p.slug === slug)
-    const prev = idx > 0 ? projects[idx - 1] : null
-    const next = idx >= 0 && idx < projects.length - 1 ? projects[idx + 1] : null
-    const prevSlug = prev?.slug?.trim()
-    const nextSlug = next?.slug?.trim()
+    const prevProject = idx > 0 ? projects[idx - 1] : null
+    const nextProject = idx >= 0 && idx < projects.length - 1 ? projects[idx + 1] : null
+    const prevSlug = prevProject?.slug?.trim()
+    const nextSlug = nextProject?.slug?.trim()
     return {
-      prevHref: prevSlug ? hrefProjectBySlug(prevSlug) : '/',
-      nextHref: nextSlug ? hrefProjectBySlug(nextSlug) : '/',
-      prevName: prev?.name ?? t.navBackToProjects,
-      nextName: next?.name ?? t.navBackToProjects,
+      prev: prevSlug ? { href: hrefProjectBySlug(prevSlug), name: prevProject?.name ?? '' } : null,
+      next: nextSlug ? { href: hrefProjectBySlug(nextSlug), name: nextProject?.name ?? '' } : null,
     }
-  }, [portfolio?.projects, slug, t.navBackToProjects])
+  }, [portfolio?.projects, slug])
+
+  const showProjectNav = nav.prev != null || nav.next != null
 
   if (!mapped) return null
 
@@ -65,14 +63,16 @@ export function ProjectDetailPageClient({ sanityDoc, slug }: ProjectDetailPageCl
         className={`section section-lines-top-down project-detail ${styles['project-detail-intro']}`}
       >
         <div className={styles['project-detail-hero']}>
-          <Image
+          <ImageWithLoader
             src={heroSrc}
             alt={heroAlt}
-            className={`${styles['project-detail-hero-img']} img-reveal`}
+            className={styles['project-detail-hero-img']}
             width={1600}
             height={900}
             sizes="100vw"
             unoptimized={typeof heroSrc === 'string'}
+            wrapperClassName={styles['project-detail-hero-loader']}
+            priority
           />
         </div>
         <section className={styles['project-detail-head-inner']}>
@@ -131,10 +131,8 @@ export function ProjectDetailPageClient({ sanityDoc, slug }: ProjectDetailPageCl
         <ProjectNav
           prevProjectLabel={t.prevProject}
           nextProjectLabel={t.nextProject}
-          prevHref={nav.prevHref}
-          nextHref={nav.nextHref}
-          prevName={nav.prevName}
-          nextName={nav.nextName}
+          prev={nav.prev}
+          next={nav.next}
         />
       ) : null}
       <Pattern />

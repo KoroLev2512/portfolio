@@ -15,9 +15,10 @@ export function initRipple() {
 
     const span = document.createElement('span')
     span.className = 'ripple'
-    span.style.width = span.style.height = `${size}px`
-    span.style.left = `${x}px`
-    span.style.top = `${y}px`
+    const toRem = (v: number) => `${v / 16}rem`
+    span.style.width = span.style.height = toRem(size)
+    span.style.left = toRem(x)
+    span.style.top = toRem(y)
 
     target.appendChild(span)
     span.addEventListener('animationend', () => span.remove())

@@ -1,6 +1,5 @@
 import { getDeployBasePath } from '@/shared/lib/deployBasePath'
 
-/** Канонический origin без завершающего слэша, из NEXT_PUBLIC_SITE_URL */
 export function getPublicSiteOrigin(): string | undefined {
   const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim()
   if (!raw) return undefined
@@ -12,14 +11,13 @@ export function getPublicSiteOrigin(): string | undefined {
   }
 }
 
-/** База для Metadata API (og:, иконки по относительным путям) */
 export function getMetadataBaseUrl(): URL | undefined {
   const fromEnv = getPublicSiteOrigin()
   if (fromEnv) {
     try {
       return new URL(`${fromEnv}/`)
     } catch {
-      /* fall through */
+      void 0
     }
   }
   const vercel = process.env.VERCEL_URL?.trim()
@@ -33,10 +31,6 @@ export function getMetadataBaseUrl(): URL | undefined {
   return undefined
 }
 
-/**
- * Абсолютный URL файла из `public/` для og:image, Twitter и т.д.
- * Работает только если задан NEXT_PUBLIC_SITE_URL при сборке.
- */
 export function absoluteUrlForPublicFile(filename: string): string | undefined {
   const origin = getPublicSiteOrigin()
   if (!origin) return undefined

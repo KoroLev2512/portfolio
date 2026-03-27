@@ -89,10 +89,6 @@ const getCachedAllProjectSlugs = unstable_cache(
   { revalidate: REVALIDATE_SEC, tags: ['sanity:portfolio-home', 'sanity:projects'] },
 )
 
-/**
- * Slugs для `generateStaticParams`: сначала порядок с главной, затем остальные проекты из CMS
- * (при `output: export` нельзя открыть slug, которого не было в этом списке на сборке).
- */
 export async function getStaticExportProjectSlugs(): Promise<string[]> {
   if (!isSanityConfigured) return []
   try {

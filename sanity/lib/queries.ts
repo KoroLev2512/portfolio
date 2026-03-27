@@ -58,23 +58,16 @@ export const projectsQuery = groq`
   }.items
 `;
 
-/** Slugs в порядке главной — для static params и совпадения с карточками на сайте */
 export const homepageProjectSlugsQuery = groq`
   *[_type == "homepage"] | order(_updatedAt desc)[0]{
     "slugs": coalesce(homepageProjects[]->slug.current, [])
   }.slugs
 `;
 
-/** Все опубликованные проекты со slug — нужно для `output: export` (каждый открываемый URL должен быть в generateStaticParams) */
 export const allProjectSlugsQuery = groq`
   array::unique(coalesce(*[_type == "project" && defined(slug.current)].slug.current, []))
 `;
 
-/**
- * Берём последний изменённый homepage (на случай дублей).
- * coalesce(x[]{ … }, []) — если поле null, проекция даёт null → подменяем на [].
- * Поле skillGroup.items — объект { ru: string[], en: string[] }, не массив: не оборачиваем в coalesce(..., []).
- */
 export const homepageQuery = groq`
   *[_type == "homepage"] | order(_updatedAt desc)[0]{
     _id,

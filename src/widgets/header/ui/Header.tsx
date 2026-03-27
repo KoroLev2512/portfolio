@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import Link from 'next/link'
 import { fillNameInAlt, getTranslations, type Lang } from '@/shared/i18n'
 import { usePortfolioMapped } from '@/shared/lib/PortfolioSanityContext'
@@ -17,12 +17,9 @@ export type HeaderProps = {
   lang: Lang
   onToggleTheme: (e: React.MouseEvent<HTMLElement>) => void
   onChangeLang: (lang: Lang) => void
-  /** Если задан, левая часть (логотип/имя) — ссылка на этот href (например "/" на страницах проекта и 404) */
   logoHref?: string
-  /** Переопределение из Sanity (siteSettings) */
   personName?: string
   personRole?: string
-  /** URL фото; если с CDN — с unoptimized */
   personPhotoSrc?: string | null
 }
 
@@ -62,12 +59,13 @@ export function Header({
 
   const leftContent = (
     <>
-      <Image
+      <ImageWithLoader
+        fill
+        wrapperClassName={styles['header-photo-wrap']}
         src={photoSrc}
         alt={photoAlt}
-        width={40}
-        height={40}
-        className={`${styles['header-photo']} img-reveal`}
+        className={styles['header-photo']}
+        sizes="2.5rem"
         priority
         unoptimized={typeof photoSrc === 'string' && photoSrc.startsWith('http')}
       />
@@ -78,19 +76,15 @@ export function Header({
     </>
   )
 
-  const LeftWrapper = logoHref != null
-    ? ({ children }: { children: React.ReactNode }) => (
-        <Link href={logoHref!} className={`${styles['header-left']} ${styles['header-left-link']}`}>
-          {children}
-        </Link>
-      )
-    : ({ children }: { children: React.ReactNode }) => <div className={styles['header-left']}>{children}</div>
-
   return (
     <header className={styles.header}>
-      <LeftWrapper>
-        {leftContent}
-      </LeftWrapper>
+      {logoHref != null ? (
+        <Link href={logoHref} className={`${styles['header-left']} ${styles['header-left-link']}`}>
+          {leftContent}
+        </Link>
+      ) : (
+        <div className={styles['header-left']}>{leftContent}</div>
+      )}
       <div className={styles['header-right']}>
         <div className={`${styles['header-cta-group']} header-cta-group`}>
           <button

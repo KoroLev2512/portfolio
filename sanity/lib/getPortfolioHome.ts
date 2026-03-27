@@ -5,7 +5,6 @@ import { dataset, isSanityConfigured, projectId } from '../env'
 import { client } from './client'
 import { homepageQuery, siteSettingsQuery } from './queries'
 
-/** Секунды для Data Cache Next (ISR-подобное при не-static; при `output: export` — дедуп на этапе сборки) */
 const REVALIDATE_SEC = (() => {
   const raw = process.env.SANITY_FETCH_REVALIDATE_SECONDS
   const n = raw != null && raw !== '' ? Number.parseInt(raw, 10) : Number.NaN
@@ -23,19 +22,11 @@ async function fetchSanityHomepageData(): Promise<{
   return { homepage, siteSettings }
 }
 
-/**
- * Кеш Next.js: один ключ на проект/dataset, тег для будущего on-demand revalidate (API route / webhook).
- */
 const getCachedSanityHomepage = unstable_cache(fetchSanityHomepageData, ['sanity-portfolio-home', projectId, dataset], {
   revalidate: REVALIDATE_SEC,
   tags: ['sanity:portfolio-home'],
 })
 
-/**
- * Данные главной из Sanity.
- * - `cache()` (React) — дедуп в рамках одного рендера/дерева.
- * - `unstable_cache` — кеш Data Cache Next между запросами / шагами сборки.
- */
 async function getPortfolioHomeDocumentsImpl(): Promise<{
   homepage: unknown
   siteSettings: unknown

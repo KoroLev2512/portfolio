@@ -1,6 +1,5 @@
 import type { PortfolioMapped } from '@/sanity/lib/portfolioMappers'
 
-/** Если в Sanity нет контактов — те же запасные ссылки, что на главной */
 export const FALLBACK_HERO_CONTACTS = [
   { label: 'icestorm2512@gmail.com', href: 'mailto:icestorm2512@gmail.com' },
   { label: 't.me/korolev_2512', href: 'https://t.me/korolev_2512' },
@@ -11,7 +10,6 @@ export function resolveContactsSectionTitle(mapped: PortfolioMapped | null, fall
   return fromCms ? fromCms : fallback
 }
 
-/** Как на главной: heroContacts → contactsButtons → fallback */
 export function resolveHeroContactLinks(
   mapped: PortfolioMapped | null,
 ): { label: string; href: string }[] {

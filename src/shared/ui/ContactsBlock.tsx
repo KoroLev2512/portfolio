@@ -10,15 +10,10 @@ export type ContactButtonItem = {
 }
 
 export type ContactsBlockProps = {
-  /** Например: "[ Контакты ]" / "[ Contacts ]". Не рендерится, если не передан */
   sectionTitle?: string
-  /** Заголовок блока: "Свяжитесь со мной" / "Get in touch with me" */
   title: string
-  /** Если задан, первая кнопка — ссылка на этот href (например "/" на 404) */
   firstButtonHref?: string
-  /** Кнопки из CMS (Sanity). Если заданы — рендерятся вместо заглушек */
   buttons?: ContactButtonItem[]
-  /** Добавить классы text-reveal-title / tag-reveal для анимации (главная) */
   useReveal?: boolean
 }
 

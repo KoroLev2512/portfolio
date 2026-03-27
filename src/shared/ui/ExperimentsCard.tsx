@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import Link from 'next/link'
 import darkImg from '@/../public/dark.webp'
 import lightImg from '@/../public/light.webp'
@@ -29,20 +29,23 @@ export function ExperimentsCard({
       <p className={styles['experiments-title']}>{experimentsTitle}</p>
       <p className={styles['experiments-desc']}>{experimentsDesc}</p>
       <div className={styles['experiments-bg']}>
-        <Image
+        <ImageWithLoader
+          fill
+          wrapperClassName={styles['experiments-bg-loader']}
           src={mockupsImg}
           alt={altMockupsBg}
           className={styles['experiments-bg-img']}
-          sizes="(max-width: 768px) 92vw, 640px"
+          sizes="(max-width: 48rem) 92vw, 40rem"
         />
       </div>
       <div className={styles['experiments-gradient']}>
-        <Image
+        <ImageWithLoader
+          fill
+          wrapperClassName={styles['experiments-gradient-loader']}
           src={theme === 'dark' ? darkImg : lightImg}
           alt={altGradient}
           className={styles['experiments-gradient-img']}
-          fill
-          sizes="(max-width: 768px) 90vw, 260px"
+          sizes="(max-width: 48rem) 90vw, 16.25rem"
         />
       </div>
     </>

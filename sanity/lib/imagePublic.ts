@@ -1,7 +1,3 @@
-/**
- * Только NEXT_PUBLIC_* — без импорта `client` / строгого `env.ts`.
- * Безопасно для client components (не бросает при отсутствии токенов / server-only env).
- */
 import createImageUrlBuilder from '@sanity/image-url'
 import type { Image } from 'sanity'
 
@@ -14,7 +10,6 @@ function getBuilder() {
 
 export type SanityImageFormat = 'webp' | 'jpg' | 'png' | 'pjpg'
 
-/** URL картинки или `null`, если нет env или ассета */
 export function sanityImageUrl(
   source: Image | undefined,
   width: number,

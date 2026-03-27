@@ -17,7 +17,6 @@ export const home = {
   softSkills: 'Гибкие навыки',
   languages: 'Языки',
   toolsStack: 'Инструменты / стек',
-  /** Заголовок группы «Custom» в Sanity, если не задан своё название */
   skillGroupFallback: 'Навыки',
   projectsTitle: '[ Проекты ]',
   experimentsTitle: 'Experiments',

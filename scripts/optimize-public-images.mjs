@@ -3,8 +3,8 @@
  * Запуск: node scripts/optimize-public-images.mjs
  */
 import sharp from 'sharp'
-import { dirname, join } from 'path'
-import { fileURLToPath } from 'url'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const publicDir = join(root, 'public')
