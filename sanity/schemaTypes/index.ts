@@ -1,6 +1,7 @@
 import { type SchemaTypeDefinition } from "sanity";
 import { blockTitleType } from "./blockTitleType";
 import { educationItemType } from "./educationItemType";
+import { experimentType } from "./experimentType";
 import { homepageContactLinkType } from "./homepageContactLinkType";
 import { homepageType } from "./homepageType";
 import { imageBlockType } from "./imageBlockType";
@@ -23,6 +24,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     siteSettingsType,
     homepageType,
     projectType,
+    experimentType,
     projectLinkType,
     projectSectionType,
     homepageContactLinkType,

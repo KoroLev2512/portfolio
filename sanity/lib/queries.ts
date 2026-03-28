@@ -96,6 +96,15 @@ export const homepageQuery = groq`
   }
 `;
 
+export const experimentsQuery = groq`
+  *[_type == "experiment"] | order(_createdAt desc){
+    _id,
+    title,
+    image,
+    href
+  }
+`;
+
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0]{
     title,

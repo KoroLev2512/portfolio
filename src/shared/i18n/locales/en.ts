@@ -51,8 +51,8 @@ export const project = {
 export const experiments = {
   pageTitle: 'Experiments',
   pageSubtitle: 'Ideas, concepts, and small interesting experiments collected here',
-  altGalleryMockup: 'Gallery item: single interface mockup',
-  altGalleryMockupsRow: 'Gallery item: several interface mockups',
+  emptyGallery: 'No experiments yet — add documents of type «Experiment» in Sanity Studio.',
+  imageAltFallback: 'Experiment preview',
 } as const
 
 export const notfound = {

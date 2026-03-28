@@ -52,8 +52,9 @@ export const experiments = {
   pageTitle: 'Эксперименты',
   pageSubtitle:
     'Тут собраны идеи, концепты и небольшие интересные эксперименты',
-  altGalleryMockup: 'Элемент галереи: один макет интерфейса',
-  altGalleryMockupsRow: 'Элемент галереи: несколько макетов интерфейса',
+  emptyGallery:
+    'Пока нет экспериментов — добавьте документы типа «Experiment» в Sanity Studio.',
+  imageAltFallback: 'Превью эксперимента',
 } as const
 
 export const notfound = {

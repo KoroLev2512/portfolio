@@ -45,6 +45,7 @@ html {
 body {
   min-width: 20rem;
   min-height: 100vh;
+  min-height: 100dvh;
   font-family: 'Inter', system-ui, sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -61,8 +62,14 @@ body {
   align-items: center;
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: var(--bg);
   transition: background-color 0.2s ease;
+}
+
+.portfolio > footer {
+  margin-top: auto;
+  align-self: stretch;
 }
 
 
