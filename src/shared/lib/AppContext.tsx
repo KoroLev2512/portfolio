@@ -65,8 +65,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const langMounted = useRef(false)
+  /** First [lang] run is before restore-from-localStorage (async microtask); skip persist or we'd overwrite saved lang with default `en`. */
+  const skipLangPersistOnce = useRef(true)
   useEffect(() => {
     if (typeof window === 'undefined') return
+    if (skipLangPersistOnce.current) {
+      skipLangPersistOnce.current = false
+      return
+    }
+
     localStorage.setItem(LANG_KEY, lang)
 
     if (langMounted.current) {

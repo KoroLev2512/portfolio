@@ -1,28 +1,32 @@
 'use client'
 
 import Image, { type ImageProps } from 'next/image'
-import { type CSSProperties, useState } from 'react'
+import { type CSSProperties, type SyntheticEvent, useState } from 'react'
 import styles from './ImageWithLoader.module.css'
 
 export type ImageWithLoaderProps = ImageProps & {
   wrapperClassName?: string
   loaderClassName?: string
+  wrapperAspectRatio?: boolean
 }
 
 export function ImageWithLoader({
   wrapperClassName = '',
   loaderClassName = '',
   className = '',
+  onLoad,
   onLoadingComplete,
   fill,
   width,
   height,
   alt,
+  wrapperAspectRatio = true,
   ...imageRest
 }: ImageWithLoaderProps) {
   const [loaded, setLoaded] = useState(false)
 
   const aspectRatioStyle: CSSProperties | undefined =
+    wrapperAspectRatio &&
     !fill &&
     typeof width === 'number' &&
     typeof height === 'number' &&
@@ -31,9 +35,10 @@ export function ImageWithLoader({
       ? { aspectRatio: `${width} / ${height}` }
       : undefined
 
-  const handleComplete: NonNullable<ImageProps['onLoadingComplete']> = (img) => {
+  const handleLoad = (event: SyntheticEvent<HTMLImageElement>) => {
     setLoaded(true)
-    onLoadingComplete?.(img)
+    onLoad?.(event)
+    onLoadingComplete?.(event.currentTarget)
   }
 
   const imageClassName = [className, 'img-reveal', loaded ? 'revealed' : ''].filter(Boolean).join(' ')
@@ -56,7 +61,7 @@ export function ImageWithLoader({
         {...imageRest}
         className={imageClassName}
         data-reveal-when-loaded=""
-        onLoadingComplete={handleComplete}
+        onLoad={handleLoad}
       />
     </div>
   )

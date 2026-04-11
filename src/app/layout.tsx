@@ -31,8 +31,12 @@ const ogImageRuAbs = absoluteUrlForPublicFile('metadata_ru.png')
 const ogImageEn = ogImageEnAbs ?? `${basePath}/metadata_en.png`
 const ogImageRu = ogImageRuAbs ?? `${basePath}/metadata_ru.png`
 
+const metadataBase =
+  getMetadataBaseUrl() ??
+  new URL(`http://localhost:${process.env.PORT ?? '3000'}`)
+
 export const metadata: Metadata = {
-  metadataBase: getMetadataBaseUrl(),
+  metadataBase,
   title: 'Korolev Yurii',
   description: 'Frontend developer',
   icons: {

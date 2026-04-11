@@ -68,10 +68,15 @@ body {
 }
 
 .portfolio > footer {
-  margin-top: auto;
   align-self: stretch;
 }
 
+/* Short pages: stretch "Get in touch" so it fills space down to the footer */
+.portfolio > section.contacts {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
 
 .section {
   position: relative;

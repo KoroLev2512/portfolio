@@ -72,6 +72,7 @@ export function ProjectDetailPageClient({ sanityDoc, slug }: ProjectDetailPageCl
             sizes="100vw"
             unoptimized={typeof heroSrc === 'string'}
             wrapperClassName={styles['project-detail-hero-loader']}
+            wrapperAspectRatio={false}
             priority
           />
         </div>
