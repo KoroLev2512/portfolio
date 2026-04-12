@@ -7,6 +7,7 @@ import { ProjectDetailBody } from '@/shared/ui/ProjectDetailBody'
 import { ProjectDetailPhoto } from '@/shared/ui/ProjectDetailPhoto'
 import { ProjectDetailSubtitleBlock } from '@/shared/ui/ProjectDetailSubtitleBlock'
 import { ProjectDetailBlockTitle } from '@/shared/ui/ProjectDetailBlockTitle'
+import { Pattern } from '@/shared/ui/Pattern'
 import styles from './project-detail.module.css'
 
 export type ProjectDetailContentProps = {
@@ -74,30 +75,33 @@ export function ProjectDetailContent({
   closeImageModalAriaLabel,
   imageFallbackCaption,
 }: ProjectDetailContentProps) {
-  if (sections.length === 0) return null
+  const visible = sections
+    .map((section, index) => ({ section, index }))
+    .filter(({ section }) => section.title.trim() || section.blocks.length > 0)
+
+  if (visible.length === 0) return null
 
   return (
     <>
-      {sections.map((section, si) => (
+      {visible.map(({ section, index: si }, vi) => (
         <Fragment key={section.title || `section-${si}`}>
-          {section.title.trim() || section.blocks.length > 0 ? (
-            <section
-              className={`project-detail-content section ${styles['project-detail-section-unified']}`}
-            >
-              {section.title.trim() ? (
-                <section className={styles['project-detail-section-title-inner']}>
-                  <p className={`section-title ${styles['project-detail-section-title']} text-reveal-title`}>
-                    {section.title}
-                  </p>
-                </section>
-              ) : null}
-              {section.blocks.map((block, bi) => (
-                <Fragment key={block._key ?? `${block._type}-${si}-${bi}`}>
-                  {renderBlock(block, closeImageModalAriaLabel, imageFallbackCaption)}
-                </Fragment>
-              ))}
-            </section>
-          ) : null}
+          <section
+            className={`project-detail-content section ${styles['project-detail-section-unified']}`}
+          >
+            {section.title.trim() ? (
+              <section className={styles['project-detail-section-title-inner']}>
+                <p className={`section-title ${styles['project-detail-section-title']} text-reveal-title`}>
+                  {section.title}
+                </p>
+              </section>
+            ) : null}
+            {section.blocks.map((block, bi) => (
+              <Fragment key={block._key ?? `${block._type}-${si}-${bi}`}>
+                {renderBlock(block, closeImageModalAriaLabel, imageFallbackCaption)}
+              </Fragment>
+            ))}
+          </section>
+          {vi < visible.length - 1 ? <Pattern /> : null}
         </Fragment>
       ))}
     </>
