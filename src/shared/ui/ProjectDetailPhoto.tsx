@@ -1,7 +1,7 @@
 'use client'
 
 import Image, { type StaticImageData } from 'next/image'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import { CancelIcon } from './CancelIcon'
 import styles from './ProjectDetailPhoto.module.css'
@@ -11,6 +11,8 @@ interface ProjectDetailPhotoProps {
   caption: string
   closeModalAriaLabel: string
 }
+
+const MODAL_ANIMATION_MS = 260
 
 function parseSanityAssetDimensions(src: string): { w: number; h: number } | null {
   const m = src.match(/-(\d+)x(\d+)\.[^./?]+(?:\?|$)/i)
@@ -37,8 +39,41 @@ function nextImageDimensions(img: StaticImageData | string): { width: number; he
 
 export function ProjectDetailPhoto({ projectImg, caption, closeModalAriaLabel }: ProjectDetailPhotoProps) {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false)
+  const [isImageModalVisible, setIsImageModalVisible] = useState(false)
+  const closeTimerRef = useRef<number | null>(null)
   const unoptimized = typeof projectImg === 'string'
   const { width, height } = useMemo(() => nextImageDimensions(projectImg), [projectImg])
+
+  const openModal = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 48rem)').matches) return
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = null
+    }
+    setIsImageModalOpen(true)
+    requestAnimationFrame(() => setIsImageModalVisible(true))
+  }
+
+  const closeModal = () => {
+    if (!isImageModalOpen) return
+    setIsImageModalVisible(false)
+    if (typeof window === 'undefined') {
+      setIsImageModalOpen(false)
+      return
+    }
+    closeTimerRef.current = window.setTimeout(() => {
+      setIsImageModalOpen(false)
+      closeTimerRef.current = null
+    }, MODAL_ANIMATION_MS)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current)
+      }
+    }
+  }, [])
 
   return (
     <>
@@ -46,10 +81,7 @@ export function ProjectDetailPhoto({ projectImg, caption, closeModalAriaLabel }:
         <button
           type="button"
           className={styles['project-detail-photo-button']}
-          onClick={() => {
-            if (typeof window !== 'undefined' && window.matchMedia('(max-width: 48rem)').matches) return
-            setIsImageModalOpen(true)
-          }}
+          onClick={openModal}
           aria-label={caption}
         >
           <div className={styles['project-detail-mockups-second']}>
@@ -70,16 +102,19 @@ export function ProjectDetailPhoto({ projectImg, caption, closeModalAriaLabel }:
 
       {isImageModalOpen && (
         <div
-          className={styles['project-detail-modal-overlay']}
+          className={`${styles['project-detail-modal-overlay']} ${isImageModalVisible ? styles['project-detail-modal-overlay-visible'] : ''}`}
           role="dialog"
           aria-modal="true"
-          onClick={() => setIsImageModalOpen(false)}
+          onClick={closeModal}
         >
-          <div className={styles['project-detail-modal']} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={`${styles['project-detail-modal']} ${isImageModalVisible ? styles['project-detail-modal-visible'] : ''}`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
               className={styles['project-detail-modal-close']}
-              onClick={() => setIsImageModalOpen(false)}
+              onClick={closeModal}
               aria-label={closeModalAriaLabel}
             >
               <CancelIcon />

@@ -1,7 +1,7 @@
 'use client'
 
 import Image, { type ImageProps } from 'next/image'
-import { type CSSProperties, type SyntheticEvent, useState } from 'react'
+import { type CSSProperties, type SyntheticEvent, useEffect, useState } from 'react'
 import styles from './ImageWithLoader.module.css'
 
 export type ImageWithLoaderProps = ImageProps & {
@@ -24,6 +24,7 @@ export function ImageWithLoader({
   ...imageRest
 }: ImageWithLoaderProps) {
   const [loaded, setLoaded] = useState(false)
+  const [revealed, setRevealed] = useState(false)
 
   const aspectRatioStyle: CSSProperties | undefined =
     wrapperAspectRatio &&
@@ -41,7 +42,13 @@ export function ImageWithLoader({
     onLoadingComplete?.(event.currentTarget)
   }
 
-  const imageClassName = [className, 'img-reveal', loaded ? 'revealed' : ''].filter(Boolean).join(' ')
+  useEffect(() => {
+    if (!loaded) return
+    const frame = requestAnimationFrame(() => setRevealed(true))
+    return () => cancelAnimationFrame(frame)
+  }, [loaded])
+
+  const imageClassName = [className, 'img-reveal', revealed ? 'revealed' : ''].filter(Boolean).join(' ')
 
   const rootClass = [styles.root, fill ? styles.rootFill : '', wrapperClassName].filter(Boolean).join(' ')
 
