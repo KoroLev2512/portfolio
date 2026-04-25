@@ -53,12 +53,7 @@
 .hero-contacts {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
-}
-
-.hero-contacts :global(.external-link) {
-  min-height: 2rem;
-  padding: 0.25rem 0;
+  gap: 0.25rem;
 }
 
 .hero-bio {
