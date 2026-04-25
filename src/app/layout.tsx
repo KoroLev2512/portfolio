@@ -6,7 +6,6 @@ import { ClientBoot } from './ClientBoot'
 import { AppProvider } from '@/shared/lib/AppContext'
 import { PortfolioSanityProvider } from '@/shared/lib/PortfolioSanityContext'
 import { getPortfolioHomeDocuments } from '@/sanity/lib/getPortfolioHome'
-import { getDeployBasePath } from '@/shared/lib/deployBasePath'
 import {
   absoluteUrlForPublicFile,
   getMetadataBaseUrl,
@@ -25,12 +24,17 @@ const geistMono = Geist_Mono({
   preload: false,
 })
 
-const basePath = getDeployBasePath()
+const ogImageEn = absoluteUrlForPublicFile('metadata_en.png')
+const ogImageRu = absoluteUrlForPublicFile('metadata_ru.png')
+const faviconUrl = absoluteUrlForPublicFile('favicon.ico')
 
-const ogImageEnAbs = absoluteUrlForPublicFile('metadata_en.png')
-const ogImageRuAbs = absoluteUrlForPublicFile('metadata_ru.png')
-const ogImageEn = ogImageEnAbs ?? `${basePath}/metadata_en.png`
-const ogImageRu = ogImageRuAbs ?? `${basePath}/metadata_ru.png`
+const socialImages =
+  ogImageEn && ogImageRu
+    ? [
+        { url: ogImageEn, alt: 'Portfolio — English' },
+        { url: ogImageRu, alt: 'Portfolio — Russian' },
+      ]
+    : undefined
 
 const metadataBase =
   getMetadataBaseUrl() ??
@@ -45,23 +49,18 @@ export const metadata: Metadata = {
   verification: {
     yandex: 'bfea9322e4369314',
   },
-  icons: {
-    icon: absoluteUrlForPublicFile('favicon.ico') ?? `${basePath}/favicon.ico`,
-  },
+  icons: faviconUrl ? { icon: faviconUrl } : undefined,
   openGraph: {
     type: 'website',
     locale: 'en_US',
     alternateLocale: ['ru_RU'],
     siteName: 'Portfolio',
     url: getPublicSiteOrigin(),
-    images: [
-      { url: ogImageEn, alt: 'Portfolio — English' },
-      { url: ogImageRu, alt: 'Portfolio — Russian' },
-    ],
+    images: socialImages,
   },
   twitter: {
     card: 'summary_large_image',
-    images: [ogImageEn, ogImageRu],
+    images: socialImages?.map((i) => i.url),
   },
 }
 

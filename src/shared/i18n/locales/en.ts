@@ -51,7 +51,7 @@ export const project = {
 export const experiments = {
   pageTitle: 'Experiments',
   pageSubtitle:
-    'Small projects, experiments and other work collected here',
+    'Small projects, researches and other work collected here',
   emptyGallery: 'No experiments yet — add documents of type «Experiment» in Sanity Studio.',
   imageAltFallback: 'Experiment preview',
 } as const

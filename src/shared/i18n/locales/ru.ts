@@ -52,7 +52,7 @@ export const project = {
 export const experiments = {
   pageTitle: 'Эксперименты',
   pageSubtitle:
-    'Тут собраны небольшие проекты, эксперименты и другие мои работы',
+    'Тут собраны небольшие проекты, исследования и другие мои работы',
   emptyGallery:
     'Пока нет экспериментов — добавьте документы типа «Experiment» в Sanity Studio.',
   imageAltFallback: 'Превью эксперимента',

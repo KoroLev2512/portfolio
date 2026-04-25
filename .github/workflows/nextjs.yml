@@ -54,6 +54,7 @@ jobs:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
         with:
           # Automatically inject basePath in your Next.js configuration file and disable
@@ -74,7 +75,12 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        env:
+          # Canonical origin used to build absolute URLs for og:image / twitter:image.
+          # `steps.pages.outputs.origin` resolves to the GitHub Pages origin
+          # (custom domain if configured, otherwise https://<owner>.github.io).
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.origin }}
+        run: ${{ steps.detect-package-manager.outputs.runner }} next build --webpack
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
