@@ -16,6 +16,12 @@ dist
 dist-ssr
 *.local
 package-lock.json
+coverage
+.vercel
+.turbo
+.cache
+*.tmp
+*.temp
 
 # Editor directories and files
 .vscode/*
