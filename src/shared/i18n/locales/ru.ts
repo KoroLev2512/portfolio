@@ -20,7 +20,8 @@ export const home = {
   skillGroupFallback: 'Навыки',
   projectsTitle: '[ Проекты ]',
   experimentsTitle: 'Experiments',
-  experimentsDesc: 'Здесь вы найдёте скриншоты, концепты и небольшие интерфейсные эксперименты',
+  experimentsDesc:
+    'Небольшие проекты, эксперименты и другие мои работы',
   workTitle: '[ Опыт работы ]',
   educationTitle: '[ Образование ]',
   altProjectCoverNamed: 'Обложка проекта «{name}»',
@@ -51,7 +52,7 @@ export const project = {
 export const experiments = {
   pageTitle: 'Эксперименты',
   pageSubtitle:
-    'Тут собраны идеи, концепты и небольшие интересные эксперименты',
+    'Тут собраны небольшие проекты, эксперименты и другие мои работы',
   emptyGallery:
     'Пока нет экспериментов — добавьте документы типа «Experiment» в Sanity Studio.',
   imageAltFallback: 'Превью эксперимента',
@@ -65,7 +66,8 @@ export const notfound = {
   homeBtn: 'На главную',
   projectsTitle: 'Посмотрите мои проекты',
   experimentsTitle: 'Или загляните сюда',
-  experimentsDesc: 'Здесь вы найдёте скриншоты, концепты и небольшие интерфейсные эксперименты',
+  experimentsDesc:
+    'Небольшие проекты, эксперименты и другие мои работы',
   contactsTitle: 'Свяжитесь со мной',
   altPlaceholderProjectCover: 'Заглушка обложки проекта',
 } as const

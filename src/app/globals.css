@@ -549,6 +549,11 @@ body {
   pointer-events: none;
 }
 
+.experiments-gallery-tile .ripple {
+  background: var(--text-secondary);
+  opacity: 0.28;
+}
+
 @keyframes ripple-expand {
   to {
     transform: scale(2.5);

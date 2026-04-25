@@ -20,7 +20,7 @@ export const home = {
   skillGroupFallback: 'Skills',
   projectsTitle: '[ Projects ]',
   experimentsTitle: 'Experiments',
-  experimentsDesc: 'Here you will find screenshots, concepts, and small interface experiments',
+  experimentsDesc: 'Small projects, experiments and my other work',
   workTitle: '[ Work Experience ]',
   educationTitle: '[ Education ]',
   altProjectCoverNamed: 'Cover image for the project «{name}»',
@@ -50,7 +50,8 @@ export const project = {
 
 export const experiments = {
   pageTitle: 'Experiments',
-  pageSubtitle: 'Ideas, concepts, and small interesting experiments collected here',
+  pageSubtitle:
+    'Small projects, experiments and other work collected here',
   emptyGallery: 'No experiments yet — add documents of type «Experiment» in Sanity Studio.',
   imageAltFallback: 'Experiment preview',
 } as const
@@ -63,7 +64,7 @@ export const notfound = {
   homeBtn: 'Home',
   projectsTitle: 'Take a look at my projects',
   experimentsTitle: 'Or take a look here',
-  experimentsDesc: 'Here you will find screenshots, concepts, and small interface experiments',
+  experimentsDesc: 'Small projects, experiments and my other work',
   contactsTitle: 'Get in touch with me',
   altPlaceholderProjectCover: 'Placeholder project cover',
 } as const

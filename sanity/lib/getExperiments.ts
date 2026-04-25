@@ -5,7 +5,10 @@ import type { Image } from "sanity";
 
 import { dataset, isSanityConfigured, projectId } from "../env";
 import { client } from "./client";
-import { experimentsQuery } from "./queries";
+import {
+  experimentsFallbackQuery,
+  homepageExperimentsOrderQuery,
+} from "./queries";
 import { sanityImageUrl } from "./imagePublic";
 
 const REVALIDATE_SEC = (() => {
@@ -32,14 +35,25 @@ export type ExperimentForUi = {
 const IMAGE_WIDTH = 900;
 
 async function fetchExperiments(): Promise<ExperimentFromSanity[]> {
-  const rows = await client.fetch<ExperimentFromSanity[]>(experimentsQuery);
+  const hp = await client.fetch<{ ordered: ExperimentFromSanity[] } | null>(
+    homepageExperimentsOrderQuery,
+  );
+  const ordered = hp?.ordered;
+  if (Array.isArray(ordered) && ordered.length > 0) {
+    return ordered.filter((row): row is ExperimentFromSanity => Boolean(row?._id));
+  }
+
+  const rows = await client.fetch<ExperimentFromSanity[]>(experimentsFallbackQuery);
   return Array.isArray(rows) ? rows : [];
 }
 
 const getCachedExperiments = unstable_cache(
   fetchExperiments,
   ["sanity-experiments", projectId, dataset],
-  { revalidate: REVALIDATE_SEC, tags: ["sanity:experiments"] },
+  {
+    revalidate: REVALIDATE_SEC,
+    tags: ["sanity:experiments", "sanity:portfolio-home"],
+  },
 );
 
 function mapExperiment(row: ExperimentFromSanity): ExperimentForUi {

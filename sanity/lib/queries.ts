@@ -92,16 +92,34 @@ export const homepageQuery = groq`
       shortDescription,
       tags,
       coverImage
+    }, []),
+    "homepageExperiments": coalesce(homepageExperiments[]->{
+      _id,
+      title,
+      image,
+      href
     }, [])
   }
 `;
 
-export const experimentsQuery = groq`
+/** All experiments by creation time — used when homepage has no `homepageExperiments` list. */
+export const experimentsFallbackQuery = groq`
   *[_type == "experiment"] | order(_createdAt desc){
     _id,
     title,
     image,
     href
+  }
+`;
+
+export const homepageExperimentsOrderQuery = groq`
+  *[_type == "homepage"] | order(_updatedAt desc)[0]{
+    "ordered": coalesce(homepageExperiments[]->{
+      _id,
+      title,
+      image,
+      href
+    }, [])
   }
 `;
 

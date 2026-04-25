@@ -139,6 +139,20 @@ export const homepageType = defineType({
         }),
       ],
     }),
+
+    defineField({
+      name: "homepageExperiments",
+      title: "Experiments order",
+      description:
+        "Drag to set order on the /experiments page. When empty, all experiment documents are shown by creation date (newest first).",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "experiment" }],
+        }),
+      ],
+    }),
   ],
   preview: {
     select: {

@@ -1,9 +1,15 @@
 'use client'
 
+import Link from 'next/link'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
 import { ThemeIcon } from '@/shared/ui/ThemeIcon'
 import type { Lang } from '@/shared/i18n'
+import { usePortfolioMapped } from '@/shared/lib/PortfolioSanityContext'
 import styles from './Footer.module.css'
+
+function isInternalHref(href: string) {
+  return href.startsWith('/') && !href.startsWith('//')
+}
 
 export type Theme = 'dark' | 'light'
 
@@ -23,6 +29,39 @@ export function Footer({
   useReveal = false,
 }: FooterProps) {
   const textClass = useReveal ? `${styles['footer-text']} text-reveal-body` : styles['footer-text']
+  const mapped = usePortfolioMapped()
+  const aside = mapped?.footerAside
+  const designerHref = aside?.linkHref?.trim() || '#'
+  const designerLabel =
+    aside?.linkLabel?.trim() || (lang === 'ru' ? 'Денис Князев' : 'Denis Knyazev')
+
+  const designerInner = (
+    <>
+      {designerLabel}
+      <ArrowIcon className="external-link-icon" />
+    </>
+  )
+
+  const designerLink =
+    designerHref !== '#' && isInternalHref(designerHref) ? (
+      <Link href={designerHref} className="external-link">
+        {designerInner}
+      </Link>
+    ) : (
+      <a
+        href={designerHref}
+        className="external-link"
+        {...(designerHref !== '#' &&
+        (designerHref.startsWith('http://') ||
+          designerHref.startsWith('https://') ||
+          designerHref.startsWith('mailto:') ||
+          designerHref.startsWith('tel:'))
+          ? { target: '_blank', rel: 'noopener noreferrer' }
+          : {})}
+      >
+        {designerInner}
+      </a>
+    )
 
   return (
     <footer className={styles.footer}>
@@ -57,10 +96,7 @@ export function Footer({
       <p className={textClass}>©2026. All rights reserved</p>
       <p className={textClass}>
         <span className={styles['footer-designed-label']}>{lang === 'ru' ? 'Задизайнил' : 'Designed by'}</span>
-        <a href="#" className={styles['footer-link']}>
-          {lang === 'ru' ? 'Денис Князев' : 'Denis Knyazev'}
-          <ArrowIcon className="external-link-icon" />
-        </a>
+        {designerLink}
       </p>
     </footer>
   )

@@ -22,27 +22,6 @@
   margin-right: 0.375rem;
 }
 
-.footer-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1rem;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.footer-link:hover {
-  color: var(--text-primary);
-}
-
-.footer-link:hover :global(.external-link-icon) {
-  transform: rotate(45deg);
-  opacity: 1;
-}
-
 .footer-mobile-controls {
   display: none;
   align-items: center;

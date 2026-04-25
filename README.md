@@ -19,7 +19,7 @@ A bilingual (English / Russian) personal portfolio: static site generation with 
 
 | Layer | Choice |
 |--------|--------|
-| Framework | Next.js 16 (App Router), production build uses **Webpack** (`next build --webpack`) |
+| Framework | Next.js 16 (App Router), **Webpack** for `dev` and `build` (`--webpack`; optional Turbopack via `dev:turbo`) |
 | UI | React 19, global CSS + CSS Modules |
 | CMS | Sanity v4, `next-sanity` |
 | Language | TypeScript |
@@ -90,7 +90,8 @@ Studio CLI also understands `SANITY_STUDIO_PROJECT_ID`, `SANITY_STUDIO_DATASET`,
 
 | Script | Description |
 |--------|-------------|
-| `npm run dev` | Next.js dev server (Turbopack). |
+| `npm run dev` | Next.js dev server (**Webpack** — same engine as `build`, avoids Turbopack cache bugs). |
+| `npm run dev:turbo` | Dev with Turbopack (faster; if it panics, delete `.next` and retry or use `dev`). |
 | `npm run build` | Static export to `out/` (Webpack). |
 | `npm run start` | Serves a **non-export** Node server (only if you change config away from `output: 'export'`). |
 | `npm run preview` | `PREVIEW=1` build + `serve out` — quick check of static output. |
@@ -126,7 +127,7 @@ Studio CLI also understands `SANITY_STUDIO_PROJECT_ID`, `SANITY_STUDIO_DATASET`,
 - **Wrong OG / social preview URL** — set `NEXT_PUBLIC_SITE_URL` and rebuild.
 - **404 on project pages after export** — every published project slug must be included in static generation (`generateStaticParams`); see `sanity/lib/getProjectBySlug.ts` and `allProjectSlugsQuery`.
 - **`IntersectionObserver` / `rootMargin`** — must use `px` or `%`, not `rem` (see `lineReveal.ts`).
-- **Build vs Turbopack** — production `build` uses `--webpack` for stable CI output.
+- **Build vs Turbopack** — `dev` and `build` use **Webpack**; Turbopack is optional via `dev:turbo`. If dev crashes inside `turbo-persistence` / `static_sorted_file`, remove `.next` (or only `.next/dev/cache/turbopack`) and restart.
 
 ---
 
@@ -139,13 +140,13 @@ Studio CLI also understands `SANITY_STUDIO_PROJECT_ID`, `SANITY_STUDIO_DATASET`,
 - **Два языка интерфейса** — `ru` и `en`, строки в `src/shared/i18n/`, данные из CMS подмешиваются по языку.
 - **Темы** — светлая / тёмная через `data-theme` и CSS-переменные.
 - **Страницы проектов** — маршруты `/<slug>` в соответствии со `slug` в Sanity.
-- **Анимации** — линии секций, появление текста/тегов по скроллу, картинки с плейсхолдером до `onLoadingComplete`.
+- **Анимации** — линии секций, появление текста/тегов по скроллу, картинки с плейсхолдером до `onLoad`.
 
 ### Стек
 
 | Уровень | Технология |
 |--------|------------|
-| Фреймворк | Next.js 16 (App Router), сборка продакшена через **Webpack** |
+| Фреймворк | Next.js 16 (App Router), **Webpack** для `dev` и `build` (опционально `dev:turbo`) |
 | UI | React 19, глобальные стили + CSS Modules |
 | CMS | Sanity v4, `next-sanity` |
 | Язык | TypeScript |
@@ -216,7 +217,8 @@ scripts/         # Запуск sanity CLI, оптимизация картин�
 
 | Команда | Описание |
 |---------|----------|
-| `npm run dev` | Режим разработки Next.js. |
+| `npm run dev` | Режим разработки Next.js (**Webpack**, как у `build`). |
+| `npm run dev:turbo` | Dev через Turbopack; при панике — удалить `.next` или пользоваться `dev`. |
 | `npm run build` | Статический экспорт в `out/` (Webpack). |
 | `npm run start` | Сервер Next (актуально только если убрать `output: 'export'`). |
 | `npm run preview` | Сборка с `PREVIEW=1` и раздача `out/` через `serve`. |
@@ -251,7 +253,7 @@ scripts/         # Запуск sanity CLI, оптимизация картин�
 - **Неверный host в превью ссылок / OG** — задайте `NEXT_PUBLIC_SITE_URL` и пересоберите.
 - **404 у проекта после экспорта** — slug должен попадать в список статических путей на сборке; см. `getStaticExportProjectSlugs` и запросы в `sanity/lib/queries.ts`.
 - **`rootMargin` у IntersectionObserver** — только `px` или `%`, не `rem`.
-- **Сборка** — в проекте зафиксирован `next build --webpack` для стабильного CI.
+- **Сборка и dev** — `next build --webpack` и `next dev --webpack`; при сбое Turbopack удалите `.next`.
 
 ---
 
