@@ -25,6 +25,7 @@
 .header-left-link {
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
 }
 
 .header-photo-wrap {

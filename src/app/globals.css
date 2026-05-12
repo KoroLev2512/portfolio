@@ -40,6 +40,11 @@
 
 html {
   font-size: 100%;
+  -webkit-tap-highlight-color: rgba(243, 246, 250, 0.1);
+}
+
+html[data-theme='light'] {
+  -webkit-tap-highlight-color: rgba(11, 12, 14, 0.08);
 }
 
 body {
@@ -156,8 +161,22 @@ body {
   transition: scale 300ms ease-out, background-color 300ms ease-out;
 }
 
-.btn:hover {
-  scale: 1.03;
+@media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
+  .btn:hover {
+    scale: 1.03;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--bg-button-primary-hover);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--bg-button-secondary-hover);
+  }
+
+  .btn-tertiary:hover {
+    background-color: var(--bg-button-secondary);
+  }
 }
 
 .btn:active {
@@ -168,10 +187,6 @@ body {
 .btn-primary {
   background-color: var(--bg-button-primary);
   color: var(--text-inverse);
-}
-
-.btn-primary:hover {
-  background-color: var(--bg-button-primary-hover);
 }
 
 .btn-primary-s {
@@ -197,17 +212,9 @@ body {
   line-height: 1.25rem;
 }
 
-.btn-secondary:hover {
-  background-color: var(--bg-button-secondary-hover);
-}
-
 .btn-tertiary {
   background: none;
   color: var(--text-primary);
-}
-
-.btn-tertiary:hover {
-  background-color: var(--bg-button-secondary);
 }
 
 
@@ -281,10 +288,11 @@ body {
   text-decoration: underline;
   text-underline-offset: 0.125rem;
   text-decoration-color: var(--text-tertiary);
+  cursor: pointer;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
   .external-link:hover {
     color: var(--text-primary);
     opacity: 1;
@@ -303,6 +311,18 @@ body {
   .internal-link:hover {
     color: var(--text-primary);
     text-decoration-color: var(--text-secondary);
+  }
+
+  .header-lang button:hover {
+    color: var(--text-primary);
+  }
+
+  .header-lang button:hover::after {
+    width: 100%;
+  }
+
+  .theme-btn:hover {
+    opacity: 0.7;
   }
 }
 
@@ -343,14 +363,6 @@ body {
   color: var(--text-primary);
 }
 
-.header-lang button:hover {
-  color: var(--text-primary);
-}
-
-.header-lang button:hover::after {
-  width: 100%;
-}
-
 @media (hover: none) {
   .header-lang button:hover::after {
     width: 0;
@@ -370,10 +382,6 @@ body {
   justify-content: center;
   color: var(--text-primary);
   transition: color 0.2s ease, scale 0.15s ease, opacity 0.2s ease;
-}
-
-.theme-btn:hover {
-  opacity: 0.7;
 }
 
 .theme-btn:active {
@@ -520,7 +528,7 @@ body {
   cursor: pointer;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
   .project-card:hover {
     box-shadow:
       0 0.75rem 2rem -0.375rem rgba(6, 7, 8, 0.8),
@@ -644,10 +652,6 @@ body {
     display: none;
   }
 
-  .btn:hover {
-    scale: 1;
-  }
-
   .project-card {
     flex-direction: column;
     min-height: 30.125rem;
@@ -678,4 +682,24 @@ body {
 .icon-rotate {
   transform-origin: center;
   rotate: var(--icon-angle, 0deg);
+}
+
+/* Fine pointer only: UA often sets cursor:auto on img/svg inside <a>; !important keeps a stable hand on PC. */
+@media (pointer: fine) {
+  a[href],
+  a[href] * {
+    cursor: pointer !important;
+  }
+
+  button:not(:disabled),
+  .btn,
+  button:not(:disabled) *,
+  .btn * {
+    cursor: pointer !important;
+  }
+
+  .header-lang button,
+  .theme-btn {
+    cursor: pointer !important;
+  }
 }

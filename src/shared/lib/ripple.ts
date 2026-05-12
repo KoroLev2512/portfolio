@@ -7,6 +7,8 @@ export function initRipple() {
   document.addEventListener('mousedown', (e) => {
     const target = (e.target as HTMLElement).closest<HTMLElement>(RIPPLE_SELECTORS)
     if (!target) return
+    // Appending nodes on mousedown can break mouseup→click on <a href> (intermittent navigation / cursor).
+    if (target instanceof HTMLAnchorElement) return
 
     const rect = target.getBoundingClientRect()
     const size = Math.max(rect.width, rect.height)
