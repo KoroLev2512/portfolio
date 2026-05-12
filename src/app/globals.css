@@ -682,7 +682,6 @@ body {
   rotate: var(--icon-angle, 0deg);
 }
 
-/* Fine pointer (mouse / trackpad): UA uses cursor:auto on children of <a> (img, wrappers) — keep a stable hand. */
 @media (pointer: fine) {
   a[href],
   a[href] * {
@@ -699,5 +698,36 @@ body {
   .header-lang button,
   .theme-btn {
     cursor: pointer !important;
+  }
+}
+
+/* Coarse pointer (phones): cursor:pointer hints extra tap affordance / grey flash — reset cursor and tap chrome. */
+@media (pointer: coarse) {
+  a[href],
+  a[href] *,
+  button,
+  button *,
+  .btn,
+  .btn *,
+  .external-link,
+  .external-link *,
+  .internal-link,
+  .internal-link *,
+  .project-card-link,
+  .project-card-link *,
+  .experiments-card-link,
+  .experiments-card-link *,
+  .header-lang button,
+  .theme-btn {
+    cursor: auto !important;
+  }
+
+  a[href],
+  button,
+  .btn,
+  .project-card-link,
+  .experiments-card-link {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 }
