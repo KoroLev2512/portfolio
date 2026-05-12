@@ -296,6 +296,7 @@ body {
   text-decoration: underline;
   text-underline-offset: 0.125rem;
   text-decoration-color: var(--text-tertiary);
+  cursor: pointer;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
@@ -679,4 +680,24 @@ body {
 .icon-rotate {
   transform-origin: center;
   rotate: var(--icon-angle, 0deg);
+}
+
+/* Fine pointer (mouse / trackpad): UA uses cursor:auto on children of <a> (img, wrappers) — keep a stable hand. */
+@media (pointer: fine) {
+  a[href],
+  a[href] * {
+    cursor: pointer !important;
+  }
+
+  button:not(:disabled),
+  .btn,
+  button:not(:disabled) *,
+  .btn * {
+    cursor: pointer !important;
+  }
+
+  .header-lang button,
+  .theme-btn {
+    cursor: pointer !important;
+  }
 }
