@@ -9,7 +9,7 @@ import {
 } from '../env'
 
 const STUB_PROJECT = 'missing-sanity-env'
-const STUB_DATASET = 'missing-sanity-dataset'
+const STUB_DATASET = 'production'
 
 const sharedConfig = isSanityConfigured
   ? ({ projectId, dataset, apiVersion } as const)

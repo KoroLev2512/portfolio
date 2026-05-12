@@ -3,10 +3,8 @@
 import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import Link from 'next/link'
 import { fillNameInAlt, getTranslations, type Lang } from '@/shared/i18n'
-import { usePortfolioMapped, useSanityContentDisabled } from '@/shared/lib/PortfolioSanityContext'
+import { usePortfolioMapped } from '@/shared/lib/PortfolioSanityContext'
 import { resolveContactsSectionTitle } from '@/shared/lib/portfolioContacts'
-import { getStubUiStrings } from '@/shared/lib/sanityStubUi'
-import { stubPortraitSrc } from '@/shared/lib/stubPortraitAsset'
 import { SendIcon } from '@/shared/ui/SendIcon'
 import { ThemeIcon } from '@/shared/ui/ThemeIcon'
 import avatarImg from '@/../public/avatar.png'
@@ -37,24 +35,19 @@ export function Header({
 }: HeaderProps) {
   const t = getTranslations(lang, 'home') as Record<string, string>
   const mapped = usePortfolioMapped()
-  const contentDisabled = useSanityContentDisabled()
-  const stub = getStubUiStrings(lang)
   const isRuUi = lang === 'ru'
-  const displayName = contentDisabled
-    ? stub.personName
-    : personName?.trim() || mapped?.personName?.trim() || t.name
-  const displayRole = contentDisabled
-    ? stub.personRole
-    : personRole?.trim() || mapped?.personRole?.trim() || t.position
+  const displayName =
+    personName?.trim() || mapped?.personName?.trim() || t.name
+  const displayRole =
+    personRole?.trim() || mapped?.personRole?.trim() || t.position
   const photoFromCms = mapped?.personPhotoUrl?.trim()
-  const photoSrc = contentDisabled
-    ? stubPortraitSrc
-    : personPhotoSrc?.trim()
+  const photoSrc =
+    personPhotoSrc?.trim()
       ? personPhotoSrc
       : photoFromCms
         ? photoFromCms
         : avatarImg
-  const ctaLabel = resolveContactsSectionTitle(mapped, t.contactsCta, { contentDisabled, lang })
+  const ctaLabel = resolveContactsSectionTitle(mapped, t.contactsCta)
   const photoAlt = fillNameInAlt(t.altPortraitNamed, displayName)
 
   const handleContactsClick = () => {

@@ -9,8 +9,6 @@ import { mapSanityToPortfolio, type PortfolioMapped } from '@/sanity/lib/portfol
 export type PortfolioSanityDocuments = {
   homepage: unknown
   siteSettings: unknown
-  /** When true, Next.js skipped Sanity — use neutral stub copy (see `getStubUiStrings`). */
-  sanityContentDisabled?: boolean
 }
 
 const PortfolioSanityContext = createContext<PortfolioSanityDocuments | null>(null)
@@ -29,21 +27,15 @@ export function usePortfolioSanityDocs(): PortfolioSanityDocuments | null {
   return useContext(PortfolioSanityContext)
 }
 
-export function useSanityContentDisabled(): boolean {
-  const docs = usePortfolioSanityDocs()
-  return Boolean(docs?.sanityContentDisabled)
-}
-
 export function usePortfolioMapped(): PortfolioMapped | null {
   const docs = usePortfolioSanityDocs()
   const { lang } = useAppContext()
   return useMemo(() => {
     if (docs == null) return null
-    const { homepage, siteSettings } = docs
-    if (homepage == null && siteSettings == null) return null
+    if (docs.homepage == null && docs.siteSettings == null) return null
     return mapSanityToPortfolio(
-      homepage as Parameters<typeof mapSanityToPortfolio>[0],
-      siteSettings as Parameters<typeof mapSanityToPortfolio>[1],
+      docs.homepage as Parameters<typeof mapSanityToPortfolio>[0],
+      docs.siteSettings as Parameters<typeof mapSanityToPortfolio>[1],
       lang,
     )
   }, [docs, lang])
@@ -52,9 +44,8 @@ export function usePortfolioMapped(): PortfolioMapped | null {
 export function useContactsBlockProps() {
   const { lang } = useAppContext()
   const mapped = usePortfolioMapped()
-  const contentDisabled = useSanityContentDisabled()
   const t = getTranslations(lang, 'home') as Record<string, string>
-  const title = resolveContactsSectionTitle(mapped, t.contactsCta, { contentDisabled, lang })
+  const title = resolveContactsSectionTitle(mapped, t.contactsCta)
   const buttons =
     mapped?.contactsButtons && mapped.contactsButtons.length > 0 ? mapped.contactsButtons : undefined
   return {

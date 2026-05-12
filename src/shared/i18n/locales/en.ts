@@ -48,21 +48,6 @@ export const project = {
   closeImageModal: 'Close enlarged image',
 } as const
 
-/** Neutral copy when `NEXT_PUBLIC_SANITY_DISABLE` / `SANITY_DISABLE` is on (no CMS). */
-export const stub = {
-  personName: 'Your name',
-  personRole: 'Your role',
-  heroBio:
-    'Placeholder bio: connect a Sanity dataset to replace this text. This line is only shown when CMS content is disabled for the Next.js app.',
-  contactsCta: 'Contact',
-  footerDesignerLabel: 'Designer',
-  footerDesignerHref: 'https://example.com',
-  heroContacts: [
-    { label: 'email@example.com', href: 'mailto:email@example.com' },
-    { label: 'example.com', href: 'https://example.com' },
-  ],
-} as const
-
 export const experiments = {
   pageTitle: 'Experiments',
   pageSubtitle:

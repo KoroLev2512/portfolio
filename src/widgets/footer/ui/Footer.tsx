@@ -4,8 +4,7 @@ import Link from 'next/link'
 import { ArrowIcon } from '@/shared/ui/ArrowIcon'
 import { ThemeIcon } from '@/shared/ui/ThemeIcon'
 import type { Lang } from '@/shared/i18n'
-import { usePortfolioMapped, useSanityContentDisabled } from '@/shared/lib/PortfolioSanityContext'
-import { getStubUiStrings } from '@/shared/lib/sanityStubUi'
+import { usePortfolioMapped } from '@/shared/lib/PortfolioSanityContext'
 import styles from './Footer.module.css'
 
 function isInternalHref(href: string) {
@@ -31,15 +30,10 @@ export function Footer({
 }: FooterProps) {
   const textClass = useReveal ? `${styles['footer-text']} text-reveal-body` : styles['footer-text']
   const mapped = usePortfolioMapped()
-  const contentDisabled = useSanityContentDisabled()
-  const stub = getStubUiStrings(lang)
   const aside = mapped?.footerAside
-  const designerHref = contentDisabled
-    ? stub.footerDesignerHref
-    : aside?.linkHref?.trim() || '#'
-  const designerLabel = contentDisabled
-    ? stub.footerDesignerLabel
-    : aside?.linkLabel?.trim() || (lang === 'ru' ? 'Денис Князев' : 'Denis Knyazev')
+  const designerHref = aside?.linkHref?.trim() || '#'
+  const designerLabel =
+    aside?.linkLabel?.trim() || (lang === 'ru' ? 'Денис Князев' : 'Denis Knyazev')
 
   const designerInner = (
     <>
