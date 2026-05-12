@@ -125,7 +125,6 @@
 .experiments-card-link {
   text-decoration: none;
   color: inherit;
-  cursor: pointer;
 }
 
 @media (max-width: 48rem) {

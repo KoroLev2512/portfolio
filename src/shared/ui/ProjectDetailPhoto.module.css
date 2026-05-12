@@ -23,13 +23,19 @@
   padding: 0;
   margin: 0;
   background: none;
-  cursor: pointer;
   width: 100%;
 }
 
 .project-detail-photo-button:focus-visible {
   outline: 0.125rem solid var(--text-primary);
   outline-offset: 0.25rem;
+}
+
+@media (any-pointer: fine) {
+  .project-detail-photo-button,
+  .project-detail-modal-close {
+    cursor: pointer;
+  }
 }
 
 .project-detail-hero-img {
@@ -113,7 +119,6 @@
   border: none;
   background: none;
   padding: 0.25rem;
-  cursor: pointer;
   color: var(--text-primary);
 }
 

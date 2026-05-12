@@ -147,7 +147,6 @@ body {
   font-weight: 500;
   border: none;
   border-radius: 62.4375rem;
-  cursor: pointer;
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -252,7 +251,6 @@ body {
   font-size: 0.875rem;
   line-height: 1.125rem;
   text-decoration: none;
-  cursor: pointer;
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
@@ -306,6 +304,18 @@ body {
   }
 }
 
+@media (any-pointer: fine) {
+  .btn,
+  .header-lang button,
+  .theme-btn,
+  .external-link,
+  .internal-link,
+  .project-card-link,
+  .experiments-card-link {
+    cursor: pointer;
+  }
+}
+
 
 .header-lang {
   display: flex;
@@ -324,7 +334,6 @@ body {
   font: inherit;
   color: inherit;
   position: relative;
-  cursor: pointer;
   transition: color 0.2s ease;
 }
 
@@ -363,7 +372,6 @@ body {
   height: 1.25rem;
   border: none;
   background: none;
-  cursor: pointer;
   padding: 0;
   display: flex;
   align-items: center;
@@ -517,7 +525,6 @@ body {
 .experiments-card-link {
   text-decoration: none;
   color: inherit;
-  cursor: pointer;
 }
 
 @media (hover: hover) and (pointer: fine) {
