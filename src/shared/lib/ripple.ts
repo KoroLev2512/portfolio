@@ -7,7 +7,6 @@ export function initRipple() {
   document.addEventListener('mousedown', (e) => {
     const target = (e.target as HTMLElement).closest<HTMLElement>(RIPPLE_SELECTORS)
     if (!target) return
-    if (target instanceof HTMLAnchorElement) return
 
     const rect = target.getBoundingClientRect()
     const size = Math.max(rect.width, rect.height)
@@ -21,8 +20,18 @@ export function initRipple() {
     span.style.left = toRem(x)
     span.style.top = toRem(y)
 
-    target.appendChild(span)
-    span.addEventListener('animationend', () => span.remove())
+    const apply = () => {
+      if (!target.isConnected) return
+      target.appendChild(span)
+      span.addEventListener('animationend', () => span.remove())
+    }
+
+    // Sync DOM insert on <a> can swallow the click in some engines; defer keeps navigation reliable.
+    if (target instanceof HTMLAnchorElement) {
+      window.setTimeout(apply, 0)
+    } else {
+      apply()
+    }
   })
 }
 
