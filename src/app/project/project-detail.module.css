@@ -115,13 +115,15 @@
   transition: color 0.2s ease;
 }
 
-.project-detail-link:hover {
-  color: var(--text-secondary);
-}
+@media (hover: hover) and (pointer: fine) {
+  .project-detail-link:hover {
+    color: var(--text-secondary);
+  }
 
-.project-detail-link:hover :global(.external-link-icon) {
-  rotate: 45deg;
-  opacity: 1;
+  .project-detail-link:hover :global(.external-link-icon) {
+    rotate: 45deg;
+    opacity: 1;
+  }
 }
 
 .project-detail-description {
@@ -192,9 +194,11 @@
   transition: background-color 0.2s ease;
 }
 
-.project-detail-nav-card:hover {
-  background-color: rgba(243, 246, 250, 0.02);
-  border-color: transparent;
+@media (hover: hover) and (pointer: fine) {
+  .project-detail-nav-card:hover {
+    background-color: rgba(243, 246, 250, 0.02);
+    border-color: transparent;
+  }
 }
 
 .project-detail-nav-card:active {
