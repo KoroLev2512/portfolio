@@ -20,6 +20,7 @@ import {
   resolveHeroContactLinks,
 } from '@/shared/lib/portfolioContacts'
 import { getStubUiStrings } from '@/shared/lib/sanityStubUi'
+import { stubPortraitSrc } from '@/shared/lib/stubPortraitAsset'
 import styles from './page.module.css'
 
 const SECTION_KEYS = ['skills', 'projects', 'workExperience', 'education'] as const
@@ -139,7 +140,9 @@ export function HomePageClient() {
     !contentDisabled && mapped?.personPhotoUrl && mapped.personPhotoUrl.length > 0
       ? mapped.personPhotoUrl
       : null
-  const heroPhotoSrc: StaticImageData | string = heroPhoto ?? avatarImg
+  const heroPhotoSrc: StaticImageData | string = contentDisabled
+    ? stubPortraitSrc
+    : heroPhoto ?? avatarImg
 
   const heroBio = contentDisabled
     ? stub.heroBio

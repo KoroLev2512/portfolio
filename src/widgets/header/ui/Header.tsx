@@ -6,6 +6,7 @@ import { fillNameInAlt, getTranslations, type Lang } from '@/shared/i18n'
 import { usePortfolioMapped, useSanityContentDisabled } from '@/shared/lib/PortfolioSanityContext'
 import { resolveContactsSectionTitle } from '@/shared/lib/portfolioContacts'
 import { getStubUiStrings } from '@/shared/lib/sanityStubUi'
+import { stubPortraitSrc } from '@/shared/lib/stubPortraitAsset'
 import { SendIcon } from '@/shared/ui/SendIcon'
 import { ThemeIcon } from '@/shared/ui/ThemeIcon'
 import avatarImg from '@/../public/avatar.png'
@@ -47,7 +48,7 @@ export function Header({
     : personRole?.trim() || mapped?.personRole?.trim() || t.position
   const photoFromCms = mapped?.personPhotoUrl?.trim()
   const photoSrc = contentDisabled
-    ? avatarImg
+    ? stubPortraitSrc
     : personPhotoSrc?.trim()
       ? personPhotoSrc
       : photoFromCms
