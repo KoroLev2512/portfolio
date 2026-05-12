@@ -49,6 +49,21 @@ export const project = {
   closeImageModal: 'Закрыть увеличенное изображение',
 } as const
 
+/** Нейтральный текст при `NEXT_PUBLIC_SANITY_DISABLE` / `SANITY_DISABLE` (без CMS). */
+export const stub = {
+  personName: 'Ваше имя',
+  personRole: 'Ваша роль',
+  heroBio:
+    'Заглушка: подключите датасет Sanity, чтобы заменить этот текст. Он показывается только когда контент CMS отключён для приложения Next.js.',
+  contactsCta: 'Связаться',
+  footerDesignerLabel: 'Дизайнер',
+  footerDesignerHref: 'https://example.com',
+  heroContacts: [
+    { label: 'email@example.com', href: 'mailto:email@example.com' },
+    { label: 'example.com', href: 'https://example.com' },
+  ],
+} as const
+
 export const experiments = {
   pageTitle: 'Эксперименты',
   pageSubtitle:

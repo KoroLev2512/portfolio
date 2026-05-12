@@ -14,11 +14,12 @@ import { fillNameInAlt, getTranslations } from '@/shared/i18n'
 import { Header } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
-import { usePortfolioMapped, usePortfolioSanityDocs } from '@/shared/lib/PortfolioSanityContext'
+import { usePortfolioMapped, usePortfolioSanityDocs, useSanityContentDisabled } from '@/shared/lib/PortfolioSanityContext'
 import {
   resolveContactsSectionTitle,
   resolveHeroContactLinks,
 } from '@/shared/lib/portfolioContacts'
+import { getStubUiStrings } from '@/shared/lib/sanityStubUi'
 import styles from './page.module.css'
 
 const SECTION_KEYS = ['skills', 'projects', 'workExperience', 'education'] as const
@@ -130,19 +131,28 @@ export function HomePageClient() {
   const { theme, lang, onToggleTheme, onChangeLang } = useAppContext()
   const sanityDocs = usePortfolioSanityDocs()
   const mapped = usePortfolioMapped()
+  const contentDisabled = useSanityContentDisabled()
+  const stub = useMemo(() => getStubUiStrings(lang), [lang])
   const t = getTranslations(lang, 'home') as Record<string, string>
 
   const heroPhoto =
-    mapped?.personPhotoUrl && mapped.personPhotoUrl.length > 0 ? mapped.personPhotoUrl : null
+    !contentDisabled && mapped?.personPhotoUrl && mapped.personPhotoUrl.length > 0
+      ? mapped.personPhotoUrl
+      : null
   const heroPhotoSrc: StaticImageData | string = heroPhoto ?? avatarImg
 
-  const heroBio = mapped?.hasHomepage
-    ? mapped.heroBio.trim() !== ''
-      ? mapped.heroBio
+  const heroBio = contentDisabled
+    ? stub.heroBio
+    : mapped?.hasHomepage
+      ? mapped.heroBio.trim() !== ''
+        ? mapped.heroBio
+        : t.heroBio
       : t.heroBio
-    : t.heroBio
 
-  const heroContacts = useMemo(() => resolveHeroContactLinks(mapped), [mapped])
+  const heroContacts = useMemo(
+    () => resolveHeroContactLinks(mapped, { contentDisabled, lang }),
+    [mapped, contentDisabled, lang],
+  )
 
   const defaultSkillGroups = [
     { title: t.hardSkills, tags: Array.from({ length: 20 }, () => 'Skill') },
@@ -159,11 +169,13 @@ export function HomePageClient() {
     middleOrder.push(...SECTION_KEYS)
   }
 
-  const contactsTitle = resolveContactsSectionTitle(mapped, t.contactsCta)
+  const contactsTitle = resolveContactsSectionTitle(mapped, t.contactsCta, { contentDisabled, lang })
   const contactsButtons =
     mapped?.contactsButtons && mapped.contactsButtons.length > 0 ? mapped.contactsButtons : undefined
 
-  const heroPortraitName = mapped?.personName?.trim() || t.name
+  const heroPortraitName = contentDisabled
+    ? stub.personName
+    : mapped?.personName?.trim() || t.name
   const heroPhotoAlt = fillNameInAlt(t.altPortraitNamed, heroPortraitName)
 
   const sectionMap: Record<SectionKey, React.ReactNode> = {
@@ -298,8 +310,12 @@ export function HomePageClient() {
           />
           <div className={styles['hero-info']}>
             <div className="hero-name-block text-reveal-title">
-              <p className={styles['hero-name']}>{mapped?.personName?.trim() || t.name}</p>
-              <p className={styles['hero-position']}>{mapped?.personRole?.trim() || t.position}</p>
+              <p className={styles['hero-name']}>
+                {contentDisabled ? stub.personName : mapped?.personName?.trim() || t.name}
+              </p>
+              <p className={styles['hero-position']}>
+                {contentDisabled ? stub.personRole : mapped?.personRole?.trim() || t.position}
+              </p>
             </div>
             {heroContacts.length > 0 ? (
               <div className={`${styles['hero-contacts']} text-reveal-body`}>

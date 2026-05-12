@@ -6,6 +6,7 @@ import { ClientBoot } from './ClientBoot'
 import { AppProvider } from '@/shared/lib/AppContext'
 import { PortfolioSanityProvider } from '@/shared/lib/PortfolioSanityContext'
 import { getPortfolioHomeDocuments } from '@/sanity/lib/getPortfolioHome'
+import { isSanityContentDisabled } from '@/sanity/env'
 import {
   absoluteUrlForPublicFile,
   getMetadataBaseUrl,
@@ -69,7 +70,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const sanityDocs = await getPortfolioHomeDocuments()
+  const sanityDocsRaw = await getPortfolioHomeDocuments()
+  const sanityDocs = { ...sanityDocsRaw, sanityContentDisabled: isSanityContentDisabled }
   const yandexMetrikaSrc = yandexMetrikaId
     ? `https://mc.yandex.ru/metrika/tag.js?id=${yandexMetrikaId}`
     : null

@@ -22,6 +22,8 @@ SANITY_DISABLE=1
 
 После изменения `.env.local` перезапусти dev-сервер.
 
+В этом режиме в **шапке**, **hero** и **футере** подставляются нейтральные заглушки из `src/shared/i18n/locales/*/stub.ts` (не персональные строки из `common` и не `FALLBACK_HERO_CONTACTS`).
+
 ## 1. Создать пустой dataset
 
 Войди в Sanity CLI:
