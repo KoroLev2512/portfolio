@@ -1,7 +1,10 @@
 import createImageUrlBuilder from '@sanity/image-url'
 import type { Image } from 'sanity'
 
+import { isSanityConfigured } from '../env'
+
 function getBuilder() {
+  if (!isSanityConfigured) return null
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
   const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
   if (!projectId || !dataset) return null

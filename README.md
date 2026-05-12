@@ -75,8 +75,10 @@ scripts/           # sanity runner, image optimization helper
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | Yes (for CMS) | Sanity project ID (site + Studio). |
-| `NEXT_PUBLIC_SANITY_DATASET` | Yes (for CMS) | Dataset name (e.g. `production`). |
+| `NEXT_PUBLIC_SANITY_DATASET` | Yes (for CMS) | Dataset name, e.g. `<your_empty_dataset_name>`. |
 | `NEXT_PUBLIC_SANITY_API_VERSION` | No | API version string; defaults are set in `sanity/env.ts`. |
+| `NEXT_PUBLIC_SANITY_DISABLE` | No | When `1` / `true` / `yes` / `on`, the Next.js app skips Sanity fetches and uses local stubs. Does not affect `npm run sanity:dev`. |
+| `SANITY_DISABLE` | No | Same as `NEXT_PUBLIC_SANITY_DISABLE` for server-only env (no client bundle exposure). |
 | `NEXT_PUBLIC_SITE_URL` | Strongly recommended for production | Canonical site URL **without** trailing slash, e.g. `https://example.com`. Used for Open Graph, Twitter images, and absolute URLs. If missing, metadata may fall back to `localhost`. |
 | `NEXT_PUBLIC_BASE_PATH` | For subpath deploys | In **production**, base path for GitHub Pages / subfolder hosting. Example: `/portfolio`. Empty string = site at domain root. Dev server always uses no base path. |
 | `SANITY_API_READ_TOKEN` | No | Read token for authenticated client / Live preview; public fetches work without it for published content. |
@@ -202,8 +204,10 @@ scripts/         # Запуск sanity CLI, оптимизация картин�
 | Переменная | Обязательно | Назначение |
 |------------|-------------|------------|
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | Да (для CMS) | ID проекта Sanity. |
-| `NEXT_PUBLIC_SANITY_DATASET` | Да (для CMS) | Имя датасета (например `production`). |
+| `NEXT_PUBLIC_SANITY_DATASET` | Да (для CMS) | Имя датасета, например `<your_empty_dataset_name>`. |
 | `NEXT_PUBLIC_SANITY_API_VERSION` | Нет | Версия API; см. дефолты в `sanity/env.ts`. |
+| `NEXT_PUBLIC_SANITY_DISABLE` | Нет | При `1` / `true` / `yes` / `on` сайт Next.js не ходит в Sanity и показывает заглушки. На `npm run sanity:dev` не влияет. |
+| `SANITY_DISABLE` | Нет | То же, что `NEXT_PUBLIC_SANITY_DISABLE`, но только на сервере (без попадания в клиентский бандл). |
 | `NEXT_PUBLIC_SITE_URL` | Очень желательно в проде | Канонический URL **без** завершающего слэша (`https://site.ru`). Нужен для og:image, превью ссылок и абсолютных URL. Без него возможен fallback на localhost в метаданных. |
 | `NEXT_PUBLIC_BASE_PATH` | Для подпапки | В **production** — префикс пути (например `/portfolio` для GitHub Pages). Пустая строка = сайт с корня домена. В dev всегда без префикса. |
 | `SANITY_API_READ_TOKEN` | Нет | Токен чтения для авторизованного клиента / Live; опубликованный контент доступен и без него. |

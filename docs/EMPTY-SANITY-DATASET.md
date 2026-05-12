@@ -1,6 +1,26 @@
 # Empty Sanity Dataset
 
-Эта ветка рассчитана на подключение отдельного пустого Sanity dataset. Контент Sanity не хранится в git, поэтому “пустые данные” делаются через новый dataset в Sanity project и отдельные env-переменные.
+Эта ветка рассчитана на подключение отдельного пустого Sanity dataset. В репозитории не должно быть реального `projectId`, реального `dataset` или токенов: только placeholders. Контент Sanity не хранится в git, поэтому “пустые данные” делаются через новый dataset и отдельные env-переменные.
+
+## 0. Только заглушки на сайте (без своего dataset в браузере)
+
+Git-ветка **не отключает** Sanity сама по себе: если в `.env.local` заданы `NEXT_PUBLIC_SANITY_PROJECT_ID` и `NEXT_PUBLIC_SANITY_DATASET`, Next.js продолжит ходить в твой dataset.
+
+Чтобы на **сайте** (`npm run dev` / `next build`) не подгружать CMS и показывать **заглушки из кода**, добавь в `.env.local`:
+
+```bash
+NEXT_PUBLIC_SANITY_DISABLE=1
+```
+
+Допустимо и серверное имя (без префикса `NEXT_PUBLIC_`):
+
+```bash
+SANITY_DISABLE=1
+```
+
+`npm run sanity:dev` на эти переменные **не смотрит** — Studio по-прежнему может использовать твой `SANITY_STUDIO_*` / `NEXT_PUBLIC_*` для работы с пустым dataset.
+
+После изменения `.env.local` перезапусти dev-сервер.
 
 ## 1. Создать пустой dataset
 
@@ -10,30 +30,30 @@
 npx sanity login
 ```
 
-Создай новый dataset в текущем Sanity project:
+Создай новый пустой dataset в нужном Sanity project:
 
 ```bash
-npx sanity dataset create empty-sanity --visibility public
+npx sanity dataset create <your_empty_dataset_name> --visibility public
 ```
 
-Можно выбрать другое имя, например `clean`, `staging` или `portfolio-empty`. Главное — использовать это же имя в env-переменных ниже.
+Например, dataset можно назвать `clean`, `staging` или `portfolio-empty`. Не коммить реальное имя dataset, если эта ветка должна оставаться шаблонной.
 
 ## 2. Подключить dataset локально
 
-В `.env.local` укажи project id и новый dataset:
+В `.env.local` укажи свои локальные значения вместо placeholders:
 
 ```bash
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
-NEXT_PUBLIC_SANITY_DATASET=empty-sanity
+NEXT_PUBLIC_SANITY_PROJECT_ID=<your_sanity_project_id>
+NEXT_PUBLIC_SANITY_DATASET=<your_empty_dataset_name>
 
-SANITY_PROJECT_ID=your_project_id
-SANITY_DATASET=empty-sanity
+SANITY_PROJECT_ID=<your_sanity_project_id>
+SANITY_DATASET=<your_empty_dataset_name>
 
-SANITY_STUDIO_PROJECT_ID=your_project_id
-SANITY_STUDIO_DATASET=empty-sanity
+SANITY_STUDIO_PROJECT_ID=<your_sanity_project_id>
+SANITY_STUDIO_DATASET=<your_empty_dataset_name>
 ```
 
-Для опубликованного публичного контента read token не нужен. Если в `.env.local` уже есть `SANITY_API_READ_TOKEN` от другого проекта, убери его или оставь пустым, чтобы не получить `401 Session does not match project host`.
+Для опубликованного публичного контента read token не нужен. Если в `.env.local` уже есть `SANITY_API_READ_TOKEN`, убери его или оставь пустым, чтобы случайно не привязать ветку к чужому или старому проекту.
 
 ## 3. Запустить Sanity Studio
 
@@ -60,15 +80,15 @@ npm run dev
 
 ## 5. Подключить dataset на деплое
 
-В настройках хостинга укажи те же переменные:
+В настройках хостинга укажи свои реальные значения вместо placeholders:
 
 ```bash
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
-NEXT_PUBLIC_SANITY_DATASET=empty-sanity
-SANITY_PROJECT_ID=your_project_id
-SANITY_DATASET=empty-sanity
-SANITY_STUDIO_PROJECT_ID=your_project_id
-SANITY_STUDIO_DATASET=empty-sanity
+NEXT_PUBLIC_SANITY_PROJECT_ID=<your_sanity_project_id>
+NEXT_PUBLIC_SANITY_DATASET=<your_empty_dataset_name>
+SANITY_PROJECT_ID=<your_sanity_project_id>
+SANITY_DATASET=<your_empty_dataset_name>
+SANITY_STUDIO_PROJECT_ID=<your_sanity_project_id>
+SANITY_STUDIO_DATASET=<your_empty_dataset_name>
 ```
 
 Для GitHub Pages эти переменные нужно передать в workflow/Actions secrets or variables перед `next build`. Для Vercel — в `Project Settings -> Environment Variables`.
@@ -82,3 +102,14 @@ npx sanity dataset list
 ```
 
 Проверь, что в Studio выбран нужный dataset, затем создай тестовый `Homepage`, нажми `Publish` и обнови сайт.
+
+## 7. Что не коммитить
+
+Не добавляй в git:
+
+- `.env`
+- `.env.local`
+- реальные Sanity `projectId`
+- реальные Sanity `dataset`
+- `SANITY_API_READ_TOKEN`
+- `SANITY_API_WRITE_TOKEN`

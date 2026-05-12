@@ -1,7 +1,7 @@
 import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
 
-import { dataset, isSanityConfigured, projectId } from '../env'
+import { dataset, isSanityConfigured, isSanityContentDisabled, projectId } from '../env'
 import { client } from './client'
 import { homepageQuery, siteSettingsQuery } from './queries'
 
@@ -32,7 +32,7 @@ async function getPortfolioHomeDocumentsImpl(): Promise<{
   siteSettings: unknown
 }> {
   if (!isSanityConfigured) {
-    if (process.env.VERCEL === '1') {
+    if (process.env.VERCEL === '1' && !isSanityContentDisabled) {
       console.warn(
         '[sanity] Нет NEXT_PUBLIC_SANITY_PROJECT_ID / NEXT_PUBLIC_SANITY_DATASET — контент главной с CMS не подгружается. Задай переменные в Vercel → Settings → Environment Variables.',
       )
