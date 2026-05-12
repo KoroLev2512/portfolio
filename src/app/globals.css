@@ -260,7 +260,6 @@ body {
   line-height: 1.125rem;
   text-decoration: none;
   cursor: pointer;
-  touch-action: manipulation;
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
@@ -527,7 +526,14 @@ body {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  touch-action: manipulation;
+}
+
+/* Browsers use cursor:auto on img/svg/video inside <a> → pointer flashes off over media. */
+a[href] :is(img, svg, video),
+a[href] .project-cover-loader,
+a[href] .experiments-bg-loader,
+a[href] .experiments-gradient-loader {
+  cursor: inherit;
 }
 
 @media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
