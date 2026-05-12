@@ -30,12 +30,7 @@
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  pointer-events: auto;
   transition: background-color 0.2s ease;
-}
-
-.project-detail-nav-card * {
-  pointer-events: none;
 }
 
 @media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {

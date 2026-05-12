@@ -26,11 +26,6 @@
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  pointer-events: auto;
-}
-
-.header-left-link * {
-  pointer-events: none;
 }
 
 .header-photo-wrap {

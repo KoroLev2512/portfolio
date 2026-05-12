@@ -161,14 +161,6 @@ body {
   transition: scale 300ms ease-out, background-color 300ms ease-out;
 }
 
-a.btn {
-  pointer-events: auto;
-}
-
-a.btn * {
-  pointer-events: none;
-}
-
 @media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
   .btn:hover {
     scale: 1.03;
@@ -268,12 +260,7 @@ a.btn * {
   line-height: 1.125rem;
   text-decoration: none;
   cursor: pointer;
-  pointer-events: auto;
   transition: color 0.2s ease, opacity 0.2s ease;
-}
-
-.external-link * {
-  pointer-events: none;
 }
 
 .external-link-secondary {
@@ -302,12 +289,7 @@ a.btn * {
   text-underline-offset: 0.125rem;
   text-decoration-color: var(--text-tertiary);
   cursor: pointer;
-  pointer-events: auto;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
-}
-
-.internal-link * {
-  pointer-events: none;
 }
 
 @media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
@@ -544,12 +526,10 @@ a.btn * {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  pointer-events: auto;
 }
 
-.project-card-link *,
-.experiments-card-link * {
-  pointer-events: none;
+a[href] :is(img, svg, video) {
+  cursor: inherit;
 }
 
 @media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
@@ -572,15 +552,6 @@ a.btn * {
   .project-card-link:hover {
     opacity: 0.95;
   }
-}
-
-a.experiments-gallery-tile {
-  pointer-events: auto;
-  cursor: pointer;
-}
-
-a.experiments-gallery-tile * {
-  pointer-events: none;
 }
 
 
