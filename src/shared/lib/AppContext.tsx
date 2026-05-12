@@ -40,6 +40,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [theme])
 
+  /** Skip one reveal reset after reading lang from storage (en→ru etc.); must not block first user switch when lang stayed `en` (no re-render). */
+  const skipNextRevealReset = useRef(false)
+
   useEffect(() => {
     if (typeof window === 'undefined') return
     queueMicrotask(() => {
@@ -60,11 +63,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       } else if (typeof navigator !== 'undefined') {
         nextLang = navigator.language.toLowerCase().startsWith('ru') ? 'ru' : 'en'
       }
+      skipNextRevealReset.current = true
       setLang(nextLang)
+      window.setTimeout(() => {
+        if (skipNextRevealReset.current) {
+          skipNextRevealReset.current = false
+        }
+      }, 0)
     })
   }, [])
 
-  const langMounted = useRef(false)
   /** First [lang] run is before restore-from-localStorage (async microtask); skip persist or we'd overwrite saved lang with default `en`. */
   const skipLangPersistOnce = useRef(true)
   useEffect(() => {
@@ -76,12 +84,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
     localStorage.setItem(LANG_KEY, lang)
 
-    if (langMounted.current) {
-      resetTextReveals()
-      resetTagReveals()
-    } else {
-      langMounted.current = true
+    if (skipNextRevealReset.current) {
+      skipNextRevealReset.current = false
+      return
     }
+
+    resetTextReveals()
+    resetTagReveals()
   }, [lang])
 
   const onToggleTheme = useCallback(
