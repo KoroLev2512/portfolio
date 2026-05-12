@@ -54,6 +54,14 @@ function contactDisplayLabel(
   return labelFromHref(href)
 }
 
+function contactHref(
+  hrefField: LocalizedValue<string> | string | undefined,
+  lang: Lang,
+): string {
+  const fromLocale = pickLocale(hrefField, lang)
+  return typeof fromLocale === 'string' ? fromLocale.trim() : ''
+}
+
 function getSkillGroupTitle(
   kind: string | undefined,
   customTitle: string | undefined,
@@ -150,7 +158,7 @@ export type PortfolioMapped = {
 
 type SanityContact = {
   label?: LocalizedValue<string> | string
-  href?: string
+  href?: LocalizedValue<string> | string
   variant?: string
 }
 
@@ -228,16 +236,14 @@ export function mapSanityToPortfolio(
   if (homepage == null && siteSettings == null) return null
 
   const heroContacts = (homepage?.heroContacts ?? [])
-    .filter((item): item is SanityContact & { href: string } =>
-      typeof item?.href === 'string' && item.href.trim().length > 0,
-    )
     .map((item) => {
-      const href = item.href.trim()
+      const href = contactHref(item.href, lang)
       return {
         label: contactDisplayLabel(item.label, lang, href),
         href,
       }
     })
+    .filter((item) => item.href.length > 0)
 
   const skillGroups = (homepage?.skillGroups ?? [])
     .map((group) => {
@@ -288,18 +294,15 @@ export function mapSanityToPortfolio(
 
   const contactsButtons =
     siteSettings?.contactsButtons
-      ?.filter(
-        (item): item is SanityContact & { href: string } =>
-          typeof item?.href === 'string' && item.href.trim().length > 0,
-      )
-      .map((item) => {
-        const href = item.href.trim()
+      ?.map((item) => {
+        const href = contactHref(item.href, lang)
         return {
           label: contactDisplayLabel(item.label, lang, href),
           href,
           variant: item.variant === 'primary' ? ('primary' as const) : ('secondary' as const),
         }
-      }) ?? []
+      })
+      .filter((item) => item.href.length > 0) ?? []
 
   const contactsTitle = siteSettings?.contactsTitle
     ? (pickLocale(siteSettings.contactsTitle, lang) ?? null)

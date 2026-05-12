@@ -1,6 +1,6 @@
 import { defineField, defineType } from "sanity";
 
-function validateHref(value: unknown) {
+function validateHrefValue(value: unknown) {
   if (typeof value !== "string" || value.trim().length === 0) {
     return "Link is required";
   }
@@ -20,6 +20,30 @@ function validateHref(value: unknown) {
     : 'Use https://, http://, mailto:, tel:, "/" or "#"';
 }
 
+function validateHref(value: unknown) {
+  if (typeof value === "string") return validateHrefValue(value);
+
+  if (value == null || typeof value !== "object") {
+    return "Link is required";
+  }
+
+  const localized = value as { ru?: unknown; en?: unknown };
+  const values = [localized.ru, localized.en].filter(
+    (item): item is string => typeof item === "string" && item.trim().length > 0
+  );
+
+  if (values.length === 0) {
+    return "Link is required in RU or EN";
+  }
+
+  for (const item of values) {
+    const result = validateHrefValue(item);
+    if (result !== true) return result;
+  }
+
+  return true;
+}
+
 export const homepageContactLinkType = defineType({
   name: "homepageContactLink",
   title: "Homepage contact link",
@@ -36,7 +60,7 @@ export const homepageContactLinkType = defineType({
       title: "* Link target",
       description:
         'Supports https://, http://, mailto:, tel:, "/" and "#"',
-      type: "string",
+      type: "localizedString",
       validation: (Rule) => Rule.required().custom(validateHref),
     }),
     defineField({
@@ -58,7 +82,14 @@ export const homepageContactLinkType = defineType({
   preview: {
     select: {
       title: "label.en",
-      subtitle: "href",
+      subtitleEn: "href.en",
+      subtitleRu: "href.ru",
+    },
+    prepare({ title, subtitleEn, subtitleRu }) {
+      return {
+        title,
+        subtitle: subtitleEn || subtitleRu || "",
+      };
     },
   },
 });

@@ -86,13 +86,13 @@ export const siteSettingsType = defineType({
         {
           _type: "homepageContactLink",
           label: { ru: "icestorm2512@gmail.com", en: "icestorm2512@gmail.com" },
-          href: "mailto:icestorm2512@gmail.com",
+          href: { ru: "mailto:icestorm2512@gmail.com", en: "mailto:icestorm2512@gmail.com" },
           variant: "primary",
         },
         {
           _type: "homepageContactLink",
           label: { ru: "t.me/korolev_2512", en: "t.me/korolev_2512" },
-          href: "https://t.me/korolev_2512",
+          href: { ru: "https://t.me/korolev_2512", en: "https://t.me/korolev_2512" },
           variant: "secondary",
         },
       ],
