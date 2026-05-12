@@ -117,8 +117,10 @@
   color: var(--text-primary);
 }
 
-.project-detail-modal-close:hover {
-  opacity: 0.8;
+@media (hover: hover) and (pointer: fine) {
+  .project-detail-modal-close:hover {
+    opacity: 0.8;
+  }
 }
 
 @media (max-width: 48rem) {

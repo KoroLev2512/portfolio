@@ -7,7 +7,6 @@ export function initRipple() {
   document.addEventListener('mousedown', (e) => {
     const target = (e.target as HTMLElement).closest<HTMLElement>(RIPPLE_SELECTORS)
     if (!target) return
-    // DOM insert on mousedown can break mouseup→click on <a href>.
     if (target instanceof HTMLAnchorElement) return
 
     const rect = target.getBoundingClientRect()

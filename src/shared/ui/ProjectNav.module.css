@@ -32,9 +32,11 @@
   transition: background-color 0.2s ease;
 }
 
-.project-detail-nav-card:hover {
-  background-color: rgba(243, 246, 250, 0.02);
-  border-color: transparent;
+@media (hover: hover) and (pointer: fine) {
+  .project-detail-nav-card:hover {
+    background-color: rgba(243, 246, 250, 0.02);
+    border-color: transparent;
+  }
 }
 
 .project-detail-nav-card:active {
