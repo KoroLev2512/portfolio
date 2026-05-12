@@ -40,6 +40,11 @@
 
 html {
   font-size: 100%;
+  -webkit-tap-highlight-color: rgba(243, 246, 250, 0.1);
+}
+
+html[data-theme='light'] {
+  -webkit-tap-highlight-color: rgba(11, 12, 14, 0.08);
 }
 
 body {
@@ -147,6 +152,7 @@ body {
   font-weight: 500;
   border: none;
   border-radius: 62.4375rem;
+  cursor: pointer;
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -155,8 +161,22 @@ body {
   transition: scale 300ms ease-out, background-color 300ms ease-out;
 }
 
-.btn:hover {
-  scale: 1.03;
+@media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
+  .btn:hover {
+    scale: 1.03;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--bg-button-primary-hover);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--bg-button-secondary-hover);
+  }
+
+  .btn-tertiary:hover {
+    background-color: var(--bg-button-secondary);
+  }
 }
 
 .btn:active {
@@ -167,10 +187,6 @@ body {
 .btn-primary {
   background-color: var(--bg-button-primary);
   color: var(--text-inverse);
-}
-
-.btn-primary:hover {
-  background-color: var(--bg-button-primary-hover);
 }
 
 .btn-primary-s {
@@ -196,17 +212,9 @@ body {
   line-height: 1.25rem;
 }
 
-.btn-secondary:hover {
-  background-color: var(--bg-button-secondary-hover);
-}
-
 .btn-tertiary {
   background: none;
   color: var(--text-primary);
-}
-
-.btn-tertiary:hover {
-  background-color: var(--bg-button-secondary);
 }
 
 
@@ -251,6 +259,8 @@ body {
   font-size: 0.875rem;
   line-height: 1.125rem;
   text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
@@ -279,10 +289,11 @@ body {
   text-decoration: underline;
   text-underline-offset: 0.125rem;
   text-decoration-color: var(--text-tertiary);
+  cursor: pointer;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
   .external-link:hover {
     color: var(--text-primary);
     opacity: 1;
@@ -302,17 +313,17 @@ body {
     color: var(--text-primary);
     text-decoration-color: var(--text-secondary);
   }
-}
 
-@media (any-pointer: fine) {
-  .btn,
-  .header-lang button,
-  .theme-btn,
-  .external-link,
-  .internal-link,
-  .project-card-link,
-  .experiments-card-link {
-    cursor: pointer;
+  .header-lang button:hover {
+    color: var(--text-primary);
+  }
+
+  .header-lang button:hover::after {
+    width: 100%;
+  }
+
+  .theme-btn:hover {
+    opacity: 0.7;
   }
 }
 
@@ -334,6 +345,7 @@ body {
   font: inherit;
   color: inherit;
   position: relative;
+  cursor: pointer;
   transition: color 0.2s ease;
 }
 
@@ -352,14 +364,6 @@ body {
   color: var(--text-primary);
 }
 
-.header-lang button:hover {
-  color: var(--text-primary);
-}
-
-.header-lang button:hover::after {
-  width: 100%;
-}
-
 @media (hover: none) {
   .header-lang button:hover::after {
     width: 0;
@@ -372,16 +376,13 @@ body {
   height: 1.25rem;
   border: none;
   background: none;
+  cursor: pointer;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-primary);
   transition: color 0.2s ease, scale 0.15s ease, opacity 0.2s ease;
-}
-
-.theme-btn:hover {
-  opacity: 0.7;
 }
 
 .theme-btn:active {
@@ -525,9 +526,11 @@ body {
 .experiments-card-link {
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
   .project-card:hover {
     box-shadow:
       0 0.75rem 2rem -0.375rem rgba(6, 7, 8, 0.8),
@@ -649,10 +652,6 @@ body {
   .section::before,
   .section::after {
     display: none;
-  }
-
-  .btn:hover {
-    scale: 1;
   }
 
   .project-card {
