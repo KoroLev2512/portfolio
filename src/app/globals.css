@@ -161,6 +161,14 @@ body {
   transition: scale 300ms ease-out, background-color 300ms ease-out;
 }
 
+a.btn {
+  pointer-events: auto;
+}
+
+a.btn * {
+  pointer-events: none;
+}
+
 @media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
   .btn:hover {
     scale: 1.03;
@@ -260,7 +268,12 @@ body {
   line-height: 1.125rem;
   text-decoration: none;
   cursor: pointer;
+  pointer-events: auto;
   transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.external-link * {
+  pointer-events: none;
 }
 
 .external-link-secondary {
@@ -289,7 +302,12 @@ body {
   text-underline-offset: 0.125rem;
   text-decoration-color: var(--text-tertiary);
   cursor: pointer;
+  pointer-events: auto;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.internal-link * {
+  pointer-events: none;
 }
 
 @media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
@@ -526,14 +544,12 @@ body {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  pointer-events: auto;
 }
 
-/* Browsers use cursor:auto on img/svg/video inside <a> → pointer flashes off over media. */
-a[href] :is(img, svg, video),
-a[href] .project-cover-loader,
-a[href] .experiments-bg-loader,
-a[href] .experiments-gradient-loader {
-  cursor: inherit;
+.project-card-link *,
+.experiments-card-link * {
+  pointer-events: none;
 }
 
 @media (hover: hover) and (pointer: fine) and (min-width: 48.0625rem) {
@@ -556,6 +572,15 @@ a[href] .experiments-gradient-loader {
   .project-card-link:hover {
     opacity: 0.95;
   }
+}
+
+a.experiments-gallery-tile {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+a.experiments-gallery-tile * {
+  pointer-events: none;
 }
 
 

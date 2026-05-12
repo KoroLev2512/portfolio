@@ -77,13 +77,11 @@
   overflow: hidden;
   border: 0.0625rem solid var(--border);
   border-radius: 1.5rem;
-  cursor: inherit;
 }
 
 .gallery-image-loader {
   width: 100%;
   height: 100%;
-  cursor: inherit;
 }
 
 .gallery > *:nth-child(3n) .galleryTileInner {
