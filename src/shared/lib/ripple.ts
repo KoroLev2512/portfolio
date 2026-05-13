@@ -16,9 +16,10 @@ export function initRipple() {
     const span = document.createElement('span')
     span.className = 'ripple'
     const toRem = (v: number) => `${v / 16}rem`
-    span.style.width = span.style.height = toRem(size)
-    span.style.left = toRem(x)
-    span.style.top = toRem(y)
+    const rem = toRem(size)
+    const left = toRem(x)
+    const top = toRem(y)
+    span.style.cssText = `width:${rem};height:${rem};left:${left};top:${top}`
 
     const apply = () => {
       if (!target.isConnected) return

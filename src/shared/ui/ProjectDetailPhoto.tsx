@@ -105,11 +105,15 @@ export function ProjectDetailPhoto({ projectImg, caption, closeModalAriaLabel }:
           className={`${styles['project-detail-modal-overlay']} ${isImageModalVisible ? styles['project-detail-modal-overlay-visible'] : ''}`}
           role="dialog"
           aria-modal="true"
-          onClick={closeModal}
         >
+          <button
+            type="button"
+            className={styles['project-detail-modal-backdrop']}
+            aria-label={closeModalAriaLabel}
+            onClick={closeModal}
+          />
           <div
             className={`${styles['project-detail-modal']} ${isImageModalVisible ? styles['project-detail-modal-visible'] : ''}`}
-            onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"

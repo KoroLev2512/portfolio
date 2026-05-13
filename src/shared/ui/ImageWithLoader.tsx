@@ -20,6 +20,7 @@ export function ImageWithLoader({
   width,
   height,
   alt,
+  sizes,
   wrapperAspectRatio = true,
   ...imageRest
 }: ImageWithLoaderProps) {
@@ -52,6 +53,9 @@ export function ImageWithLoader({
 
   const rootClass = [styles.root, fill ? styles.rootFill : '', wrapperClassName].filter(Boolean).join(' ')
 
+  const resolvedSizes =
+    fill === true && sizes == null ? '(max-width: 48rem) 100vw, (max-width: 90rem) 50vw, 33vw' : sizes
+
   return (
     <div className={rootClass} style={aspectRatioStyle}>
       {!loaded ? (
@@ -65,6 +69,7 @@ export function ImageWithLoader({
         width={fill ? undefined : width}
         height={fill ? undefined : height}
         fill={fill}
+        sizes={resolvedSizes}
         {...imageRest}
         className={imageClassName}
         data-reveal-when-loaded=""

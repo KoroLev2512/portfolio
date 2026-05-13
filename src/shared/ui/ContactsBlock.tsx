@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import styles from './ContactsBlock.module.css'
 
-export type ContactButtonItem = {
+type ContactButtonItem = {
   label: string
   href: string
   variant?: 'primary' | 'secondary'

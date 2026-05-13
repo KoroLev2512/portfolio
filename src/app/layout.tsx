@@ -99,6 +99,8 @@ export default async function RootLayout({
         {yandexMetrikaId && (
           <noscript>
             <div>
+              {/* Yandex noscript pixel — must be raw <img>; next/image is not appropriate here. */}
+              {/* eslint-disable-next-line @next/next/no-img-element -- tracking pixel in <noscript> */}
               <img
                 src={`https://mc.yandex.ru/watch/${yandexMetrikaId}`}
                 style={{ position: 'absolute', left: '-9999px' }}

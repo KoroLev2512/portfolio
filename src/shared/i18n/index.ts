@@ -4,7 +4,7 @@ import { projectData, getProjectDescription } from './projectData'
 
 export type Lang = 'ru' | 'en'
 
-export const locales = { ru, en } as const
+const locales = { ru, en } as const
 
 export type Namespace = 'home' | 'project' | 'notfound' | 'experiments'
 

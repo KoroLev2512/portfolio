@@ -40,7 +40,7 @@ function renderBlock(
     case 'listBlock':
       return (
         <ProjectDetailList
-          key={block._key ?? block.items.join('-')}
+          key={block._key ?? block.items.map((r) => r.text).join('-')}
           items={block.items}
           className={`text-reveal-body ${styles['project-detail-padding-list']}`}
         />

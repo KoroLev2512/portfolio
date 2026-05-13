@@ -235,74 +235,101 @@ export function mapSanityToPortfolio(
 ): PortfolioMapped | null {
   if (homepage == null && siteSettings == null) return null
 
-  const heroContacts = (homepage?.heroContacts ?? [])
-    .map((item) => {
-      const href = contactHref(item.href, lang)
-      return {
-        label: contactDisplayLabel(item.label, lang, href),
-        href,
-      }
+  const heroContacts: { label: string; href: string }[] = []
+  for (const item of homepage?.heroContacts ?? []) {
+    const href = contactHref(item.href, lang)
+    if (href.length === 0) continue
+    heroContacts.push({
+      label: contactDisplayLabel(item.label, lang, href),
+      href,
     })
-    .filter((item) => item.href.length > 0)
+  }
 
-  const skillGroups = (homepage?.skillGroups ?? [])
-    .map((group) => {
-      const items = pickSkillGroupItems(group.items, lang)
-      const title =
-        group.showTitle === false
-          ? ''
-          : getSkillGroupTitle(group.kind, pickLocale(group.title, lang), lang)
-      return { title, tags: items }
+  const skillGroups: { title: string; tags: string[] }[] = []
+  for (const group of homepage?.skillGroups ?? []) {
+    const items = pickSkillGroupItems(group.items, lang)
+    const title =
+      group.showTitle === false ? '' : getSkillGroupTitle(group.kind, pickLocale(group.title, lang), lang)
+    if (items.length === 0) continue
+    skillGroups.push({ title, tags: items })
+  }
+
+  const workEntries: {
+    _key: string | undefined
+    company: string
+    position: string
+    period: string | undefined
+  }[] = []
+  for (const item of homepage?.workExperienceItems ?? []) {
+    if (
+      !(
+        localizedHasContent(item?.company) ||
+        localizedHasContent(item?.position) ||
+        localizedHasContent(item?.period)
+      )
+    ) {
+      continue
+    }
+    const company = (pickLocale(item.company, lang) ?? '').trim()
+    const position = (pickLocale(item.position, lang) ?? '').trim()
+    if (!company && !position) continue
+    workEntries.push({
+      _key: item._key,
+      company,
+      position,
+      period: pickLocale(item.period, lang)?.trim(),
     })
-    .filter((g) => g.tags.length > 0)
+  }
 
-  const workEntries = (homepage?.workExperienceItems ?? [])
-      .filter(
-        (item) =>
-          localizedHasContent(item?.company) ||
-          localizedHasContent(item?.position) ||
-          localizedHasContent(item?.period),
+  const educationEntries: {
+    _key: string | undefined
+    organization: string
+    specialization: string
+    level: string
+    period: string | undefined
+  }[] = []
+  for (const item of homepage?.educationItems ?? []) {
+    if (
+      !(
+        localizedHasContent(item?.institution) ||
+        localizedHasContent(item?.program) ||
+        localizedHasContent(item?.period) ||
+        Boolean(item?.educationType)
       )
-      .map((item) => ({
-        _key: item._key,
-        company: (pickLocale(item.company, lang) ?? '').trim(),
-        position: (pickLocale(item.position, lang) ?? '').trim(),
-        period: pickLocale(item.period, lang)?.trim(),
-      }))
-      .filter((e) => e.company || e.position)
-
-  const educationEntries = (homepage?.educationItems ?? [])
-      .filter(
-        (item) =>
-          localizedHasContent(item?.institution) ||
-          localizedHasContent(item?.program) ||
-          localizedHasContent(item?.period) ||
-          Boolean(item?.educationType),
-      )
-      .map((item) => ({
-        _key: item._key,
-        organization: (pickLocale(item.institution, lang) ?? '').trim(),
-        specialization: (pickLocale(item.program, lang) ?? '').trim(),
-        level: getEducationLevelLabel(item.educationType, item.customEducationType, lang),
-        period: pickLocale(item.period, lang)?.trim(),
-      }))
-      .filter((e) => e.organization || e.specialization || e.level)
+    ) {
+      continue
+    }
+    const organization = (pickLocale(item.institution, lang) ?? '').trim()
+    const specialization = (pickLocale(item.program, lang) ?? '').trim()
+    const level = getEducationLevelLabel(item.educationType, item.customEducationType, lang)
+    if (!organization && !specialization && !level) continue
+    educationEntries.push({
+      _key: item._key,
+      organization,
+      specialization,
+      level,
+      period: pickLocale(item.period, lang)?.trim(),
+    })
+  }
 
   const personPhotoUrl = siteSettings?.personPhoto
     ? sanityImageUrl(siteSettings.personPhoto, 384, { format: 'webp', quality: 82 })
     : null
 
-  const contactsButtons =
-    siteSettings?.contactsButtons
-      ?.map((item) => {
-        const href = contactHref(item.href, lang)
-        return {
-          label: contactDisplayLabel(item.label, lang, href),
-          href,
-          variant: item.variant === 'primary' ? ('primary' as const) : ('secondary' as const),
-        }
-      })
-      .filter((item) => item.href.length > 0) ?? []
+  const contactsButtons: {
+    label: string
+    href: string
+    variant: 'primary' | 'secondary'
+  }[] = []
+  for (const item of siteSettings?.contactsButtons ?? []) {
+    const href = contactHref(item.href, lang)
+    if (href.length === 0) continue
+    contactsButtons.push({
+      label: contactDisplayLabel(item.label, lang, href),
+      href,
+      variant: item.variant === 'primary' ? ('primary' as const) : ('secondary' as const),
+    })
+  }
 
   const contactsTitle = siteSettings?.contactsTitle
     ? (pickLocale(siteSettings.contactsTitle, lang) ?? null)

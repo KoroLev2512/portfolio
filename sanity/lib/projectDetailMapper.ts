@@ -35,7 +35,7 @@ function linkLabel(
 export type MappedProjectBlock =
   | { _type: 'blockTitle'; _key?: string; text: string }
   | { _type: 'textBlock'; _key?: string; text: string }
-  | { _type: 'listBlock'; _key?: string; items: string[] }
+  | { _type: 'listBlock'; _key?: string; items: { lineKey: string; text: string }[] }
   | { _type: 'imageBlock'; _key?: string; url: string | null; alt: string; caption?: string }
   | { _type: 'quoteBlock'; _key?: string; quoteHeading: string; text: string }
 
@@ -111,7 +111,12 @@ function mapBlock(block: RawBlock | undefined, lang: Lang): MappedProjectBlock |
         ? items.filter((x): x is string => typeof x === 'string' && x.trim().length > 0)
         : []
       if (list.length === 0) return null
-      return { _type: 'listBlock', _key: key, items: list }
+      const blockKey = key ?? 'list'
+      const rows = list.map((text, line) => ({
+        lineKey: `${blockKey}-line-${line}`,
+        text,
+      }))
+      return { _type: 'listBlock', _key: key, items: rows }
     }
     case 'imageBlock': {
       const url = block.image ? sanityImageUrl(block.image, 1400, { format: 'webp', quality: 82 }) : null

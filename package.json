@@ -9,6 +9,7 @@
     "start": "next start",
     "preview": "PREVIEW=1 next build --webpack && npx serve out",
     "lint": "eslint",
+    "react-doctor": "npx react-doctor@latest",
     "export": "next build --webpack",
     "deploy": "next build --webpack && npx gh-pages -d out",
     "sanity:deploy": "node scripts/run-sanity.mjs deploy",
