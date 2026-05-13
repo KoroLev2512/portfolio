@@ -1,9 +1,3 @@
-#!/usr/bin/env node
-/**
- * Загружает .env / .env.local и зеркалит NEXT_PUBLIC_* → SANITY_STUDIO_*,
- * затем запускает CLI `sanity` с теми же аргументами.
- * Нужен для `sanity dev`: иначе Vite не видит SANITY_STUDIO_* до сборки студии.
- */
 import { spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -41,6 +35,9 @@ const child = spawn('npx', ['sanity', ...args], {
 })
 
 child.on('exit', (code, signal) => {
-  if (signal) process.exit(1)
-  process.exit(code ?? 0)
+  if (signal) {
+    process.exitCode = 1
+    return
+  }
+  process.exitCode = code ?? 0
 })

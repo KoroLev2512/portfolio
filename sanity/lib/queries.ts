@@ -102,7 +102,6 @@ export const homepageQuery = groq`
   }
 `;
 
-/** All experiments by creation time — used when homepage has no `homepageExperiments` list. */
 export const experimentsFallbackQuery = groq`
   *[_type == "experiment"] | order(_createdAt desc){
     _id,

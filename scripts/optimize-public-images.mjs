@@ -1,7 +1,3 @@
-/**
- * Генерирует сжатые WebP для тяжёлых PNG в public/ (под макетные размеры ×2 для retina).
- * Запуск: node scripts/optimize-public-images.mjs
- */
 import sharp from 'sharp'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'

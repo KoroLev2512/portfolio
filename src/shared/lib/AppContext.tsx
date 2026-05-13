@@ -40,7 +40,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [theme])
 
-  /** Skip one reveal reset after reading lang from storage (en→ru etc.); must not block first user switch when lang stayed `en` (no re-render). */
   const skipNextRevealReset = useRef(false)
 
   useEffect(() => {
@@ -73,7 +72,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     })
   }, [])
 
-  /** First [lang] run is before restore-from-localStorage (async microtask); skip persist or we'd overwrite saved lang with default `en`. */
   const skipLangPersistOnce = useRef(true)
   useEffect(() => {
     if (typeof window === 'undefined') return
