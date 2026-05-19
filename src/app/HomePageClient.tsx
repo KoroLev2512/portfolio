@@ -70,8 +70,8 @@ function ProjectCard({
         <div>
           <h3 className="project-name">{name}</h3>
           <div className="project-tags">
-            {skills.map((skill, i) => (
-              <span key={i} className="project-tag">
+            {skills.map((skill) => (
+              <span key={skill} className="project-tag">
                 {skill}
               </span>
             ))}
@@ -126,7 +126,7 @@ function EducationEntry({
   )
 }
 
-export function HomePageClient() {
+export function HomePageClient({ hasExperiments = true }: { hasExperiments?: boolean }) {
   const { theme, lang, onToggleTheme, onChangeLang } = useAppContext()
   const sanityDocs = usePortfolioSanityDocs()
   const mapped = usePortfolioMapped()
@@ -171,14 +171,14 @@ export function HomePageClient() {
       <section className="skills section">
         <p className="section-title text-reveal-title">{t.skillsTitle}</p>
         <div className={styles['skills-container']}>
-          {skillGroups.map((group, gi) => (
-            <div className={styles['skills-group']} key={gi}>
+          {skillGroups.map((group) => (
+            <div className={styles['skills-group']} key={group.title}>
               {group.title ? (
                 <p className={`${styles['skills-group-title']} text-reveal-body`}>{group.title}</p>
               ) : null}
               <div className={`${styles['skills-tags']} skills-tags`}>
-                {group.tags.map((label, i) => (
-                  <Tag key={i} label={label} />
+                {group.tags.map((label) => (
+                  <Tag key={label} label={label} />
                 ))}
               </div>
             </div>
@@ -191,9 +191,9 @@ export function HomePageClient() {
         <p className="section-title text-reveal-title">{t.projectsTitle}</p>
         <div className="projects-list">
           {mapped?.projects && mapped.projects.length > 0 ? (
-            mapped.projects.map((p, i) => (
+            mapped.projects.map((p) => (
               <ProjectCard
-                key={i}
+                key={p.href}
                 name={p.name}
                 description={p.description}
                 skills={p.skills}
@@ -208,14 +208,16 @@ export function HomePageClient() {
               <ProjectCard coverAlt={t.altProjectCoverSample} />
             </>
           )}
-          <ExperimentsCard
-            theme={theme}
-            experimentsTitle={t.experimentsTitle}
-            experimentsDesc={t.experimentsDesc}
-            href="/experiments"
-            altMockupsBg={t.altExperimentsMockupsBg}
-            altGradient={t.altExperimentsGradient}
-          />
+          {hasExperiments && (
+            <ExperimentsCard
+              theme={theme}
+              experimentsTitle={t.experimentsTitle}
+              experimentsDesc={t.experimentsDesc}
+              href="/experiments"
+              altMockupsBg={t.altExperimentsMockupsBg}
+              altGradient={t.altExperimentsGradient}
+            />
+          )}
         </div>
       </section>
     ),
@@ -303,8 +305,8 @@ export function HomePageClient() {
             </div>
             {heroContacts.length > 0 ? (
               <div className={`${styles['hero-contacts']} text-reveal-body`}>
-                {heroContacts.map((c, i) => (
-                  <ExternalLink key={i} label={c.label} href={c.href} />
+                {heroContacts.map((c) => (
+                  <ExternalLink key={c.href} label={c.label} href={c.href} />
                 ))}
               </div>
             ) : null}

@@ -1,9 +1,9 @@
-const SELECTOR =
-  '.img-reveal, .text-reveal-title, .text-reveal-body, .project-card, .experiments-card, .experiments-gallery-tile'
-const TEXT_SELECTOR = '.text-reveal-title, .text-reveal-body'
+import { REVEAL_SELECTOR, TEXT_REVEAL_SELECTOR } from './revealSelectors'
+
 const STAGGER_MS = 75
 
 let observer: IntersectionObserver | undefined
+let mutationObserver: MutationObserver | undefined
 
 export function initImageReveal() {
   if (typeof document === 'undefined' || typeof window === 'undefined') return
@@ -37,7 +37,7 @@ export function initImageReveal() {
   )
 
   function observe() {
-    document.querySelectorAll<HTMLElement>(SELECTOR).forEach((el) => {
+    document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
       if (el.hasAttribute('data-reveal-when-loaded')) return
       if (!el.classList.contains('revealed')) {
         observer!.observe(el)
@@ -47,13 +47,20 @@ export function initImageReveal() {
 
   observe()
 
-  const mo = new MutationObserver(observe)
-  mo.observe(document.body, { childList: true, subtree: true })
+  mutationObserver = new MutationObserver(observe)
+  mutationObserver.observe(document.body, { childList: true, subtree: true })
+}
+
+export function destroyImageReveal() {
+  observer?.disconnect()
+  observer = undefined
+  mutationObserver?.disconnect()
+  mutationObserver = undefined
 }
 
 export function resetTextReveals() {
   if (!observer || typeof document === 'undefined') return
-  const elements = document.querySelectorAll<HTMLElement>(TEXT_SELECTOR)
+  const elements = document.querySelectorAll<HTMLElement>(TEXT_REVEAL_SELECTOR)
 
   elements.forEach((el) => {
     el.style.transition = 'none'
@@ -61,8 +68,7 @@ export function resetTextReveals() {
     el.style.transitionDelay = ''
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  document.body.offsetHeight
+  void document.body.offsetHeight
 
   elements.forEach((el) => {
     el.style.transition = ''

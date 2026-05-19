@@ -31,6 +31,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark')
   const [lang, setLang] = useState<Lang>('en')
   const hasRestoredTheme = useRef(false)
+  const userHasToggledTheme = useRef(false)
 
   useLayoutEffect(() => {
     if (typeof document === 'undefined') return
@@ -39,6 +40,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem(THEME_KEY, theme)
     }
   }, [theme])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!userHasToggledTheme.current) {
+        setTheme(e.matches ? 'dark' : 'light')
+      }
+    }
+    mq.addEventListener('change', handleChange)
+    return () => mq.removeEventListener('change', handleChange)
+  }, [])
 
   const skipNextRevealReset = useRef(false)
 
@@ -102,6 +115,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const x = rect.left + rect.width / 2
       const y = rect.top + rect.height / 2
       const nextTheme: Theme = theme === 'light' ? 'dark' : 'light'
+      userHasToggledTheme.current = true
 
       if (!document.startViewTransition) {
         setTheme(nextTheme)

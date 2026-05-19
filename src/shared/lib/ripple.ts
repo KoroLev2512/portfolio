@@ -1,5 +1,4 @@
-const RIPPLE_SELECTORS =
-  '.btn, .project-card, .project-nav-btn, .project-card-link, .experiments-gallery-tile'
+import { RIPPLE_SELECTOR as RIPPLE_SELECTORS } from './revealSelectors'
 
 export function initRipple() {
   if (typeof document === 'undefined') return

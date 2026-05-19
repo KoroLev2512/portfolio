@@ -48,9 +48,9 @@ function ProjectCard({ name = 'Project Name', coverAlt }: { name?: string; cover
         <div>
           <h3 className="project-name">{name}</h3>
           <div className="project-tags">
-            {['Tag', 'Tag', 'Tag', 'Tag', 'Tag'].map((skill, i) => (
-              <span key={i} className="project-tag">
-                {skill}
+            {Array.from({ length: 5 }, (_, i) => (
+              <span key={`placeholder-tag-${i}`} className="project-tag">
+                Tag
               </span>
             ))}
           </div>

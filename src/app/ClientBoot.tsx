@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react'
 import { initRipple } from '@/shared/lib/ripple'
-import { initImageReveal } from '@/shared/lib/imageReveal'
-import { initLineReveal } from '@/shared/lib/lineReveal'
-import { initTagReveal } from '@/shared/lib/tagReveal'
+import { initImageReveal, destroyImageReveal } from '@/shared/lib/imageReveal'
+import { initLineReveal, destroyLineReveal } from '@/shared/lib/lineReveal'
+import { initTagReveal, destroyTagReveal } from '@/shared/lib/tagReveal'
 
 export function ClientBoot({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -12,6 +12,12 @@ export function ClientBoot({ children }: { children: React.ReactNode }) {
     initImageReveal()
     initLineReveal()
     initTagReveal()
+
+    return () => {
+      destroyImageReveal()
+      destroyLineReveal()
+      destroyTagReveal()
+    }
   }, [])
 
   return children

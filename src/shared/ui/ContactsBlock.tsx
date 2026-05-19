@@ -63,7 +63,7 @@ export function ContactsBlock({
               const isPrimary = b.variant === 'primary' || i === 0
               return (
                 <Link
-                  key={`${b.href}-${i}`}
+                  key={b.href}
                   href={b.href}
                   className={
                     isPrimary

@@ -1,8 +1,9 @@
-const GROUP_SELECTOR = '.skills-tags, .contacts-buttons, .notfound-btn-wrap, .header-cta-group'
-const TAG_SELECTOR = '.tag-reveal'
+import { TAG_GROUP_SELECTOR as GROUP_SELECTOR, TAG_SELECTOR } from './revealSelectors'
+
 const STAGGER_MS = 75
 
 let observer: IntersectionObserver | undefined
+let mutationObserver: MutationObserver | undefined
 let observerInitialized = false
 
 function observeAll() {
@@ -42,13 +43,21 @@ export function initTagReveal() {
       { threshold: 0.2 },
     )
 
-    const mo = new MutationObserver(observeAll)
-    mo.observe(document.body, { childList: true, subtree: true })
+    mutationObserver = new MutationObserver(observeAll)
+    mutationObserver.observe(document.body, { childList: true, subtree: true })
 
     observerInitialized = true
   }
 
   observeAll()
+}
+
+export function destroyTagReveal() {
+  observer?.disconnect()
+  observer = undefined
+  mutationObserver?.disconnect()
+  mutationObserver = undefined
+  observerInitialized = false
 }
 
 export function resetTagReveals() {
@@ -60,8 +69,7 @@ export function resetTagReveals() {
     el.style.transitionDelay = ''
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  document.body.offsetHeight
+  void document.body.offsetHeight
 
   document.querySelectorAll<HTMLElement>(TAG_SELECTOR).forEach((el) => {
     el.style.transition = ''
