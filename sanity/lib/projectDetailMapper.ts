@@ -1,11 +1,13 @@
-import type { Image } from 'sanity'
-
+import type { ProjectBySlugQueryResult } from '../../sanity.types'
 import type { Lang } from '@/shared/i18n'
 import { sanityImageUrl } from './imagePublic'
 
 type LocalizedValue<T = string> = { ru?: T; en?: T }
 
-function pickLocale<T = string>(field: LocalizedValue<T> | T | undefined, lang: Lang): T | undefined {
+function pickLocale<T = string>(
+  field: LocalizedValue<T> | T | null | undefined,
+  lang: Lang,
+): T | undefined {
   if (field == null) return undefined
   if (typeof field !== 'object') return field as T
   const loc = field as LocalizedValue<T>
@@ -13,7 +15,7 @@ function pickLocale<T = string>(field: LocalizedValue<T> | T | undefined, lang: 
 }
 
 function linkLabel(
-  labelField: LocalizedValue<string> | string | undefined,
+  labelField: LocalizedValue<string> | string | null | undefined,
   lang: Lang,
   href: string,
 ): string {
@@ -57,42 +59,13 @@ export type MappedProjectDetail = {
   sections: MappedProjectSection[]
 }
 
-type RawLink = { label?: LocalizedValue<string> | string; href?: string }
+export type SanityProjectDocument = ProjectBySlugQueryResult
 
-type RawBlock = {
-  _type?: string
-  _key?: string
-  text?: LocalizedValue<string> | string
-  items?: LocalizedValue<string[]>
-  image?: Image
-  alt?: LocalizedValue<string> | string
-  caption?: LocalizedValue<string> | string
-  quoteHeading?: LocalizedValue<string> | string
-  title?: LocalizedValue<string> | string
-}
+type RawBlock = NonNullable<
+  NonNullable<NonNullable<ProjectBySlugQueryResult>['sections']>[number]['blocks']
+>[number]
 
-type RawSection = {
-  title?: LocalizedValue<string> | string
-  blocks?: RawBlock[]
-}
-
-export type SanityProjectDocument = {
-  _id?: string
-  title?: LocalizedValue<string> | string
-  slug?: string
-  coverImage?: Image
-  shortDescription?: LocalizedValue<string> | string
-  heroDescription?: LocalizedValue<string> | string
-  client?: LocalizedValue<string> | string
-  domain?: LocalizedValue<string> | string
-  timeline?: LocalizedValue<string> | string
-  role?: LocalizedValue<string> | string
-  links?: RawLink[]
-  sections?: RawSection[]
-} | null
-
-function mapBlock(block: RawBlock | undefined, lang: Lang): MappedProjectBlock | null {
-  if (!block?._type) return null
+function mapBlock(block: RawBlock, lang: Lang): MappedProjectBlock | null {
   const key = block._key
   switch (block._type) {
     case 'blockTitle': {
@@ -112,10 +85,7 @@ function mapBlock(block: RawBlock | undefined, lang: Lang): MappedProjectBlock |
         : []
       if (list.length === 0) return null
       const blockKey = key ?? 'list'
-      const rows = list.map((text, line) => ({
-        lineKey: `${blockKey}-line-${line}`,
-        text,
-      }))
+      const rows = list.map((text, line) => ({ lineKey: `${blockKey}-line-${line}`, text }))
       return { _type: 'listBlock', _key: key, items: rows }
     }
     case 'imageBlock': {
@@ -125,7 +95,7 @@ function mapBlock(block: RawBlock | undefined, lang: Lang): MappedProjectBlock |
       return { _type: 'imageBlock', _key: key, url, alt, caption }
     }
     case 'quoteBlock': {
-      const quoteHeading = pickLocale(block.quoteHeading ?? block.title, lang)?.trim() ?? ''
+      const quoteHeading = pickLocale(block.quoteHeading, lang)?.trim() ?? ''
       const text = pickLocale(block.text, lang)?.trim() ?? ''
       if (!quoteHeading && !text) return null
       return { _type: 'quoteBlock', _key: key, quoteHeading, text }
@@ -148,13 +118,11 @@ export function mapSanityProjectDetail(doc: SanityProjectDocument, lang: Lang): 
   const description =
     pickLocale(doc.heroDescription, lang)?.trim() || pickLocale(doc.shortDescription, lang)?.trim() || ''
 
-  const links =
-    (doc.links ?? [])
-      .filter((l): l is RawLink & { href: string } => typeof l?.href === 'string' && l.href.trim().length > 0)
-      .map((l) => ({
-        label: linkLabel(l.label, lang, l.href.trim()),
-        href: l.href.trim(),
-      })) ?? []
+  const links = (doc.links ?? []).flatMap((l) => {
+    const href = l?.href?.trim()
+    if (!href) return []
+    return [{ label: linkLabel(l.label, lang, href), href }]
+  })
 
   const sections: MappedProjectSection[] = (doc.sections ?? [])
     .map((section) => {

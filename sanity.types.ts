@@ -27,8 +27,8 @@ export type ListBlockItems = {
 
 export type QuoteBlock = {
   _type: "quoteBlock";
-  title?: LocalizedString;
-  text?: LocalizedText;
+  title: LocalizedString;
+  text: LocalizedText;
 };
 
 export type SanityImageAssetReference = {
@@ -40,36 +40,36 @@ export type SanityImageAssetReference = {
 
 export type ImageBlock = {
   _type: "imageBlock";
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
   };
-  alt?: LocalizedString;
+  alt: LocalizedString;
   caption?: LocalizedString;
 };
 
 export type ListBlock = {
   _type: "listBlock";
-  items?: ListBlockItems;
+  items: ListBlockItems;
 };
 
 export type TextBlock = {
   _type: "textBlock";
-  text?: LocalizedText;
+  text: LocalizedText;
 };
 
 export type BlockTitle = {
   _type: "blockTitle";
-  text?: LocalizedString;
+  text: LocalizedString;
 };
 
 export type EducationItem = {
   _type: "educationItem";
-  institution?: LocalizedString;
-  program?: LocalizedString;
+  institution: LocalizedString;
+  program: LocalizedString;
   educationType?:
     | "incomplete-higher"
     | "higher"
@@ -83,14 +83,14 @@ export type EducationItem = {
 
 export type WorkExperience = {
   _type: "workExperience";
-  company?: LocalizedString;
-  position?: LocalizedString;
-  period?: LocalizedString;
+  company: LocalizedString;
+  position: LocalizedString;
+  period: LocalizedString;
 };
 
 export type SkillGroup = {
   _type: "skillGroup";
-  kind?: "hard-skills" | "soft-skills" | "languages" | "tools-stack" | "custom";
+  kind: "hard-skills" | "soft-skills" | "languages" | "tools-stack" | "custom";
   title?: LocalizedString;
   showTitle?: boolean;
   items?: Items;
@@ -98,15 +98,15 @@ export type SkillGroup = {
 
 export type HomepageContactLink = {
   _type: "homepageContactLink";
-  label?: LocalizedString;
-  href?: LocalizedString;
+  label: LocalizedString;
+  href: LocalizedString;
   variant?: "primary" | "secondary";
 };
 
 export type ProjectSection = {
   _type: "projectSection";
-  title?: LocalizedString;
-  blocks?: Array<
+  title: LocalizedString;
+  blocks: Array<
     | ({
         _key: string;
       } & BlockTitle)
@@ -127,8 +127,8 @@ export type ProjectSection = {
 
 export type ProjectLink = {
   _type: "projectLink";
-  label?: LocalizedString;
-  href?: string;
+  label: LocalizedString;
+  href: string;
 };
 
 export type Experiment = {
@@ -138,30 +138,30 @@ export type Experiment = {
   _updatedAt: string;
   _rev: string;
   title?: LocalizedString;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
   };
-  href?: string;
+  href: string;
 };
 
 export type SanityImageCrop = {
   _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
 };
 
 export type SanityImageHotspot = {
   _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
+  x: number;
+  y: number;
+  height: number;
+  width: number;
 };
 
 export type LocalizedString = {
@@ -176,17 +176,17 @@ export type Project = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: LocalizedString;
-  slug?: Slug;
-  coverImage?: {
+  title: LocalizedString;
+  slug: Slug;
+  coverImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
   };
-  shortDescription?: LocalizedText;
-  heroDescription?: LocalizedText;
+  shortDescription: LocalizedText;
+  heroDescription: LocalizedText;
   tags?: {
     ru?: Array<string>;
     en?: Array<string>;
@@ -215,7 +215,7 @@ export type LocalizedText = {
 
 export type Slug = {
   _type: "slug";
-  current?: string;
+  current: string;
   source?: string;
 };
 
@@ -239,8 +239,8 @@ export type Homepage = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  heroAbout?: LocalizedText;
+  title: string;
+  heroAbout: LocalizedText;
   heroContacts?: Array<
     {
       _key: string;
@@ -261,7 +261,7 @@ export type Homepage = {
       _key: string;
     } & EducationItem
   >;
-  middleSectionsOrder?: Array<
+  middleSectionsOrder: Array<
     "skills" | "projects" | "workExperience" | "education"
   >;
   homepageProjects?: Array<
@@ -282,19 +282,40 @@ export type SiteSettings = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  personName?: LocalizedString;
-  personRole?: LocalizedString;
-  personPhoto?: {
+  title: string;
+  personName: LocalizedString;
+  personRole: LocalizedString;
+  personPhoto: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
   };
-  seoTitle?: LocalizedString;
-  seoDescription?: LocalizedText;
-  contactsTitle?: LocalizedString;
+  favicon?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  seoImageEn?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  seoImageRu?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  seoTitle: LocalizedString;
+  seoDescription: LocalizedText;
+  contactsTitle: LocalizedString;
   contactsButtons?: Array<
     {
       _key: string;
@@ -327,9 +348,9 @@ export type SanityImagePalette = {
 
 export type SanityImageDimensions = {
   _type: "sanity.imageDimensions";
-  height?: number;
-  width?: number;
-  aspectRatio?: number;
+  height: number;
+  width: number;
+  aspectRatio: number;
 };
 
 export type SanityImageMetadata = {
@@ -442,17 +463,17 @@ export type AllSanitySchemaTypes =
 // Query: *[_type == "project" && slug.current in $slugs][0]{    _id,    title,    "slug": slug.current,    coverImage,    shortDescription,    heroDescription,    client,    domain,    timeline,    role,    tags,    "links": coalesce(links, [])[]{      label,      href    },    "sections": coalesce(sections, [])[]{      title,      "blocks": coalesce(blocks, [])[]{        _type,        _key,        _type == "blockTitle" => { "text": text },        _type == "textBlock" => { "text": text },        _type == "listBlock" => { "items": items },        _type == "imageBlock" => { image, alt, caption },        _type == "quoteBlock" => { "quoteHeading": title, text }      }    }  }
 export type ProjectBySlugQueryResult = {
   _id: string;
-  title: LocalizedString | null;
-  slug: string | null;
+  title: LocalizedString;
+  slug: string;
   coverImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
-  } | null;
-  shortDescription: LocalizedText | null;
-  heroDescription: LocalizedText | null;
+  };
+  shortDescription: LocalizedText;
+  heroDescription: LocalizedText;
   client: LocalizedString | null;
   domain: LocalizedString | null;
   timeline: LocalizedString | null;
@@ -463,51 +484,49 @@ export type ProjectBySlugQueryResult = {
   } | null;
   links:
     | Array<{
-        label: LocalizedString | null;
-        href: string | null;
+        label: LocalizedString;
+        href: string;
       }>
     | Array<never>;
   sections:
     | Array<{
-        title: LocalizedString | null;
-        blocks:
-          | Array<never>
-          | Array<
-              | {
-                  _type: "blockTitle";
-                  _key: string;
-                  text: LocalizedString | null;
-                }
-              | {
-                  _type: "imageBlock";
-                  _key: string;
-                  image: {
-                    asset?: SanityImageAssetReference;
-                    media?: unknown;
-                    hotspot?: SanityImageHotspot;
-                    crop?: SanityImageCrop;
-                    _type: "image";
-                  } | null;
-                  alt: LocalizedString | null;
-                  caption: LocalizedString | null;
-                }
-              | {
-                  _type: "listBlock";
-                  _key: string;
-                  items: ListBlockItems | null;
-                }
-              | {
-                  _type: "quoteBlock";
-                  _key: string;
-                  quoteHeading: LocalizedString | null;
-                  text: LocalizedText | null;
-                }
-              | {
-                  _type: "textBlock";
-                  _key: string;
-                  text: LocalizedText | null;
-                }
-            >;
+        title: LocalizedString;
+        blocks: Array<
+          | {
+              _type: "blockTitle";
+              _key: string;
+              text: LocalizedString;
+            }
+          | {
+              _type: "imageBlock";
+              _key: string;
+              image: {
+                asset?: SanityImageAssetReference;
+                media?: unknown;
+                hotspot?: SanityImageHotspot;
+                crop?: SanityImageCrop;
+                _type: "image";
+              };
+              alt: LocalizedString;
+              caption: LocalizedString | null;
+            }
+          | {
+              _type: "listBlock";
+              _key: string;
+              items: ListBlockItems;
+            }
+          | {
+              _type: "quoteBlock";
+              _key: string;
+              quoteHeading: LocalizedString;
+              text: LocalizedText;
+            }
+          | {
+              _type: "textBlock";
+              _key: string;
+              text: LocalizedText;
+            }
+        >;
       }>
     | Array<never>;
 } | null;
@@ -516,8 +535,8 @@ export type ProjectBySlugQueryResult = {
 // Variable: projectMetadataBySlugQuery
 // Query: *[_type == "project" && slug.current in $slugs][0]{    title,    shortDescription  }
 export type ProjectMetadataBySlugQueryResult = {
-  title: LocalizedString | null;
-  shortDescription: LocalizedText | null;
+  title: LocalizedString;
+  shortDescription: LocalizedText;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -525,8 +544,8 @@ export type ProjectMetadataBySlugQueryResult = {
 // Query: *[_type == "homepage"] | order(_updatedAt desc)[0]{    "items": coalesce(homepageProjects[]->{ title, "slug": slug.current }, [])  }.items
 export type ProjectNavigationItemsQueryResult =
   | Array<{
-      title: LocalizedString | null;
-      slug: string | null;
+      title: LocalizedString;
+      slug: string;
     }>
   | Array<never>
   | null;
@@ -537,9 +556,9 @@ export type ProjectNavigationItemsQueryResult =
 export type ProjectsQueryResult =
   | Array<{
       _id: string;
-      title: LocalizedString | null;
-      slug: string | null;
-      shortDescription: LocalizedText | null;
+      title: LocalizedString;
+      slug: string;
+      shortDescription: LocalizedText;
       tags: {
         ru?: Array<string>;
         en?: Array<string>;
@@ -550,7 +569,7 @@ export type ProjectsQueryResult =
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      } | null;
+      };
     }>
   | Array<never>
   | null;
@@ -559,30 +578,30 @@ export type ProjectsQueryResult =
 // Variable: homepageProjectSlugsQuery
 // Query: *[_type == "homepage"] | order(_updatedAt desc)[0]{    "slugs": coalesce(homepageProjects[]->slug.current, [])  }.slugs
 export type HomepageProjectSlugsQueryResult =
+  | Array<string>
   | Array<never>
-  | Array<string | null>
   | null;
 
 // Source: sanity/lib/queries.ts
 // Variable: allProjectSlugsQuery
 // Query: array::unique(coalesce(*[_type == "project" && defined(slug.current)].slug.current, []))
-export type AllProjectSlugsQueryResult = Array<string | null>;
+export type AllProjectSlugsQueryResult = Array<string>;
 
 // Source: sanity/lib/queries.ts
 // Variable: homepageQuery
 // Query: *[_type == "homepage"] | order(_updatedAt desc)[0]{    _id,    title,    "heroContacts": coalesce(heroContacts[]{ _key, label, href, variant }, []),    heroAbout,    "skillGroups": coalesce(skillGroups[]{ kind, title, showTitle, items }, []),    "workExperienceItems": coalesce(workExperienceItems[]{ _key, company, position, period }, []),    "educationItems": coalesce(educationItems[]{      _key,      institution,      program,      educationType,      customEducationType,      period    }, []),    "middleSectionsOrder": coalesce(middleSectionsOrder, []),    "homepageProjects": coalesce(homepageProjects[]->{      _id,      title,      "slug": slug.current,      shortDescription,      tags,      coverImage    }, []),    "homepageExperiments": coalesce(homepageExperiments[]->{      _id,      title,      image,      href    }, [])  }
 export type HomepageQueryResult = {
   _id: string;
-  title: string | null;
+  title: string;
   heroContacts:
     | Array<{
         _key: string;
-        label: LocalizedString | null;
-        href: LocalizedString | null;
+        label: LocalizedString;
+        href: LocalizedString;
         variant: "primary" | "secondary" | null;
       }>
     | Array<never>;
-  heroAbout: LocalizedText | null;
+  heroAbout: LocalizedText;
   skillGroups:
     | Array<{
         kind:
@@ -590,8 +609,7 @@ export type HomepageQueryResult = {
           | "hard-skills"
           | "languages"
           | "soft-skills"
-          | "tools-stack"
-          | null;
+          | "tools-stack";
         title: LocalizedString | null;
         showTitle: boolean | null;
         items: Items | null;
@@ -600,16 +618,16 @@ export type HomepageQueryResult = {
   workExperienceItems:
     | Array<{
         _key: string;
-        company: LocalizedString | null;
-        position: LocalizedString | null;
-        period: LocalizedString | null;
+        company: LocalizedString;
+        position: LocalizedString;
+        period: LocalizedString;
       }>
     | Array<never>;
   educationItems:
     | Array<{
         _key: string;
-        institution: LocalizedString | null;
-        program: LocalizedString | null;
+        institution: LocalizedString;
+        program: LocalizedString;
         educationType:
           | "course"
           | "custom"
@@ -622,15 +640,15 @@ export type HomepageQueryResult = {
         period: LocalizedString | null;
       }>
     | Array<never>;
-  middleSectionsOrder:
-    | Array<never>
-    | Array<"education" | "projects" | "skills" | "workExperience">;
+  middleSectionsOrder: Array<
+    "education" | "projects" | "skills" | "workExperience"
+  >;
   homepageProjects:
     | Array<{
         _id: string;
-        title: LocalizedString | null;
-        slug: string | null;
-        shortDescription: LocalizedText | null;
+        title: LocalizedString;
+        slug: string;
+        shortDescription: LocalizedText;
         tags: {
           ru?: Array<string>;
           en?: Array<string>;
@@ -641,7 +659,7 @@ export type HomepageQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           _type: "image";
-        } | null;
+        };
       }>
     | Array<never>;
   homepageExperiments:
@@ -654,8 +672,8 @@ export type HomepageQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           _type: "image";
-        } | null;
-        href: string | null;
+        };
+        href: string;
       }>
     | Array<never>;
 } | null;
@@ -672,8 +690,8 @@ export type ExperimentsFallbackQueryResult = Array<{
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
-  } | null;
-  href: string | null;
+  };
+  href: string;
 }>;
 
 // Source: sanity/lib/queries.ts
@@ -690,33 +708,54 @@ export type HomepageExperimentsOrderQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           _type: "image";
-        } | null;
-        href: string | null;
+        };
+        href: string;
       }>
     | Array<never>;
 } | null;
 
 // Source: sanity/lib/queries.ts
 // Variable: siteSettingsQuery
-// Query: *[_type == "siteSettings"][0]{    title,    personName,    personRole,    personPhoto,    seoTitle,    seoDescription,    contactsTitle,    "contactsButtons": coalesce(contactsButtons, [])[]{      label,      href,      variant    },    showFooterAside,    footerAsideText,    footerAsideLinkLabel,    footerAsideLinkHref  }
+// Query: *[_type == "siteSettings"][0]{    title,    personName,    personRole,    personPhoto,    favicon,    seoImageEn,    seoImageRu,    seoTitle,    seoDescription,    contactsTitle,    "contactsButtons": coalesce(contactsButtons, [])[]{      label,      href,      variant    },    showFooterAside,    footerAsideText,    footerAsideLinkLabel,    footerAsideLinkHref  }
 export type SiteSettingsQueryResult = {
-  title: string | null;
-  personName: LocalizedString | null;
-  personRole: LocalizedString | null;
+  title: string;
+  personName: LocalizedString;
+  personRole: LocalizedString;
   personPhoto: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
+  };
+  favicon: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
   } | null;
-  seoTitle: LocalizedString | null;
-  seoDescription: LocalizedText | null;
-  contactsTitle: LocalizedString | null;
+  seoImageEn: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  seoImageRu: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  seoTitle: LocalizedString;
+  seoDescription: LocalizedText;
+  contactsTitle: LocalizedString;
   contactsButtons:
     | Array<{
-        label: LocalizedString | null;
-        href: LocalizedString | null;
+        label: LocalizedString;
+        href: LocalizedString;
         variant: "primary" | "secondary" | null;
       }>
     | Array<never>;
@@ -739,6 +778,6 @@ declare module "@sanity/client" {
     '\n  *[_type == "homepage"] | order(_updatedAt desc)[0]{\n    _id,\n    title,\n    "heroContacts": coalesce(heroContacts[]{ _key, label, href, variant }, []),\n    heroAbout,\n    "skillGroups": coalesce(skillGroups[]{ kind, title, showTitle, items }, []),\n    "workExperienceItems": coalesce(workExperienceItems[]{ _key, company, position, period }, []),\n    "educationItems": coalesce(educationItems[]{\n      _key,\n      institution,\n      program,\n      educationType,\n      customEducationType,\n      period\n    }, []),\n    "middleSectionsOrder": coalesce(middleSectionsOrder, []),\n    "homepageProjects": coalesce(homepageProjects[]->{\n      _id,\n      title,\n      "slug": slug.current,\n      shortDescription,\n      tags,\n      coverImage\n    }, []),\n    "homepageExperiments": coalesce(homepageExperiments[]->{\n      _id,\n      title,\n      image,\n      href\n    }, [])\n  }\n': HomepageQueryResult;
     '\n  *[_type == "experiment"] | order(_createdAt desc){\n    _id,\n    title,\n    image,\n    href\n  }\n': ExperimentsFallbackQueryResult;
     '\n  *[_type == "homepage"] | order(_updatedAt desc)[0]{\n    "ordered": coalesce(homepageExperiments[]->{\n      _id,\n      title,\n      image,\n      href\n    }, [])\n  }\n': HomepageExperimentsOrderQueryResult;
-    '\n  *[_type == "siteSettings"][0]{\n    title,\n    personName,\n    personRole,\n    personPhoto,\n    seoTitle,\n    seoDescription,\n    contactsTitle,\n    "contactsButtons": coalesce(contactsButtons, [])[]{\n      label,\n      href,\n      variant\n    },\n    showFooterAside,\n    footerAsideText,\n    footerAsideLinkLabel,\n    footerAsideLinkHref\n  }\n': SiteSettingsQueryResult;
+    '\n  *[_type == "siteSettings"][0]{\n    title,\n    personName,\n    personRole,\n    personPhoto,\n    favicon,\n    seoImageEn,\n    seoImageRu,\n    seoTitle,\n    seoDescription,\n    contactsTitle,\n    "contactsButtons": coalesce(contactsButtons, [])[]{\n      label,\n      href,\n      variant\n    },\n    showFooterAside,\n    footerAsideText,\n    footerAsideLinkLabel,\n    footerAsideLinkHref\n  }\n': SiteSettingsQueryResult;
   }
 }

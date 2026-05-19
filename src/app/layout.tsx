@@ -24,17 +24,9 @@ const geistMono = Geist_Mono({
   preload: false,
 })
 
-const ogImageEn = absoluteUrlForPublicFile('metadata_en.png')
-const ogImageRu = absoluteUrlForPublicFile('metadata_ru.png')
-const faviconUrl = absoluteUrlForPublicFile('favicon.ico')
-
-const socialImages =
-  ogImageEn && ogImageRu
-    ? [
-        { url: ogImageEn, alt: 'Portfolio — English' },
-        { url: ogImageRu, alt: 'Portfolio — Russian' },
-      ]
-    : undefined
+const staticOgImageEn = absoluteUrlForPublicFile('metadata_en.png')
+const staticOgImageRu = absoluteUrlForPublicFile('metadata_ru.png')
+const staticFaviconUrl = absoluteUrlForPublicFile('favicon.ico')
 
 const metadataBase =
   getMetadataBaseUrl() ??
@@ -42,26 +34,63 @@ const metadataBase =
 
 const yandexMetrikaId = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID
 
-export const metadata: Metadata = {
-  metadataBase,
-  title: 'Korolev Yurii',
-  description: 'Frontend developer',
-  verification: {
-    yandex: 'bfea9322e4369314',
-  },
-  icons: faviconUrl ? { icon: faviconUrl } : undefined,
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    alternateLocale: ['ru_RU'],
-    siteName: 'Portfolio',
-    url: getPublicSiteOrigin(),
-    images: socialImages,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    images: socialImages?.map((i) => i.url),
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const { siteSettings } = await getPortfolioHomeDocuments()
+  const { sanityImageUrl } = await import('@/sanity/lib/imagePublic')
+
+  const title =
+    siteSettings?.seoTitle?.en ||
+    siteSettings?.seoTitle?.ru ||
+    siteSettings?.personName?.en ||
+    'Korolev Yurii'
+
+  const description =
+    siteSettings?.seoDescription?.en ||
+    siteSettings?.seoDescription?.ru ||
+    'Frontend developer'
+
+  const faviconSanity = siteSettings?.favicon
+    ? sanityImageUrl(siteSettings.favicon, 64, { format: 'png' })
+    : null
+  const faviconIcon = faviconSanity ?? staticFaviconUrl
+
+  const ogEn = siteSettings?.seoImageEn
+    ? sanityImageUrl(siteSettings.seoImageEn, 1200, { format: 'png' })
+    : staticOgImageEn
+  const ogRu = siteSettings?.seoImageRu
+    ? sanityImageUrl(siteSettings.seoImageRu, 1200, { format: 'png' })
+    : staticOgImageRu
+  const socialImages =
+    ogEn && ogRu
+      ? [
+          { url: ogEn, alt: 'Portfolio — English' },
+          { url: ogRu, alt: 'Portfolio — Russian' },
+        ]
+      : ogEn
+        ? [{ url: ogEn, alt: 'Portfolio' }]
+        : undefined
+
+  return {
+    metadataBase,
+    title,
+    description,
+    verification: {
+      yandex: 'bfea9322e4369314',
+    },
+    icons: faviconIcon ? { icon: faviconIcon } : undefined,
+    openGraph: {
+      type: 'website',
+      locale: 'en_US',
+      alternateLocale: ['ru_RU'],
+      siteName: 'Portfolio',
+      url: getPublicSiteOrigin(),
+      images: socialImages,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: socialImages?.map((img) => img.url),
+    },
+  }
 }
 
 export default async function RootLayout({

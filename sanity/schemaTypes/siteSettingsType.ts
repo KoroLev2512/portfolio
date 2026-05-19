@@ -60,6 +60,25 @@ export const siteSettingsType = defineType({
     }),
 
     defineField({
+      name: "favicon",
+      title: "Favicon (browser tab icon)",
+      type: "image",
+      description: "Square PNG, minimum 32×32 px. Falls back to the static favicon.ico if not set.",
+    }),
+    defineField({
+      name: "seoImageEn",
+      title: "SEO / OG image — English",
+      type: "image",
+      description: "Open Graph preview image for English. Recommended: 1200×630 px.",
+    }),
+    defineField({
+      name: "seoImageRu",
+      title: "SEO / OG image — Russian",
+      type: "image",
+      description: "Open Graph preview image for Russian. Recommended: 1200×630 px.",
+    }),
+
+    defineField({
       name: "seoTitle",
       title: "* Default SEO title",
       type: "localizedString",
