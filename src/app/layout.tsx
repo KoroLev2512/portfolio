@@ -24,8 +24,7 @@ const geistMono = Geist_Mono({
   preload: false,
 })
 
-const staticOgImageEn = absoluteUrlForPublicFile('metadata_en.png')
-const staticOgImageRu = absoluteUrlForPublicFile('metadata_ru.png')
+const staticOgImage = absoluteUrlForPublicFile('metadata_en.png')
 const staticFaviconUrl = absoluteUrlForPublicFile('favicon.ico')
 
 const metadataBase =
@@ -54,21 +53,10 @@ export async function generateMetadata(): Promise<Metadata> {
     : null
   const faviconIcon = faviconSanity ?? staticFaviconUrl
 
-  const ogEn = siteSettings?.seoImageEn
+  const ogUrl = siteSettings?.seoImageEn
     ? sanityImageUrl(siteSettings.seoImageEn, 1200, { format: 'png' })
-    : staticOgImageEn
-  const ogRu = siteSettings?.seoImageRu
-    ? sanityImageUrl(siteSettings.seoImageRu, 1200, { format: 'png' })
-    : staticOgImageRu
-  const socialImages =
-    ogEn && ogRu
-      ? [
-          { url: ogEn, alt: 'Portfolio — English' },
-          { url: ogRu, alt: 'Portfolio — Russian' },
-        ]
-      : ogEn
-        ? [{ url: ogEn, alt: 'Portfolio' }]
-        : undefined
+    : staticOgImage
+  const socialImages = ogUrl ? [{ url: ogUrl, alt: title }] : undefined
 
   return {
     metadataBase,
