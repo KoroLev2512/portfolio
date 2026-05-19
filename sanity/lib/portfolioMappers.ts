@@ -1,12 +1,14 @@
-import type { Image } from 'sanity'
-
+import type { HomepageQueryResult, SiteSettingsQueryResult } from '../../sanity.types'
 import { getTranslations, type Lang } from '@/shared/i18n'
 import { hrefProjectBySlug, projectUrlSegmentFromSanitySlug } from '@/shared/lib/projectPath'
 import { sanityImageUrl } from './imagePublic'
 
 type LocalizedValue<T = string> = { ru?: T; en?: T }
 
-function pickLocale<T = string>(field: LocalizedValue<T> | T | undefined, lang: Lang): T | undefined {
+function pickLocale<T = string>(
+  field: LocalizedValue<T> | T | null | undefined,
+  lang: Lang,
+): T | undefined {
   if (field == null) return undefined
   if (typeof field !== 'object') return field as T
   const loc = field as LocalizedValue<T>
@@ -43,7 +45,7 @@ function labelFromHref(href: string): string {
 }
 
 function contactDisplayLabel(
-  labelField: LocalizedValue<string> | string | undefined,
+  labelField: LocalizedValue<string> | string | null | undefined,
   lang: Lang,
   href: string,
 ): string {
@@ -55,7 +57,7 @@ function contactDisplayLabel(
 }
 
 function contactHref(
-  hrefField: LocalizedValue<string> | string | undefined,
+  hrefField: LocalizedValue<string> | string | null | undefined,
   lang: Lang,
 ): string {
   const fromLocale = pickLocale(hrefField, lang)
@@ -63,8 +65,8 @@ function contactHref(
 }
 
 function getSkillGroupTitle(
-  kind: string | undefined,
-  customTitle: string | undefined,
+  kind: string | null | undefined,
+  customTitle: string | null | undefined,
   lang: Lang,
 ): string {
   const t = getTranslations(lang, 'home') as Record<string, string>
@@ -91,8 +93,8 @@ function localizedHasContent(field: LocalizedValue<string> | string | undefined 
 }
 
 function getEducationLevelLabel(
-  educationType: LocalizedValue<string> | string | undefined,
-  customEducationType: LocalizedValue<string> | string | undefined,
+  educationType: string | null | undefined,
+  customEducationType: LocalizedValue<string> | string | null | undefined,
   lang: Lang,
 ): string {
   const resolved = pickLocale(educationType, lang)
@@ -156,60 +158,9 @@ export type PortfolioMapped = {
   } | null
 }
 
-type SanityContact = {
-  label?: LocalizedValue<string> | string
-  href?: LocalizedValue<string> | string
-  variant?: string
-}
+type HomepageProject = NonNullable<HomepageQueryResult>['homepageProjects'][number]
 
-type SanityHomepageProject = {
-  title?: LocalizedValue<string> | string
-  slug?: string
-  shortDescription?: LocalizedValue<string> | string
-  tags?: LocalizedValue<string[]> | string[]
-  coverImage?: Image
-}
-
-type SanityHomepage = {
-  heroContacts?: SanityContact[]
-  heroAbout?: LocalizedValue<string> | string
-  skillGroups?: {
-    kind?: string
-    title?: LocalizedValue<string> | string
-    showTitle?: boolean
-    items?: LocalizedValue<string[]>
-  }[]
-  workExperienceItems?: {
-    _key?: string
-    company?: LocalizedValue<string> | string
-    position?: LocalizedValue<string> | string
-    period?: LocalizedValue<string> | string
-  }[]
-  educationItems?: {
-    _key?: string
-    institution?: LocalizedValue<string> | string
-    program?: LocalizedValue<string> | string
-    educationType?: string
-    customEducationType?: LocalizedValue<string> | string
-    period?: LocalizedValue<string> | string
-  }[]
-  middleSectionsOrder?: string[]
-  homepageProjects?: SanityHomepageProject[]
-}
-
-type SanitySiteSettings = {
-  personName?: LocalizedValue<string> | string
-  personRole?: LocalizedValue<string> | string
-  personPhoto?: Image
-  contactsTitle?: LocalizedValue<string> | string
-  contactsButtons?: SanityContact[]
-  showFooterAside?: boolean
-  footerAsideText?: LocalizedValue<string> | string
-  footerAsideLinkLabel?: LocalizedValue<string> | string
-  footerAsideLinkHref?: string
-}
-
-function mapProjects(projects: SanityHomepageProject[] | undefined, lang: Lang): PortfolioProjectCard[] {
+function mapProjects(projects: HomepageProject[] | undefined, lang: Lang): PortfolioProjectCard[] {
   return (projects ?? []).map((project) => {
     const coverUrl = project.coverImage
       ? sanityImageUrl(project.coverImage, 512, { format: 'webp', quality: 82 })
@@ -229,8 +180,8 @@ function mapProjects(projects: SanityHomepageProject[] | undefined, lang: Lang):
 }
 
 export function mapSanityToPortfolio(
-  homepage: SanityHomepage | null | undefined,
-  siteSettings: SanitySiteSettings | null | undefined,
+  homepage: HomepageQueryResult,
+  siteSettings: SiteSettingsQueryResult,
   lang: Lang,
 ): PortfolioMapped | null {
   if (homepage == null && siteSettings == null) return null

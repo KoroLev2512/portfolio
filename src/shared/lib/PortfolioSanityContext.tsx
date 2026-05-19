@@ -5,11 +5,9 @@ import { useAppContext } from '@/shared/lib/AppContext'
 import { getTranslations } from '@/shared/i18n'
 import { resolveContactsSectionTitle } from '@/shared/lib/portfolioContacts'
 import { mapSanityToPortfolio, type PortfolioMapped } from '@/sanity/lib/portfolioMappers'
+import type { PortfolioHomeDocuments } from '@/sanity/lib/getPortfolioHome'
 
-export type PortfolioSanityDocuments = {
-  homepage: unknown
-  siteSettings: unknown
-}
+export type PortfolioSanityDocuments = PortfolioHomeDocuments
 
 const PortfolioSanityContext = createContext<PortfolioSanityDocuments | null>(null)
 
@@ -33,11 +31,7 @@ export function usePortfolioMapped(): PortfolioMapped | null {
   return useMemo(() => {
     if (docs == null) return null
     if (docs.homepage == null && docs.siteSettings == null) return null
-    return mapSanityToPortfolio(
-      docs.homepage as Parameters<typeof mapSanityToPortfolio>[0],
-      docs.siteSettings as Parameters<typeof mapSanityToPortfolio>[1],
-      lang,
-    )
+    return mapSanityToPortfolio(docs.homepage, docs.siteSettings, lang)
   }, [docs, lang])
 }
 

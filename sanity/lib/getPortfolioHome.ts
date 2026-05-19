@@ -1,6 +1,7 @@
 import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
 
+import type { HomepageQueryResult, SiteSettingsQueryResult } from '../../sanity.types'
 import { dataset, isSanityConfigured, projectId } from '../env'
 import { client } from './client'
 import { homepageQuery, siteSettingsQuery } from './queries'
@@ -11,13 +12,15 @@ const REVALIDATE_SEC = (() => {
   return Number.isFinite(n) && n >= 0 ? n : 300
 })()
 
-async function fetchSanityHomepageData(): Promise<{
-  homepage: unknown
-  siteSettings: unknown
-}> {
+export type PortfolioHomeDocuments = {
+  homepage: HomepageQueryResult
+  siteSettings: SiteSettingsQueryResult
+}
+
+async function fetchSanityHomepageData(): Promise<PortfolioHomeDocuments> {
   const [homepage, siteSettings] = await Promise.all([
-    client.fetch(homepageQuery),
-    client.fetch(siteSettingsQuery),
+    client.fetch<HomepageQueryResult>(homepageQuery),
+    client.fetch<SiteSettingsQueryResult>(siteSettingsQuery),
   ])
   return { homepage, siteSettings }
 }
@@ -27,10 +30,7 @@ const getCachedSanityHomepage = unstable_cache(fetchSanityHomepageData, ['sanity
   tags: ['sanity:portfolio-home'],
 })
 
-async function getPortfolioHomeDocumentsImpl(): Promise<{
-  homepage: unknown
-  siteSettings: unknown
-}> {
+async function getPortfolioHomeDocumentsImpl(): Promise<PortfolioHomeDocuments> {
   if (!isSanityConfigured) {
     if (process.env.VERCEL === '1') {
       console.warn(

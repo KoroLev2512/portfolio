@@ -1,5 +1,4 @@
 import createImageUrlBuilder from '@sanity/image-url'
-import type { Image } from 'sanity'
 
 function getBuilder() {
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
@@ -10,8 +9,15 @@ function getBuilder() {
 
 export type SanityImageFormat = 'webp' | 'jpg' | 'png' | 'pjpg'
 
+export type SanityImageSource = {
+  _type?: string
+  asset?: { _ref: string; _type: string } | undefined
+  hotspot?: { x?: number; y?: number; height?: number; width?: number } | undefined
+  crop?: { top?: number; bottom?: number; left?: number; right?: number } | undefined
+}
+
 export function sanityImageUrl(
-  source: Image | undefined,
+  source: SanityImageSource | undefined | null,
   width: number,
   options?: { quality?: number; format?: SanityImageFormat },
 ): string | null {
