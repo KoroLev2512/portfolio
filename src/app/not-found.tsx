@@ -68,7 +68,7 @@ function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
   const t = getTranslations(lang, 'notfound') as Record<string, string>
   const homeT = getTranslations(lang, 'home') as Record<string, string>
   const mapped = usePortfolioMapped()
-  const projects = mapped?.projects.slice(0, 2) ?? []
+  const projects = mapped?.projects ?? []
   return (
     <section className="section">
       <div className={styles['notfound-recommendation']}>
