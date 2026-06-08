@@ -76,10 +76,18 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         env:
-          # Canonical origin used to build absolute URLs for og:image / twitter:image.
-          # `steps.pages.outputs.origin` resolves to the GitHub Pages origin
-          # (custom domain if configured, otherwise https://<owner>.github.io).
+          # Canonical origin — resolves to the custom domain if configured,
+          # otherwise https://<owner>.github.io.
           NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.origin }}
+          # Empty = site is at the domain root (custom domain).
+          # Set to /repo-name for username.github.io/repo-name deploys.
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # Sanity — add these as GitHub repository secrets (Settings → Secrets → Actions).
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+          SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+          SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
         run: ${{ steps.detect-package-manager.outputs.runner }} next build --webpack
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
