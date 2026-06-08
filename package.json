@@ -17,7 +17,7 @@
     "images:optimize": "node scripts/optimize-public-images.mjs"
   },
   "dependencies": {
-    "@sanity/image-url": "^1.2.0",
+    "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^4.22.0",
     "dotenv": "^17.3.1",
     "next": "^16.2.7",
@@ -29,15 +29,15 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^25.9.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
+    "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.7",
-    "eslint-plugin-unicorn": "^64.0.0",
+    "eslint-plugin-unicorn": "^65.0.0",
     "gh-pages": "^6.3.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^6.0.3"
   }
 }

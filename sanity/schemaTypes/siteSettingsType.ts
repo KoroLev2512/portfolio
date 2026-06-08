@@ -1,7 +1,7 @@
 import { defineField, defineType } from "sanity";
 
 function validateHref(value: unknown) {
-  if (value === undefined || value === null || value === "") {
+  if ([undefined, null, ""].includes(value as null)) {
     return true;
   }
 
