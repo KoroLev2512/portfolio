@@ -1,16 +1,18 @@
 'use client'
 
+import { type StaticImageData } from 'next/image'
 import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import Link from 'next/link'
 import { ContactsBlock } from '@/shared/ui/ContactsBlock'
 import { Pattern } from '@/shared/ui/Pattern'
 import { ExperimentsCard } from '@/shared/ui/ExperimentsCard'
 import mockupImg from '@/../public/mockup.webp'
-import { getTranslations, type Lang } from '@/shared/i18n'
+import { fillNameInAlt, getTranslations, type Lang } from '@/shared/i18n'
 import { Header, type Theme } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
-import { useContactsBlockProps } from '@/shared/lib/PortfolioSanityContext'
+import { useContactsBlockProps, usePortfolioMapped } from '@/shared/lib/PortfolioSanityContext'
+import type { PortfolioProjectCard } from '@/sanity/lib/portfolioMappers'
 import styles from './not-found.module.css'
 
 function NotFoundError({ lang }: { lang: Lang }) {
@@ -31,33 +33,32 @@ function NotFoundError({ lang }: { lang: Lang }) {
   )
 }
 
-function ProjectCard({ name = 'Project Name', coverAlt }: { name?: string; coverAlt: string }) {
+function ProjectCard({ project, coverAlt }: { project: PortfolioProjectCard; coverAlt: string }) {
+  const coverSrc: StaticImageData | string = project.coverUrl ?? mockupImg
   return (
-    <Link href="/" className="project-card project-card-link">
+    <Link href={project.href} className="project-card project-card-link">
       <div className="project-cover">
         <ImageWithLoader
           fill
+          loading="lazy"
           wrapperClassName="project-cover-loader"
-          src={mockupImg}
+          src={coverSrc}
           alt={coverAlt}
           sizes="(max-width: 45rem) 45vw, 15rem"
           className="project-cover-img"
+          unoptimized={typeof coverSrc === 'string'}
         />
       </div>
       <div className="project-details">
         <div>
-          <h3 className="project-name">{name}</h3>
+          <h3 className="project-name">{project.name}</h3>
           <div className="project-tags">
-            {Array.from({ length: 5 }, (_, i) => (
-              <span key={`placeholder-tag-${i}`} className="project-tag">
-                Tag
-              </span>
+            {project.skills.map((skill) => (
+              <span key={skill} className="project-tag">{skill}</span>
             ))}
           </div>
         </div>
-        <p className="project-description">
-          A description of the project in several lines, reflecting the general idea.
-        </p>
+        <p className="project-description">{project.description}</p>
       </div>
     </Link>
   )
@@ -66,6 +67,8 @@ function ProjectCard({ name = 'Project Name', coverAlt }: { name?: string; cover
 function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
   const t = getTranslations(lang, 'notfound') as Record<string, string>
   const homeT = getTranslations(lang, 'home') as Record<string, string>
+  const mapped = usePortfolioMapped()
+  const projects = mapped?.projects.slice(0, 2) ?? []
   return (
     <section className="section">
       <div className={styles['notfound-recommendation']}>
@@ -75,8 +78,13 @@ function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
               {t.projectsTitle}
             </p>
             <div className="projects-list">
-              <ProjectCard coverAlt={t.altPlaceholderProjectCover} />
-              <ProjectCard coverAlt={t.altPlaceholderProjectCover} />
+              {projects.map((p) => (
+                <ProjectCard
+                  key={p.slug ?? p.href}
+                  project={p}
+                  coverAlt={fillNameInAlt(homeT.altProjectCoverNamed, p.name)}
+                />
+              ))}
             </div>
           </div>
           <div className={styles['recommendation-experiments']}>
