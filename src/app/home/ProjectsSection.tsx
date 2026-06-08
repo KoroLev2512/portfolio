@@ -14,6 +14,7 @@ function ProjectCard({
   coverUrl,
   coverAlt,
   href = '/',
+  eager = false,
 }: {
   name?: string
   skills?: string[]
@@ -21,6 +22,7 @@ function ProjectCard({
   coverUrl?: string | null
   coverAlt: string
   href?: string
+  eager?: boolean
 }) {
   const coverSrc: StaticImageData | string = coverUrl ?? mockupImg
   return (
@@ -28,7 +30,7 @@ function ProjectCard({
       <div className="project-cover">
         <ImageWithLoader
           fill
-          loading="lazy"
+          loading={eager ? 'eager' : 'lazy'}
           wrapperClassName="project-cover-loader"
           src={coverSrc}
           alt={coverAlt}
@@ -84,7 +86,7 @@ export function ProjectsSection({
       <p className="section-title text-reveal-title">{sectionTitle}</p>
       <div className="projects-list">
         {projects && projects.length > 0 ? (
-          projects.map((p) => (
+          projects.map((p, i) => (
             <ProjectCard
               key={p.href}
               name={p.name}
@@ -93,6 +95,7 @@ export function ProjectsSection({
               coverUrl={p.coverUrl}
               coverAlt={fillNameInAlt(altProjectCoverNamed, p.name)}
               href={p.href}
+              eager={i === 0}
             />
           ))
         ) : (
