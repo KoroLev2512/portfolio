@@ -1,3 +1,5 @@
+export const dynamic = 'force-static'
+
 import type { MetadataRoute } from 'next'
 import { getStaticExportProjectSlugs } from '@/sanity/lib/getProjectBySlug'
 import { getPublicSiteOrigin } from '@/shared/lib/publicSiteUrl'
