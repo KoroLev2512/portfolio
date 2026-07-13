@@ -6,6 +6,7 @@ import ExperimentsPageClient from './ExperimentsPageClient'
 export const metadata: Metadata = {
   title: `${experimentsEn.pageTitle} — Korolev Yurii`,
   description: experimentsEn.pageSubtitle,
+  alternates: { canonical: '/experiments' },
   openGraph: {
     title: experimentsEn.pageTitle,
     description: experimentsEn.pageSubtitle,

@@ -32,12 +32,13 @@ export function HeroSection({ photoSrc, photoAlt, name, role, bio, contacts }: H
           height={160}
           className={styles['hero-photo']}
           wrapperClassName={styles['hero-photo-wrap']}
-          priority
+          loading="eager"
+          fetchPriority="high"
           unoptimized={typeof photoSrc === 'string' && photoSrc.startsWith('http')}
         />
         <div className={styles['hero-info']}>
           <div className="hero-name-block text-reveal-title">
-            <p className={styles['hero-name']}>{name}</p>
+            <h1 className={styles['hero-name']}>{name}</h1>
             <p className={styles['hero-position']}>{role}</p>
           </div>
           {contacts.length > 0 ? (

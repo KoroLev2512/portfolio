@@ -55,6 +55,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: mapped.title,
     description: mapped.description.trim() || undefined,
+    alternates: { canonical: `/${slug}` },
     openGraph: {
       title: mapped.title,
       description: mapped.description.trim() || undefined,

@@ -29,7 +29,7 @@ export function WorkSection({
 }) {
   return (
     <section className="work-experience section">
-      <p className="section-title text-reveal-title">{title}</p>
+      <h2 className="section-title text-reveal-title">{title}</h2>
       <div className={styles['entry-list']}>
         {entries.length > 0 ? (
           entries.map((e, i) => (

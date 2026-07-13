@@ -83,7 +83,7 @@ export function ProjectsSection({
 }: ProjectsSectionProps) {
   return (
     <section id="projects" className="projects section">
-      <p className="section-title text-reveal-title">{sectionTitle}</p>
+      <h2 className="section-title text-reveal-title">{sectionTitle}</h2>
       <div className="projects-list">
         {projects && projects.length > 0 ? (
           projects.map((p, i) => (

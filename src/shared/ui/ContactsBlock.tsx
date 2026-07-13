@@ -54,7 +54,7 @@ export function ContactsBlock({
   return (
     <section id="contacts" className="contacts section">
       {sectionTitle != null && sectionTitle !== '' && (
-        <p className={sectionTitleClass}>{sectionTitle}</p>
+        <h2 className={sectionTitleClass}>{sectionTitle}</h2>
       )}
       <p className={titleClass}>{title}</p>
       <div className={`${styles['contacts-buttons']} contacts-buttons`}>

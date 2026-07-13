@@ -9,7 +9,7 @@ type SkillGroup = { title: string; tags: string[] }
 export function SkillsSection({ title, groups }: { title: string; groups: SkillGroup[] }) {
   return (
     <section className="skills section">
-      <p className="section-title text-reveal-title">{title}</p>
+      <h2 className="section-title text-reveal-title">{title}</h2>
       <div className={styles['skills-container']}>
         {groups.map((group) => (
           <div className={styles['skills-group']} key={group.title}>
