@@ -20,6 +20,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { url: origin, changeFrequency: 'monthly', priority: 1.0 },
+    { url: `${origin}/en`, changeFrequency: 'monthly', priority: 1.0 },
+    { url: `${origin}/ru`, changeFrequency: 'monthly', priority: 1.0 },
     { url: `${origin}/experiments`, changeFrequency: 'monthly', priority: 0.6 },
     ...projectUrls,
   ]

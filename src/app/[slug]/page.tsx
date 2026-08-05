@@ -8,7 +8,7 @@ import { projectUrlSegmentFromSanitySlug } from '@/shared/lib/projectPath'
 
 export const dynamicParams = false
 
-const RESERVED_ROOT_SLUGS = new Set(['experiments'])
+const RESERVED_ROOT_SLUGS = new Set(['experiments', 'en', 'ru'])
 
 const STATIC_EXPORT_SLUG_PLACEHOLDER = '__static_export_no_projects__'
 

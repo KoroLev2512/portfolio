@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import { flushSync } from 'react-dom'
 import { resetTextReveals } from '@/shared/lib/imageReveal'
 import { resetTagReveals } from '@/shared/lib/tagReveal'
@@ -11,6 +12,13 @@ export type { Lang }
 
 const THEME_KEY = 'portfolio-theme'
 const LANG_KEY = 'portfolio-lang'
+
+function getLangFromPathname(pathname: string | null): Lang | null {
+  if (!pathname) return null
+  if (pathname === '/en' || pathname.startsWith('/en/')) return 'en'
+  if (pathname === '/ru' || pathname.startsWith('/ru/')) return 'ru'
+  return null
+}
 
 type AppContextValue = {
   theme: Theme
@@ -28,8 +36,12 @@ export function useAppContext() {
 }
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
+  const router = useRouter()
+  const pathLang = getLangFromPathname(pathname)
+
   const [theme, setTheme] = useState<Theme>('dark')
-  const [lang, setLang] = useState<Lang>('en')
+  const [lang, setLang] = useState<Lang>(() => pathLang ?? 'en')
   const hasRestoredTheme = useRef(false)
   const userHasToggledTheme = useRef(false)
 
@@ -55,6 +67,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const skipNextRevealReset = useRef(false)
 
+  // Sync state with pathLang when URL changes to /en or /ru
+  useEffect(() => {
+    if (pathLang) {
+      setLang(pathLang)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(LANG_KEY, pathLang)
+      }
+    }
+  }, [pathLang])
+
   useEffect(() => {
     if (typeof window === 'undefined') return
     queueMicrotask(() => {
@@ -67,6 +89,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             : 'light'
       setTheme(nextTheme)
       hasRestoredTheme.current = true
+
+      if (pathLang) return
 
       const storedLang = localStorage.getItem(LANG_KEY) as Lang | null
       let nextLang: Lang = 'en'
@@ -83,7 +107,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         }
       }, 0)
     })
-  }, [])
+  }, [pathLang])
 
   const skipLangPersistOnce = useRef(true)
   useEffect(() => {
@@ -150,9 +174,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [theme],
   )
 
-  const onChangeLang = useCallback((next: Lang) => {
-    setLang(next)
-  }, [])
+  const onChangeLang = useCallback(
+    (next: Lang) => {
+      setLang(next)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(LANG_KEY, next)
+      }
+      if (pathname === '/en' && next === 'ru') {
+        router.push('/ru')
+      } else if (pathname === '/ru' && next === 'en') {
+        router.push('/en')
+      }
+    },
+    [pathname, router],
+  )
 
   return (
     <AppContext.Provider value={{ theme, lang, onToggleTheme, onChangeLang }}>
