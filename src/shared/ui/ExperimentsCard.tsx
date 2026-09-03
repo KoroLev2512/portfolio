@@ -7,17 +7,13 @@ import lightImg from '@/../public/light.webp'
 import mockupsImg from '@/../public/mockups.webp'
 import styles from './ExperimentsCard.module.css'
 
-type Theme = 'dark' | 'light'
-
 export function ExperimentsCard({
-  theme,
   experimentsTitle,
   experimentsDesc,
   href,
   altMockupsBg,
   altGradient,
 }: {
-  theme: Theme
   experimentsTitle: string
   experimentsDesc: string
   href?: string
@@ -38,11 +34,22 @@ export function ExperimentsCard({
           sizes="(max-width: 48rem) 92vw, 40rem"
         />
       </div>
+      {/* Both gradients stay mounted and CSS picks one off [data-theme].
+          Swapping the src off React state meant the image refetched on every
+          theme switch, and it landed a frame after the reveal finished. */}
       <div className={styles['experiments-gradient']}>
         <ImageWithLoader
           fill
-          wrapperClassName={styles['experiments-gradient-loader']}
-          src={theme === 'dark' ? darkImg : lightImg}
+          wrapperClassName={`${styles['experiments-gradient-loader']} ${styles['experiments-gradient-dark']}`}
+          src={darkImg}
+          alt={altGradient}
+          className={styles['experiments-gradient-img']}
+          sizes="(max-width: 48rem) 90vw, 16.25rem"
+        />
+        <ImageWithLoader
+          fill
+          wrapperClassName={`${styles['experiments-gradient-loader']} ${styles['experiments-gradient-light']}`}
+          src={lightImg}
           alt={altGradient}
           className={styles['experiments-gradient-img']}
           sizes="(max-width: 48rem) 90vw, 16.25rem"

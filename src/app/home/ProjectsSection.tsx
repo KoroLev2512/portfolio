@@ -5,7 +5,6 @@ import { ImageWithLoader } from '@/shared/ui/ImageWithLoader'
 import { ExperimentsCard } from '@/shared/ui/ExperimentsCard'
 import { fillNameInAlt } from '@/shared/i18n'
 import type { PortfolioProjectCard } from '@/sanity/lib/portfolioMappers'
-import type { Theme } from '@/widgets/header'
 
 function ProjectCard({
   name = 'Project Name',
@@ -62,7 +61,6 @@ type ProjectsSectionProps = {
   altProjectCoverSample: string
   projects: PortfolioProjectCard[] | undefined
   hasExperiments: boolean
-  theme: Theme
   experimentsTitle: string
   experimentsDesc: string
   altMockupsBg: string
@@ -75,7 +73,6 @@ export function ProjectsSection({
   altProjectCoverSample,
   projects,
   hasExperiments,
-  theme,
   experimentsTitle,
   experimentsDesc,
   altMockupsBg,
@@ -106,7 +103,6 @@ export function ProjectsSection({
         )}
         {hasExperiments && (
           <ExperimentsCard
-            theme={theme}
             experimentsTitle={experimentsTitle}
             experimentsDesc={experimentsDesc}
             href="/experiments"

@@ -629,6 +629,48 @@ body {
   z-index: 1;
 }
 
+/* The reveal is declarative so that it is already at radius 0 on the very
+   first rendered frame. Driving it from transition.ready().then() left a
+   one-frame gap in which the unclipped new snapshot was painted over the
+   whole viewport — visible as a flash on 120Hz panels, where frame
+   boundaries come twice as often. */
+html.theme-switching::view-transition-new(root) {
+  animation: theme-reveal var(--theme-reveal-duration, 450ms) cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0% at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--theme-reveal-r, 150%) at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 50%));
+  }
+}
+
+/* ::view-transition-new(root) is a live representation, not a still: the real
+   DOM under it is repainted every frame of the reveal. Everything below trims
+   that per-frame cost for the duration of the switch. */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
+/* The blurred sticky header is the most expensive layer in that repaint, and
+   blur cost scales with device pixels (4x at DPR 2). Swap it for an opaque
+   background, which reads the same at the top of the page. */
+html.theme-switching header {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background-color: var(--bg) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-switching::view-transition-new(root) {
+    animation: none;
+  }
+}
+
 
 @media (max-width: 48rem) {
   .section {

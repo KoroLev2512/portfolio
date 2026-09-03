@@ -8,7 +8,7 @@ import { Pattern } from '@/shared/ui/Pattern'
 import { ExperimentsCard } from '@/shared/ui/ExperimentsCard'
 import mockupImg from '@/../public/mockup.webp'
 import { fillNameInAlt, getTranslations, type Lang } from '@/shared/i18n'
-import { Header, type Theme } from '@/widgets/header'
+import { Header } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 import { useAppContext } from '@/shared/lib/AppContext'
 import { useContactsBlockProps, usePortfolioMapped } from '@/shared/lib/PortfolioSanityContext'
@@ -64,7 +64,7 @@ function ProjectCard({ project, coverAlt }: { project: PortfolioProjectCard; cov
   )
 }
 
-function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
+function Recommendation({ lang }: { lang: Lang }) {
   const t = getTranslations(lang, 'notfound') as Record<string, string>
   const homeT = getTranslations(lang, 'home') as Record<string, string>
   const mapped = usePortfolioMapped()
@@ -92,7 +92,6 @@ function Recommendation({ theme, lang }: { theme: Theme; lang: Lang }) {
               {t.experimentsTitle}
             </p>
             <ExperimentsCard
-              theme={theme}
               experimentsTitle={homeT.experimentsTitle}
               experimentsDesc={homeT.experimentsDesc}
               href="/experiments"
@@ -115,7 +114,7 @@ export default function NotFound() {
       <Header theme={theme} lang={lang} onToggleTheme={onToggleTheme} onChangeLang={onChangeLang} logoHref="/" />
       <NotFoundError lang={lang} />
       <Pattern />
-      <Recommendation theme={theme} lang={lang} />
+      <Recommendation lang={lang} />
       <Pattern />
       <ContactsBlock
         sectionTitle={contactsBlock.sectionTitle}

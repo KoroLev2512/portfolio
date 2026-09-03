@@ -69,7 +69,6 @@ export function HomePageClient({ hasExperiments = true }: { hasExperiments?: boo
         altProjectCoverSample={t.altProjectCoverSample}
         projects={mapped?.projects}
         hasExperiments={hasExperiments}
-        theme={theme}
         experimentsTitle={t.experimentsTitle}
         experimentsDesc={t.experimentsDesc}
         altMockupsBg={t.altExperimentsMockupsBg}

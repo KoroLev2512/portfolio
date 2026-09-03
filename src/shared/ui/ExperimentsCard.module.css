@@ -97,6 +97,25 @@
   height: 100%;
 }
 
+/* visibility (not opacity) so the hidden one also leaves the accessibility
+   tree — both images carry the same alt text. Defaults to dark, matching
+   :root, so the card is right even before the theme script runs. */
+.experiments-gradient-dark {
+  visibility: visible;
+}
+
+.experiments-gradient-light {
+  visibility: hidden;
+}
+
+:global([data-theme='light']) .experiments-gradient-dark {
+  visibility: hidden;
+}
+
+:global([data-theme='light']) .experiments-gradient-light {
+  visibility: visible;
+}
+
 .experiments-gradient-img {
   width: 100%;
   height: 100%;

@@ -33,6 +33,11 @@ const metadataBase =
 
 const yandexMetrikaId = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID
 
+// Runs before first paint so the page never renders in the wrong theme and
+// then flips. Kept inline and blocking on purpose: a deferred script would
+// reintroduce the flash.
+const themeInitScript = `(function(){try{var s=localStorage.getItem('portfolio-theme');if(s!=='dark'&&s!=='light'){s=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',s)}catch(e){document.documentElement.setAttribute('data-theme','dark')}})()`
+
 export async function generateMetadata(): Promise<Metadata> {
   const { siteSettings } = await getPortfolioHomeDocuments()
   const { sanityImageUrl } = await import('@/sanity/lib/imagePublic')
@@ -93,11 +98,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      {yandexMetrikaSrc && (
-        <head>
-          <Script src={yandexMetrikaSrc} strategy="afterInteractive" />
-          <Script id="yandex-metrika-init" strategy="afterInteractive">
-            {`
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {yandexMetrikaSrc && (
+          <>
+            <Script src={yandexMetrikaSrc} strategy="afterInteractive" />
+            <Script id="yandex-metrika-init" strategy="afterInteractive">
+              {`
               window.ym = window.ym || function() {
                 (window.ym.a = window.ym.a || []).push(arguments);
               };
@@ -108,10 +115,11 @@ export default async function RootLayout({
                 accurateTrackBounce: true,
                 webvisor: true
               });
-            `}
-          </Script>
-        </head>
-      )}
+              `}
+            </Script>
+          </>
+        )}
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {yandexMetrikaId && (
           <noscript>

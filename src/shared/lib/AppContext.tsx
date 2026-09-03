@@ -1,17 +1,36 @@
 'use client'
 
-import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { flushSync } from 'react-dom'
 import { resetTextReveals } from '@/shared/lib/imageReveal'
 import { resetTagReveals } from '@/shared/lib/tagReveal'
+import {
+  applyTheme,
+  getServerTheme,
+  getTheme,
+  notifyTheme,
+  readStoredTheme,
+  subscribeTheme,
+  writeStoredTheme,
+  type Theme,
+} from '@/shared/lib/themeStore'
 import type { Lang } from '@/shared/i18n'
 
-export type Theme = 'dark' | 'light'
+export type { Theme }
 export type { Lang }
 
-const THEME_KEY = 'portfolio-theme'
 const LANG_KEY = 'portfolio-lang'
+const SWITCHING_CLASS = 'theme-switching'
+const REVEAL_DURATION_MS = 450
 
 function getLangFromPathname(pathname: string | null): Lang | null {
   if (!pathname) return null
@@ -40,26 +59,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathLang = getLangFromPathname(pathname)
 
-  const [theme, setTheme] = useState<Theme>('dark')
   const [lang, setLang] = useState<Lang>(() => pathLang ?? 'en')
-  const hasRestoredTheme = useRef(false)
-  const userHasToggledTheme = useRef(false)
-
-  useLayoutEffect(() => {
-    if (typeof document === 'undefined') return
-    document.documentElement.setAttribute('data-theme', theme)
-    if (hasRestoredTheme.current) {
-      localStorage.setItem(THEME_KEY, theme)
-    }
-  }, [theme])
+  const theme = useSyncExternalStore(subscribeTheme, getTheme, getServerTheme)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
     const handleChange = (e: MediaQueryListEvent) => {
-      if (!userHasToggledTheme.current) {
-        setTheme(e.matches ? 'dark' : 'light')
-      }
+      // A choice persisted in localStorage outranks the OS. This used to be a
+      // ref that reset on every reload, so an OS appearance change silently
+      // overrode the theme the user had picked.
+      if (readStoredTheme() !== null) return
+      applyTheme(e.matches ? 'dark' : 'light')
     }
     mq.addEventListener('change', handleChange)
     return () => mq.removeEventListener('change', handleChange)
@@ -79,19 +89,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (typeof window === 'undefined') return
+    if (pathLang) return
     queueMicrotask(() => {
-      const storedTheme = localStorage.getItem(THEME_KEY) as Theme | null
-      const nextTheme: Theme =
-        storedTheme === 'dark' || storedTheme === 'light'
-          ? storedTheme
-          : window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light'
-      setTheme(nextTheme)
-      hasRestoredTheme.current = true
-
-      if (pathLang) return
-
       const storedLang = localStorage.getItem(LANG_KEY) as Lang | null
       let nextLang: Lang = 'en'
       if (storedLang === 'ru' || storedLang === 'en') {
@@ -128,51 +127,60 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     resetTagReveals()
   }, [lang])
 
-  const onToggleTheme = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
-      if (typeof document === 'undefined' || typeof window === 'undefined') {
-        setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
-        return
-      }
+  const onToggleTheme = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if (typeof document === 'undefined' || typeof window === 'undefined') return
 
-      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
-      const x = rect.left + rect.width / 2
-      const y = rect.top + rect.height / 2
-      const nextTheme: Theme = theme === 'light' ? 'dark' : 'light'
-      userHasToggledTheme.current = true
+    const root = document.documentElement
+    const next: Theme = getTheme() === 'light' ? 'dark' : 'light'
 
-      if (!document.startViewTransition) {
-        setTheme(nextTheme)
-        return
-      }
+    // Touching the attribute directly, without notifying React, keeps the
+    // whole tree out of the snapshot window — flushSync used to re-render
+    // every section right where the browser is blocked capturing frames.
+    const commit = () => {
+      applyTheme(next, { notify: false })
+      writeStoredTheme(next)
+    }
 
-      const maxRadius = Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y),
-      )
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion || !document.startViewTransition) {
+      commit()
+      notifyTheme()
+      return
+    }
 
-      const transition = document.startViewTransition(() => {
-        flushSync(() => setTheme(nextTheme))
-      })
+    const vw = window.innerWidth
+    const vh = window.innerHeight
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = rect.left + rect.width / 2
+    const y = rect.top + rect.height / 2
+    const maxRadius = Math.hypot(Math.max(x, vw - x), Math.max(y, vh - y))
 
-      transition.ready.then(() => {
-        document.documentElement.animate(
-          {
-            clipPath: [
-              `circle(0px at ${x}px ${y}px)`,
-              `circle(${maxRadius}px at ${x}px ${y}px)`,
-            ],
-          },
-          {
-            duration: 700,
-            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-            pseudoElement: '::view-transition-new(root)',
-          },
-        )
-      })
-    },
-    [theme],
-  )
+    // Everything goes in as a percentage, never px. The snapshot box that
+    // clip-path resolves against is sized in device pixels, so px coordinates
+    // land at position / devicePixelRatio — dead on at DPR 1, half way across
+    // the viewport on a Retina panel. Percentages resolve against the box
+    // itself, whatever scale it is at. A percentage radius resolves against
+    // sqrt(w² + h²) / sqrt(2) per CSS Shapes, hence the basis below.
+    const radiusBasis = Math.hypot(vw, vh) / Math.SQRT2
+
+    // The reveal is declared in CSS so it is already running on the first
+    // rendered frame of the transition — no ready.then() gap to lose.
+    root.style.setProperty('--theme-reveal-x', `${(x / vw) * 100}%`)
+    root.style.setProperty('--theme-reveal-y', `${(y / vh) * 100}%`)
+    root.style.setProperty('--theme-reveal-r', `${(maxRadius / radiusBasis) * 100}%`)
+    root.style.setProperty('--theme-reveal-duration', `${REVEAL_DURATION_MS}ms`)
+    root.classList.add(SWITCHING_CLASS)
+
+    const transition = document.startViewTransition(commit)
+
+    // React only learns about the new theme once the reveal is over: it needs
+    // it for two aria labels, which nobody can read mid-animation anyway.
+    const finish = () => {
+      root.classList.remove(SWITCHING_CLASS)
+      notifyTheme()
+    }
+    transition.finished.then(finish, finish)
+  }, [])
 
   const onChangeLang = useCallback(
     (next: Lang) => {
@@ -189,9 +197,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [pathname, router],
   )
 
-  return (
-    <AppContext.Provider value={{ theme, lang, onToggleTheme, onChangeLang }}>
-      {children}
-    </AppContext.Provider>
+  const value = useMemo<AppContextValue>(
+    () => ({ theme, lang, onToggleTheme, onChangeLang }),
+    [theme, lang, onToggleTheme, onChangeLang],
   )
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }
