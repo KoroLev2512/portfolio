@@ -1,10 +1,33 @@
 1:"$Sreact.fragment"
-2:I[47257,["/portfolio/_next/static/chunks/ff1a16fafef87110.js","/portfolio/_next/static/chunks/d2be314c3ece3fbe.js"],"ClientPageRoot"]
-3:I[35785,["/portfolio/_next/static/chunks/9f257251c8ce5c08.js","/portfolio/_next/static/chunks/caa12a8b8a3834f9.js","/portfolio/_next/static/chunks/73d887af80a8c9b7.js"],"default"]
-6:I[97367,["/portfolio/_next/static/chunks/ff1a16fafef87110.js","/portfolio/_next/static/chunks/d2be314c3ece3fbe.js"],"OutletBoundary"]
-7:"$Sreact.suspense"
-:HL["/portfolio/_next/static/chunks/c7cff054c4b5b377.css","style"]
-0:{"buildId":"42B5a6iakz7LJD4Yl8I2w","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","link","0",{"rel":"stylesheet","href":"/portfolio/_next/static/chunks/c7cff054c4b5b377.css","precedence":"next"}],["$","script","script-0",{"src":"/portfolio/_next/static/chunks/caa12a8b8a3834f9.js","async":true}],["$","script","script-1",{"src":"/portfolio/_next/static/chunks/73d887af80a8c9b7.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
-4:{}
-5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
-8:null
+2:I[5644,["841","static/chunks/841-7924fe3798374848.js","823","static/chunks/823-d1e6b69e46b4c25a.js","651","static/chunks/651-c7c016b3cec804c0.js","281","static/chunks/app/experiments/page-983d30c80da3f4ff.js"],"default"]
+3:I[484,[],"OutletBoundary"]
+4:"$Sreact.suspense"
+8:I[484,[],"ViewportBoundary"]
+9:I[484,[],"MetadataBoundary"]
+:HL["/portfolio/_next/static/css/6597f0b3560f3321.css","style"]
+7:X
+0:{"buildId":"iFqFqyMmb3qE7WAj12z4d","data":[{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"experiments":[{"id":"775b6b4b-252b-48b5-97f6-e31e12c74c18","href":"https://itmo-kino-landing.vercel.app/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/2c40c7f85c2d52c9b1b92ed004b0feb0d0b3c6fe-1238x1443.png?w=900&fm=webp&q=85","titleRu":"ITMO KINO","titleEn":"ITMO KINO"},{"id":"54261ac5-ee6d-4252-8be9-6faf8e809f09","href":"https://adv-online.vercel.app/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/4c9ff3e4a065578881104164331a45cc943cc3a2-1440x1392.png?w=900&fm=webp&q=85","titleRu":"ADV","titleEn":"ADV"},{"id":"19f3383b-7692-43d6-afde-0a02eaac0e52","href":"https://sputnik8.vercel.app/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/bc68bb7f914ef73db9a43b0b81e72601c2c67ed9-1483x1050.png?w=900&fm=webp&q=85","titleRu":"Sputnik8","titleEn":"Sputnik8"},{"id":"c6f97677-4910-46dc-8b46-b3b79769bec9","href":"https://mws-eta.vercel.app/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/7ebbfe13357bc11e1a355f1f3f428db677edc048-979x1373.png?w=900&fm=webp&q=85","titleRu":"MWS","titleEn":"MWS"},{"id":"a514d122-7a37-44e3-8342-b67a611a5293","href":"https://ktuschool.itmo.ru/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/133d6a392f67cfff1df782d830f16263de90f551-1028x1435.png?w=900&fm=webp&q=85","titleRu":"KTU SCHOOL","titleEn":"KTU SCHOOL"},{"id":"b06cc428-e906-4dad-b736-1d143510e9fc","href":"https://itishkino.ru/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/264e241010dd144315bdd5719235075eb7c223cd-1540x899.png?w=900&fm=webp&q=85","titleRu":"ITISHKINO","titleEn":"ITISHKINO"},{"id":"c6f91435-117c-4c78-a671-8be8331e9cd0","href":"https://tradelune.ai/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/bd4b30c9b68a397e12ba26dfb7c3adb1496bf326-1072x1384.png?w=900&fm=webp&q=85","titleRu":"Tradelune.ai","titleEn":"Tradelune.ai"},{"id":"c9d64ad2-3ad9-4a8e-b9c2-73db07980be4","href":"https://www.atletikohelp.ru/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/3715d3e27fa27111ec2111d45eb2ae285545b8ba-1072x1418.png?w=900&fm=webp&q=85","titleRu":"Atletiko","titleEn":"Atletiko"},{"id":"e888a3a5-d588-461a-8a24-10a3b46c0711","href":"https://duqa.ru/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/a9e40e25425e50f119872a0277eae9c93bf2e8fb-2560x1440.png?w=900&fm=webp&q=85","titleRu":"DUQA","titleEn":"DUQA"},{"id":"76180d1b-a1ee-4450-ae5a-a5130bd0bffe","href":"https://homesharing-landing.vercel.app/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/c867c4b02c0aecf80710feb74a6653c63803b679-927x1433.png?w=900&fm=webp&q=85","titleRu":"Homeshare","titleEn":"Homeshare"},{"id":"97ee0ea6-2c4b-42ea-bef9-d6c23d0812f2","href":"https://kraud-chess.vercel.app","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/329e1530342a7987bbda20b8f48b27ae800359d5-1014x1333.png?w=900&fm=webp&q=85","titleRu":"Chess","titleEn":"Chess"},{"id":"bd7a7f37-0979-4cbd-b195-ca4af77ece4a","href":"https://birthday-quiz-liard.vercel.app/","imageUrl":"https://cdn.sanity.io/images/3qddo394/production/45478f76409673b62934d139bc286aafae0cf2b7-2842x1880.png?w=900&fm=webp&q=85","titleRu":"Квиз на день рождения","titleEn":"Birthday quiz"}]}],[["$","link","0",{"rel":"stylesheet","href":"/portfolio/_next/static/css/6597f0b3560f3321.css","precedence":"next"}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L8",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L9",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Experiments — Korolev Yurii"}],"$La","$Lb","$Lc","$Ld","$Le","$Lf","$L10","$L11","$L12","$L13","$L14"]}]}]}],"$L15"]}],"isPartial":"$@16","staleTime":"$7","varyParams":null},{"rsc":"$L17","isPartial":"$@18","staleTime":"$7","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@19","rootVaryParams":null,"needsRuntimeRequest":"$@1a"}
+1b:I[6869,[],"IconMark"]
+1c:I[7121,[],""]
+1d:I[4581,[],""]
+5:null
+a:["$","meta","1",{"name":"description","content":"Small projects, researches and other work collected here"}]
+b:["$","link","2",{"rel":"canonical","href":"http://localhost:3000/experiments"}]
+c:["$","meta","3",{"name":"yandex-verification","content":"bfea9322e4369314"}]
+d:["$","meta","4",{"property":"og:title","content":"Experiments"}]
+e:["$","meta","5",{"property":"og:description","content":"Small projects, researches and other work collected here"}]
+f:["$","meta","6",{"name":"twitter:card","content":"summary_large_image"}]
+10:["$","meta","7",{"name":"twitter:title","content":"Experiments"}]
+11:["$","meta","8",{"name":"twitter:description","content":"Small projects, researches and other work collected here"}]
+12:["$","meta","9",{"name":"twitter:image","content":"https://cdn.sanity.io/images/3qddo394/production/4a92b0766155a8ccf0c67fe06b8fe0dbdeb45a1c-1200x630.png?w=1200&fm=png&q=85"}]
+13:["$","link","10",{"rel":"icon","href":"https://cdn.sanity.io/images/3qddo394/production/d6f321366dd33916b8a1efa07db433507a8c3842-640x640.png?w=64&fm=png&q=85"}]
+14:["$","$L1b","11",{}]
+15:["$","meta",null,{"name":"next-size-adjust","content":""}]
+17:["$","$1","c",{"children":[null,["$","$L1c",null,{"parallelRouterKey":"children","template":["$","$L1d",null,{}]}]]}]
+1a:true
+7:300
+7:C
+19:0
+16:"$undefined"
+18:"$undefined"
+6:"$undefined"

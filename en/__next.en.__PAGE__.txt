@@ -1,0 +1,23 @@
+1:"$Sreact.fragment"
+2:I[2527,["841","static/chunks/841-7924fe3798374848.js","823","static/chunks/823-d1e6b69e46b4c25a.js","651","static/chunks/651-c7c016b3cec804c0.js","14","static/chunks/14-5e6dac293d754f56.js","496","static/chunks/app/en/page-a18c7f614bcdb3d4.js"],"HomePageClient"]
+3:I[484,[],"OutletBoundary"]
+4:"$Sreact.suspense"
+8:I[484,[],"ViewportBoundary"]
+9:I[484,[],"MetadataBoundary"]
+a:I[6869,[],"IconMark"]
+c:I[7121,[],""]
+d:I[4581,[],""]
+:HL["/portfolio/_next/static/css/6597f0b3560f3321.css","style"]
+:HL["/portfolio/_next/static/css/57773dc9afdc7395.css","style"]
+7:X
+f:X
+f:C
+0:{"buildId":"iFqFqyMmb3qE7WAj12z4d","data":[{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"hasExperiments":true}],[["$","link","0",{"rel":"stylesheet","href":"/portfolio/_next/static/css/6597f0b3560f3321.css","precedence":"next"}],["$","link","1",{"rel":"stylesheet","href":"/portfolio/_next/static/css/57773dc9afdc7395.css","precedence":"next"}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L8",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L9",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Korolev Yurii — Frontend Developer | Portfolio & Projects"}],["$","meta","1",{"name":"description","content":"Building modern web interfaces with Typescript, responsive design, high performance and user-friendly UX. "}],["$","link","2",{"rel":"canonical","href":"http://localhost:3000/en"}],["$","meta","3",{"name":"yandex-verification","content":"bfea9322e4369314"}],["$","meta","4",{"property":"og:title","content":"Korolev Yurii — Frontend Developer | Portfolio & Projects"}],["$","meta","5",{"property":"og:description","content":"Building modern web interfaces with Typescript, responsive design, high performance and user-friendly UX. "}],["$","meta","6",{"property":"og:locale","content":"en_US"}],["$","meta","7",{"property":"og:locale:alternate","content":"ru_RU"}],["$","meta","8",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","9",{"name":"twitter:title","content":"Korolev Yurii — Frontend Developer | Portfolio & Projects"}],["$","meta","10",{"name":"twitter:description","content":"Building modern web interfaces with Typescript, responsive design, high performance and user-friendly UX. "}],["$","meta","11",{"name":"twitter:image","content":"https://cdn.sanity.io/images/3qddo394/production/4a92b0766155a8ccf0c67fe06b8fe0dbdeb45a1c-1200x630.png?w=1200&fm=png&q=85"}],["$","link","12",{"rel":"icon","href":"https://cdn.sanity.io/images/3qddo394/production/d6f321366dd33916b8a1efa07db433507a8c3842-640x640.png?w=64&fm=png&q=85"}],["$","$La","13",{}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"isPartial":"$@b","staleTime":"$7","varyParams":null},{"rsc":["$","$1","c",{"children":[null,["$","$Lc",null,{"parallelRouterKey":"children","template":["$","$Ld",null,{}]}]]}],"isPartial":"$@e","staleTime":"$7","varyParams":"$f"}],"isUpgradeableISRFallback":false,"a":"$@10","rootVaryParams":null,"needsRuntimeRequest":"$@11"}
+5:null
+11:true
+7:300
+7:C
+10:0
+b:"$undefined"
+e:"$undefined"
+6:"$undefined"

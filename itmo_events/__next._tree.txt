@@ -1,0 +1,5 @@
+:HC["/",""]
+:HL["/portfolio/_next/static/css/41f0dee5ba6fefd0.css","style"]
+:HL["/portfolio/_next/static/css/6597f0b3560f3321.css","style"]
+:HL["/portfolio/_next/static/css/57773dc9afdc7395.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"slug","param":{"type":"d","key":"itmo_events","siblings":["_not-found","_global-error","en","experiments","robots.txt","ru","sitemap.xml"]},"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"iFqFqyMmb3qE7WAj12z4d"}
