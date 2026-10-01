@@ -5,10 +5,7 @@ import type { Image } from "sanity";
 
 import { dataset, isSanityConfigured, projectId } from "../env";
 import { client } from "./client";
-import {
-  experimentsFallbackQuery,
-  homepageExperimentsOrderQuery,
-} from "./queries";
+import { experimentsQuery } from "./queries";
 import { sanityImageUrl } from "./imagePublic";
 
 const REVALIDATE_SEC = (() => {
@@ -35,15 +32,7 @@ export type ExperimentForUi = {
 const IMAGE_WIDTH = 900;
 
 async function fetchExperiments(): Promise<ExperimentFromSanity[]> {
-  const hp = await client.fetch<{ ordered: ExperimentFromSanity[] } | null>(
-    homepageExperimentsOrderQuery,
-  );
-  const ordered = hp?.ordered;
-  if (Array.isArray(ordered) && ordered.length > 0) {
-    return ordered.filter((row): row is ExperimentFromSanity => Boolean(row?._id));
-  }
-
-  const rows = await client.fetch<ExperimentFromSanity[]>(experimentsFallbackQuery);
+  const rows = await client.fetch<ExperimentFromSanity[]>(experimentsQuery);
   return Array.isArray(rows) ? rows : [];
 }
 

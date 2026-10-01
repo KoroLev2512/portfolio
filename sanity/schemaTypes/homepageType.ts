@@ -143,8 +143,14 @@ export const homepageType = defineType({
     defineField({
       name: "homepageExperiments",
       title: "Experiments order",
+      // Superseded by drag-and-drop in the Experiments list (orderRank).
+      // Kept read-only so existing data is still visible until it is removed.
+      deprecated: {
+        reason: "Reorder experiments by dragging them in the Experiments list instead.",
+      },
+      readOnly: true,
       description:
-        "Drag to set order on the /experiments page. When empty, all experiment documents are shown by creation date (newest first).",
+        "No longer used by the site. Drag experiments in the Experiments list to change their order.",
       type: "array",
       of: [
         defineArrayMember({

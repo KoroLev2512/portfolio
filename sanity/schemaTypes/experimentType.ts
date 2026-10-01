@@ -1,3 +1,4 @@
+import { orderRankField, orderRankOrdering } from "@sanity/orderable-document-list";
 import { defineField, defineType } from "sanity";
 
 function validateHref(value: unknown) {
@@ -28,7 +29,10 @@ export const experimentType = defineType({
   name: "experiment",
   title: "Experiment",
   type: "document",
+  // Drag-and-drop order in the Studio list; the site sorts by orderRank.
+  orderings: [orderRankOrdering],
   fields: [
+    orderRankField({ type: "experiment" }),
     defineField({
       name: "title",
       title: "Title",

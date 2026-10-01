@@ -102,23 +102,14 @@ export const homepageQuery = groq`
   }
 `;
 
-export const experimentsFallbackQuery = groq`
-  *[_type == "experiment"] | order(_createdAt desc){
+// orderRank is set by drag-and-drop in the Studio's Experiments list.
+// _createdAt is only a tie-breaker for documents that have no rank yet.
+export const experimentsQuery = groq`
+  *[_type == "experiment"] | order(orderRank asc, _createdAt desc){
     _id,
     title,
     image,
     href
-  }
-`;
-
-export const homepageExperimentsOrderQuery = groq`
-  *[_type == "homepage"] | order(_updatedAt desc)[0]{
-    "ordered": coalesce(homepageExperiments[]->{
-      _id,
-      title,
-      image,
-      href
-    }, [])
   }
 `;
 
