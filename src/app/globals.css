@@ -665,6 +665,13 @@ html.theme-switching header {
   background-color: var(--bg) !important;
 }
 
+/* Same for the caption blur on experiment tiles: eleven blurred layers in the
+   live repaint cost far more than the header alone. */
+html.theme-switching .experiments-caption-blur {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html.theme-switching::view-transition-new(root) {
     animation: none;

@@ -98,7 +98,73 @@
     filter 600ms ease-out;
 }
 
+/* Caption over the image, after the itmo.events carousel: a progressive blur
+   that fades out towards the top, a darkening gradient for contrast, and the
+   title. Colours are fixed rather than themed because they sit on a photo. */
+.galleryCaption {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  min-height: 30%;
+  padding: 1.25rem 1.5rem 0.875rem;
+  /* Eased stops instead of a straight ramp so the edge never reads as a band. */
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.06) 30%,
+    rgba(0, 0, 0, 0.22) 60%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  pointer-events: none;
+}
+
+.galleryCaptionBlur {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  -webkit-backdrop-filter: blur(0.375rem);
+  backdrop-filter: blur(0.375rem);
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.15) 25%,
+    rgba(0, 0, 0, 0.5) 55%,
+    rgba(0, 0, 0, 0.85) 80%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.15) 25%,
+    rgba(0, 0, 0, 0.5) 55%,
+    rgba(0, 0, 0, 0.85) 80%,
+    #000 100%
+  );
+}
+
+.galleryCaptionTitle {
+  position: relative;
+  margin: 0;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  color: rgba(243, 246, 250, 0.95);
+  text-transform: uppercase;
+  text-shadow: 0 0.0625rem 0.5rem rgba(0, 0, 0, 0.35);
+}
+
 @media (max-width: 48rem) {
+  .galleryCaption {
+    padding: 0.875rem 1rem 0.625rem;
+  }
+
+  .galleryCaptionTitle {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
   .titleSection {
     padding: 2.5rem 1rem;
   }

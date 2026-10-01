@@ -22,6 +22,8 @@ function ExperimentsTitleBlock({ lang }: { lang: Lang }) {
   )
 }
 
+const ABOVE_FOLD_TILES = 2
+
 function isInternalHref(href: string) {
   return href.startsWith('/') && !href.startsWith('//')
 }
@@ -29,10 +31,12 @@ function isInternalHref(href: string) {
 function ExperimentTile({
   experiment,
   index,
+  title,
   alt,
 }: {
   experiment: ExperimentForUi
   index: number
+  title: string | null
   alt: string
 }) {
   const wide = (index + 1) % 3 === 0
@@ -43,10 +47,21 @@ function ExperimentTile({
         fill
         wrapperClassName={styles.galleryImageLoader}
         src={experiment.imageUrl!}
-        alt={alt}
+        // The caption already names the link; repeating it as alt text would
+        // make screen readers announce the title twice.
+        alt={title ? '' : alt}
         sizes={wide ? '(max-width: 45rem) 100vw, 45rem' : '(max-width: 45rem) 50vw, 22.5rem'}
+        // The first row is above the fold and holds the LCP image; lazy
+        // loading would only delay it. Everything below stays lazy.
+        loading={index < ABOVE_FOLD_TILES ? 'eager' : 'lazy'}
         className={styles.galleryImg}
       />
+      {title && (
+        <div className={styles.galleryCaption}>
+          <span className={`${styles.galleryCaptionBlur} experiments-caption-blur`} aria-hidden />
+          <p className={styles.galleryCaptionTitle}>{title}</p>
+        </div>
+      )}
     </div>
   )
 
@@ -75,10 +90,10 @@ export default function ExperimentsPageClient({ experiments }: { experiments: Ex
   const t = getTranslations(lang, 'experiments') as Record<string, string>
   const contactsBlock = useContactsBlockProps()
 
-  const altFor = (item: ExperimentForUi) => {
-    const title = lang === 'ru' ? item.titleRu : item.titleEn
-    const fallback = lang === 'ru' ? item.titleEn : item.titleRu
-    return (title || fallback || t.imageAltFallback).trim()
+  const titleFor = (item: ExperimentForUi) => {
+    const own = lang === 'ru' ? item.titleRu : item.titleEn
+    const other = lang === 'ru' ? item.titleEn : item.titleRu
+    return (own || other)?.trim() || null
   }
 
   return (
@@ -92,7 +107,13 @@ export default function ExperimentsPageClient({ experiments }: { experiments: Ex
         ) : (
           <div className={styles.gallery} aria-label={t.pageTitle}>
             {experiments.map((item, i) => (
-              <ExperimentTile key={item.id} experiment={item} index={i} alt={altFor(item)} />
+              <ExperimentTile
+                key={item.id}
+                experiment={item}
+                index={i}
+                title={titleFor(item)}
+                alt={t.imageAltFallback}
+              />
             ))}
           </div>
         )}
