@@ -5,6 +5,7 @@ import { sanitySlugCandidatesForRouteSegment } from '@/shared/lib/projectPath'
 
 import { dataset, isSanityConfigured, projectId } from '../env'
 import { client } from './client'
+import { handleSanityFetchError } from './fetchErrors'
 import { allProjectSlugsQuery, homepageProjectSlugsQuery, projectBySlugQuery } from './queries'
 import type { SanityProjectDocument } from './projectDetailMapper'
 
@@ -20,23 +21,12 @@ async function getProjectBySlugImpl(routeSlug: string): Promise<SanityProjectDoc
   if (slugs.length === 0) return null
   try {
     return await unstable_cache(
-      async () => {
-        try {
-          return await client.fetch(projectBySlugQuery, { slugs })
-        } catch (err) {
-          if (process.env.NODE_ENV === 'development') {
-            console.error('[getProjectBySlug] fetch failed:', err)
-          }
-          return null
-        }
-      },
+      async () => client.fetch<SanityProjectDocument>(projectBySlugQuery, { slugs }),
       ['sanity-project', projectId, dataset, routeSlug],
       { revalidate: REVALIDATE_SEC, tags: ['sanity:portfolio-home', `sanity:project:${routeSlug}`] },
     )()
   } catch (err) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('[getProjectBySlug] cache failed:', err)
-    }
+    handleSanityFetchError('getProjectBySlug', err)
     return null
   }
 }
@@ -45,12 +35,8 @@ export const getProjectBySlug = cache(getProjectBySlugImpl)
 
 async function fetchHomepageProjectSlugs(): Promise<string[]> {
   if (!isSanityConfigured) return []
-  try {
-    const slugs = await client.fetch<string[]>(homepageProjectSlugsQuery)
-    return (slugs ?? []).filter((s): s is string => typeof s === 'string' && s.trim().length > 0)
-  } catch {
-    return []
-  }
+  const slugs = await client.fetch<string[]>(homepageProjectSlugsQuery)
+  return (slugs ?? []).filter((s): s is string => typeof s === 'string' && s.trim().length > 0)
 }
 
 const getCachedHomepageSlugs = unstable_cache(
@@ -63,7 +49,8 @@ export async function getHomepageProjectSlugs(): Promise<string[]> {
   if (!isSanityConfigured) return []
   try {
     return await getCachedHomepageSlugs()
-  } catch {
+  } catch (err) {
+    handleSanityFetchError('getHomepageProjectSlugs', err)
     return []
   }
 }
@@ -75,12 +62,8 @@ function normalizeSlugList(slugs: unknown): string[] {
 
 async function fetchAllProjectSlugs(): Promise<string[]> {
   if (!isSanityConfigured) return []
-  try {
-    const slugs = await client.fetch<string[]>(allProjectSlugsQuery)
-    return normalizeSlugList(slugs)
-  } catch {
-    return []
-  }
+  const slugs = await client.fetch<string[]>(allProjectSlugsQuery)
+  return normalizeSlugList(slugs)
 }
 
 const getCachedAllProjectSlugs = unstable_cache(
@@ -111,7 +94,8 @@ export async function getStaticExportProjectSlugs(): Promise<string[]> {
       out.push(s)
     }
     return out
-  } catch {
+  } catch (err) {
+    handleSanityFetchError('getStaticExportProjectSlugs', err)
     return []
   }
 }

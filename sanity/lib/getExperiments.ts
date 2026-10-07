@@ -5,6 +5,7 @@ import type { Image } from "sanity";
 
 import { dataset, isSanityConfigured, projectId } from "../env";
 import { client } from "./client";
+import { handleSanityFetchError } from "./fetchErrors";
 import { experimentsQuery } from "./queries";
 import { sanityImageUrl } from "./imagePublic";
 
@@ -64,9 +65,7 @@ async function getExperimentsImpl(): Promise<ExperimentForUi[]> {
     const rows = await getCachedExperiments();
     return rows.map((row) => mapExperiment(row)).filter((item) => item.imageUrl);
   } catch (err) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("[getExperiments] Sanity fetch failed:", err);
-    }
+    handleSanityFetchError("getExperiments", err);
     return [];
   }
 }
