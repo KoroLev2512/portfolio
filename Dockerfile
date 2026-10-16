@@ -1,14 +1,17 @@
 # syntax=docker/dockerfile:1
 
 # 1. Base stage
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 RUN apk add --no-cache libc6-compat dumb-init
 WORKDIR /app
 
 # 2. Dependencies stage
 FROM base AS deps
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm config set fetch-timeout 300000 && \
+    npm ci --no-audit --no-fund
 
 # 3. Builder stage
 FROM base AS builder
