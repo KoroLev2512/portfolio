@@ -22,6 +22,8 @@ coverage
 .cache
 *.tmp
 *.temp
+*.tar
+*.tar.gz
 
 # Editor directories and files
 .vscode/*

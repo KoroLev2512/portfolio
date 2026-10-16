@@ -35,16 +35,22 @@ docker build --platform linux/amd64 \
   -t "${IMAGE_NAME}" .
 
 echo "========================================================"
-echo "📦 2. Передача сжатого образа на сервер ${SERVER_IP}..."
+echo "📦 2. Экспорт и передача сжатого образа на сервер ${SERVER_IP}..."
 echo "========================================================"
 
-docker save "${IMAGE_NAME}" | gzip | ssh "${SERVER_USER}@${SERVER_IP}" "gunzip | docker load"
+ARCHIVE_NAME="portfolio.tar.gz"
+echo "Сохранение архива ${ARCHIVE_NAME}..."
+docker save "${IMAGE_NAME}" | gzip > "${ARCHIVE_NAME}"
+
+echo "Копирование на сервер..."
+scp "${ARCHIVE_NAME}" "${SERVER_USER}@${SERVER_IP}:${SERVER_DIR}/${ARCHIVE_NAME}"
 
 echo "========================================================"
-echo "▶️  3. Запуск контейнера в Docker Compose на сервере..."
+echo "▶️  3. Загрузка образа и запуск контейнера на сервере..."
 echo "========================================================"
 
-ssh "${SERVER_USER}@${SERVER_IP}" "cd '${SERVER_DIR}' && docker compose up -d"
+ssh "${SERVER_USER}@${SERVER_IP}" "cd '${SERVER_DIR}' && docker load < '${ARCHIVE_NAME}' && rm -f '${ARCHIVE_NAME}' && docker compose up -d"
+rm -f "${ARCHIVE_NAME}"
 
 echo "========================================================"
 echo "✅ Деплой успешно завершён!"
