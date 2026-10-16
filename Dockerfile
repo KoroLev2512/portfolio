@@ -8,7 +8,7 @@ WORKDIR /app
 # 2. Dependencies stage
 FROM base AS deps
 COPY package.json package-lock.json ./
-RUN npm ci --legacy-peer-deps
+RUN npm ci
 
 # 3. Builder stage
 FROM base AS builder
