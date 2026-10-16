@@ -2,11 +2,12 @@ function stripEnv(v: string | undefined): string {
   return (v ?? '').replace(/^["']|["']$/g, '').trim()
 }
 
-export const apiVersion =
-  process.env.SANITY_STUDIO_API_VERSION ??
-  process.env.SANITY_API_VERSION ??
-  process.env.NEXT_PUBLIC_SANITY_API_VERSION ??
-  '2026-03-19'
+const rawApiVersion =
+  stripEnv(process.env.SANITY_STUDIO_API_VERSION) ||
+  stripEnv(process.env.SANITY_API_VERSION) ||
+  stripEnv(process.env.NEXT_PUBLIC_SANITY_API_VERSION)
+
+export const apiVersion = rawApiVersion || '2026-03-19'
 
 export const projectId = stripEnv(
   process.env.SANITY_STUDIO_PROJECT_ID ??

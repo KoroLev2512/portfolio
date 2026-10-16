@@ -16,11 +16,17 @@ if (
 }
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  basePath,
-  assetPrefix: basePath,
+  output: 'standalone',
+  basePath: basePath || undefined,
+  assetPrefix: basePath || undefined,
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+    ],
   },
 }
 

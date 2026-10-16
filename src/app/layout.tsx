@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
 import Script from 'next/script'
 import './globals.css'
 import { ClientBoot } from './ClientBoot'
@@ -12,16 +12,16 @@ import {
   getPublicSiteOrigin,
 } from '@/shared/lib/publicSiteUrl'
 
-const geistSans = Geist({
+const geistSans = localFont({
+  src: './fonts/geist-sans.woff2',
   variable: '--font-geist-sans',
-  subsets: ['latin'],
-  preload: false,
+  display: 'swap',
 })
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: './fonts/geist-mono.woff2',
   variable: '--font-geist-mono',
-  subsets: ['latin'],
-  preload: false,
+  display: 'swap',
 })
 
 const staticOgImage = absoluteUrlForPublicFile('metadata_en.png')
