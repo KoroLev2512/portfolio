@@ -4,6 +4,7 @@ set -euo pipefail
 # Конфигурация сервера
 SERVER_USER="${SERVER_USER:-root}"
 SERVER_IP="${SERVER_IP:-149.154.67.173}"
+SERVER_PORT="${SERVER_PORT:-2337}"
 SERVER_DIR="${SERVER_DIR:-/var/www/portfolio}"
 IMAGE_NAME="portfolio:latest"
 
@@ -43,13 +44,13 @@ echo "Сохранение архива ${ARCHIVE_NAME}..."
 docker save "${IMAGE_NAME}" | gzip > "${ARCHIVE_NAME}"
 
 echo "Копирование на сервер..."
-scp "${ARCHIVE_NAME}" "${SERVER_USER}@${SERVER_IP}:${SERVER_DIR}/${ARCHIVE_NAME}"
+scp -P "${SERVER_PORT}" "${ARCHIVE_NAME}" "${SERVER_USER}@${SERVER_IP}:${SERVER_DIR}/${ARCHIVE_NAME}"
 
 echo "========================================================"
 echo "▶️  3. Загрузка образа и запуск контейнера на сервере..."
 echo "========================================================"
 
-ssh "${SERVER_USER}@${SERVER_IP}" "cd '${SERVER_DIR}' && docker load < '${ARCHIVE_NAME}' && rm -f '${ARCHIVE_NAME}' && docker compose up -d"
+ssh -p "${SERVER_PORT}" "${SERVER_USER}@${SERVER_IP}" "cd '${SERVER_DIR}' && docker load < '${ARCHIVE_NAME}' && rm -f '${ARCHIVE_NAME}' && docker compose up -d"
 rm -f "${ARCHIVE_NAME}"
 
 echo "========================================================"
