@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import Script from 'next/script'
 import './globals.css'
 import { ClientBoot } from './ClientBoot'
+import { CookieBanner } from '@/shared/ui/CookieBanner'
 import { AppProvider } from '@/shared/lib/AppContext'
 import { PortfolioSanityProvider } from '@/shared/lib/PortfolioSanityContext'
 import { getPortfolioHomeDocuments } from '@/sanity/lib/getPortfolioHome'
@@ -68,7 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     verification: {
-      yandex: 'bfea9322e4369314',
+      yandex: ['bfea9322e4369314', '2be93a4c7375ccdc'],
     },
     icons: faviconIcon ? { icon: faviconIcon } : undefined,
     openGraph: {
@@ -137,6 +138,7 @@ export default async function RootLayout({
         <AppProvider>
           <PortfolioSanityProvider sanityDocs={sanityDocs}>
             <ClientBoot>{children}</ClientBoot>
+            <CookieBanner />
           </PortfolioSanityProvider>
         </AppProvider>
       </body>

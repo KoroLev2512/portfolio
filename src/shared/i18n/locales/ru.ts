@@ -7,6 +7,9 @@ export const common = {
   contactsTitle: '[ Контакты ]',
   contactsCta: 'Свяжитесь со мной',
   contactsSectionTitle: '[ Контакты ]',
+  cookieText: 'Тут живут куки. Они хорошие, не укусят, просто запомнят, что вы тут были',
+  cookieAccept: 'Хорошо',
+  cookieLabel: 'Уведомление о куки',
 } as const
 
 export const home = {

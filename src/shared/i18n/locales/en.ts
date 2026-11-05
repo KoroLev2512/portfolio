@@ -7,6 +7,9 @@ export const common = {
   contactsTitle: '[ Contacts ]',
   contactsCta: 'Get in touch with me',
   contactsSectionTitle: '[ Contacts ]',
+  cookieText: "Cookies live here. They're friendly and won't bite, they just remember you've been here",
+  cookieAccept: 'Okay',
+  cookieLabel: 'Cookie notice',
 } as const
 
 export const home = {
